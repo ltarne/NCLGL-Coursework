@@ -1,0 +1,183 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="GameTimer.cpp" />
+    <ClCompile Include="MD5FileData.cpp" />
+    <ClCompile Include="Quaternion.cpp">
+      <Filter>Data Types</Filter>
+    </ClCompile>
+    <ClCompile Include="Matrix4.cpp">
+      <Filter>Data Types</Filter>
+    </ClCompile>
+    <ClCompile Include="Plane.cpp" />
+    <ClCompile Include="Frustum.cpp" />
+    <ClCompile Include="SceneNode.cpp">
+      <Filter>SceneNodes</Filter>
+    </ClCompile>
+    <ClCompile Include="StencilNode.cpp">
+      <Filter>SceneNodes</Filter>
+    </ClCompile>
+    <ClCompile Include="MD5Node.cpp">
+      <Filter>SceneNodes</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer.cpp">
+      <Filter>Renderering</Filter>
+    </ClCompile>
+    <ClCompile Include="OGLRenderer.cpp">
+      <Filter>Renderering</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Window.cpp">
+      <Filter>IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Mouse.cpp">
+      <Filter>IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Keyboard.cpp">
+      <Filter>IO</Filter>
+    </ClCompile>
+    <ClCompile Include="OBJMesh.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="CubeMapTexture.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="HeightMap.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="PostProcessingEffect.cpp">
+      <Filter>Renderering</Filter>
+    </ClCompile>
+    <ClCompile Include="ShadowEffect.cpp">
+      <Filter>Renderering</Filter>
+    </ClCompile>
+    <ClCompile Include="MD5Mesh.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="MD5Anim.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="RenderingManager.cpp" />
+    <ClCompile Include="RenderStage.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="common.h" />
+    <ClInclude Include="GameTimer.h" />
+    <ClInclude Include="MD5FileData.h" />
+    <ClInclude Include="Vector2.h">
+      <Filter>Data Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector3.h">
+      <Filter>Data Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector4.h">
+      <Filter>Data Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Quaternion.h">
+      <Filter>Data Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Matrix4.h">
+      <Filter>Data Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Plane.h" />
+    <ClInclude Include="Frustum.h" />
+    <ClInclude Include="SceneNode.h">
+      <Filter>SceneNodes</Filter>
+    </ClInclude>
+    <ClInclude Include="StencilNode.h">
+      <Filter>SceneNodes</Filter>
+    </ClInclude>
+    <ClInclude Include="MD5Node.h">
+      <Filter>SceneNodes</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer.h">
+      <Filter>Renderering</Filter>
+    </ClInclude>
+    <ClInclude Include="OGLRenderer.h">
+      <Filter>Renderering</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Window.h">
+      <Filter>IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Mouse.h">
+      <Filter>IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Keyboard.h">
+      <Filter>IO</Filter>
+    </ClInclude>
+    <ClInclude Include="InputDevice.h">
+      <Filter>IO</Filter>
+    </ClInclude>
+    <ClInclude Include="OBJMesh.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="CubeMapTexture.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="HeightMap.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Light.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="PostProcessingEffect.h">
+      <Filter>Renderering</Filter>
+    </ClInclude>
+    <ClInclude Include="ShadowEffect.h">
+      <Filter>Renderering</Filter>
+    </ClInclude>
+    <ClInclude Include="ChildMeshInterface.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="MD5Mesh.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="MD5Anim.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h" />
+    <ClInclude Include="RenderingManager.h" />
+    <ClInclude Include="RenderStage.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Data Types">
+      <UniqueIdentifier>{67e82a66-7eba-4642-abd4-2cf8653aa911}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SceneNodes">
+      <UniqueIdentifier>{6bd7f953-fb3e-49e4-a921-a93c1510d008}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Renderering">
+      <UniqueIdentifier>{611f73cf-8cd7-43ba-96c4-305ae4870c20}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="IO">
+      <UniqueIdentifier>{8097b377-e631-42cb-9226-7f73e75beb91}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components">
+      <UniqueIdentifier>{aa971daa-d2a8-4a35-b08e-54539b38c9e3}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

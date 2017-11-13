@@ -1,0 +1,13 @@
+﻿  Texture.cpp
+  SceneNode.cpp
+c:\users\b4027488\github\nclgl tutorials\nclgl\scenenode.cpp(39): warning C4018: '<': signed/unsigned mismatch
+  Generating Code...
+  Compiling...
+  CubeMapTexture.cpp
+  Generating Code...
+  Skipping... (no relevant changes detected)
+  StencilNode.cpp
+  Renderer.cpp
+  MD5Node.cpp
+  Frustum.cpp
+  nclgl.vcxproj -> C:\Users\B4027488\GitHub\NCLGL Tutorials\Graphics For Games\Debug\nclgl.lib
