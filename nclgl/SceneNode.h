@@ -26,7 +26,10 @@ public:
 	inline Mesh*	GetMesh()	const	{ return mesh; }
 
 	inline void		SetShader(Shader* shader) { this->shader = shader; }
-	inline Shader*	GetShader() const { return shader; }
+	inline Shader*	GetShader() const { return overrideShader == nullptr ? shader : overrideShader; }
+
+	inline void		SetOverrideShader(Shader* shader) { this->overrideShader = shader; }
+	inline void		ClearOverrideShader() { overrideShader = nullptr; }
 
 	inline void				AddTexture(Texture* texture) { this->textures.push_back(texture); }
 	inline vector<Texture*> GetTextures() { return textures; }
@@ -69,6 +72,7 @@ protected:
 	Matrix4 scale;
 
 	Shader*		shader;
+	Shader*		overrideShader;
 	Mesh*		mesh;
 	vector<Texture*> textures;
 	Vector4		colour;

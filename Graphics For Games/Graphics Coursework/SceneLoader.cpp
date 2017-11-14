@@ -58,6 +58,9 @@ Scene* SceneLoader::LoadScene1() {
 	scene->AttachNode(node);
 	scene->AttachNode(water);
 
+	scene->SetLight(new Light(Vector3((RAW_WIDTH*HEIGHTMAP_X) / 2, 500.0f, -(RAW_HEIGHT*HEIGHTMAP_Z) / 2),
+		Vector4(1, 1.0, 1.0, 1), (RAW_WIDTH*HEIGHTMAP_X)*2.0f));
+
 	scene->BuildNodeLists(scene->GetRoot());
 	scene->QuickSortNodeLists();
 
@@ -66,6 +69,41 @@ Scene* SceneLoader::LoadScene1() {
 
 Scene* SceneLoader::LoadScene2() {
 	Scene* scene = new Scene();
+
+	Shader* shader = new Shader(SHADERDIR"shadowSceneVert.vert", SHADERDIR"shadowSceneFrag.frag");
+	shader->LinkProgram();
+
+	Shader* sceneShader = new Shader(SHADERDIR"shadowSceneVert.vert", SHADERDIR"shadowSceneFrag.frag");
+	sceneShader->LinkProgram();
+
+	Shader* processShader = new Shader(SHADERDIR"shadowVert.vert", SHADERDIR"shadowFrag.frag");
+	processShader->LinkProgram();
+
+	Texture* bricks = new Texture(TEXTUREDIR"bricks.tga", "tex");
+
+	MD5FileData*	hellData = new MD5FileData(MESHDIR"hellknight.md5mesh");
+	MD5Node*		hellNode = new MD5Node(*hellData);
+	hellNode->SetShader(shader);
+	hellNode->SetBoundingRadius(1000.0f);
+
+	hellData->AddAnim(MESHDIR"idle2.md5anim");
+	hellNode->PlayAnim(MESHDIR"idle2.md5anim");
+
+
+	SceneNode* quad = new SceneNode(sceneShader, Mesh::GenerateQuad());
+	quad->AddTexture(bricks);
+	quad->SetScale(Vector3(100, 100, 100));
+	quad->SetRotation(Matrix4::Rotation(90.0f, Vector3(1,0,0)));
+	quad->SetBoundingRadius(1000000.0f);
+
+
+	scene->AttachNode(hellNode);
+	scene->AttachNode(quad);
+
+	scene->SetLight(new Light(Vector3(0,20,0),
+		Vector4(1, 1.0, 1.0, 1), (RAW_WIDTH*HEIGHTMAP_X)*2.0f));
+
+
 	return scene;
 }
 

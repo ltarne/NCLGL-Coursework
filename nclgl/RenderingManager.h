@@ -1,6 +1,6 @@
 #pragma once
 #include "Renderer.h"
-#include "RenderStage.h"
+#include "ShadowStage.h"
 
 enum renderStages {SIMPLE_STAGE, MAX_STAGE};
 
@@ -15,7 +15,7 @@ public:
 
 	inline void SetActiveScene(Scene* activeScene) { 
 		this->activeScene = activeScene; 
-		renderer->LoadLists(activeScene->GetTransparentNodeList(), activeScene->GetNodeList());
+		renderer->SetActiveScene(this->activeScene);
 	}
 
 

@@ -5,7 +5,7 @@
 RenderingManager::RenderingManager(Renderer* renderer) {
 	this->renderer = renderer;
 
-	renderStages[SIMPLE_STAGE] = new RenderStage(renderer);
+	renderStages[SIMPLE_STAGE] = new ShadowStage(renderer);
 
 }
 

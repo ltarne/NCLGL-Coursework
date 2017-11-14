@@ -6,6 +6,8 @@ Scene::Scene() {
 	root = new SceneNode();
 	camera = new Camera();
 	//TODO: Allow multiple lights
+	camera->SetPosition(Vector3(0, 0, 0));
+	
 }
 
 
@@ -21,6 +23,8 @@ void Scene::Update(float msec) {
 	frameFrustrum.FromMatrix(projMatrix * viewMatrix);
 	//TODO: Sending of proj and view matrix
 	root->Update(msec);
+	ClearNodeList();
+	BuildNodeLists(root);
 }
 
 void Scene::BuildNodeLists(SceneNode* from) {

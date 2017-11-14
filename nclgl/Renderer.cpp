@@ -1,10 +1,7 @@
 #include "Renderer.h"
 
 Renderer::Renderer(Window &parent) : OGLRenderer(parent)	{
-	projMatrix = Matrix4::Perspective(1.0f, 10000.0f, (float)width / (float)height, 45.0f);
-
-	light = new Light(Vector3((RAW_WIDTH*HEIGHTMAP_X) / 2, 500.0f, -(RAW_HEIGHT*HEIGHTMAP_Z)/2),
-		Vector4(1,1.0,1.0,1), (RAW_WIDTH*HEIGHTMAP_X)*2.0f);
+	//projMatrix = Matrix4::Perspective(1.0f, 10000.0f, (float)width / (float)height, 45.0f);
 
 	LoadPostProcessing();
 
@@ -12,11 +9,13 @@ Renderer::Renderer(Window &parent) : OGLRenderer(parent)	{
 	//glEnable(GL_CULL_FACE);
 	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
 
+	overrideShader = nullptr;
+
 	init = true;
 }
 Renderer::~Renderer(void)	{
-	delete light;
 
+	glDeleteTextures(1, &FBInfo.shadowTex);
 	glDeleteTextures(2, FBInfo.bufferColourTex);
 	glDeleteTextures(1, &FBInfo.bufferDepthTex);
 	glDeleteFramebuffers(1, &FBInfo.bufferFBO);
@@ -25,13 +24,28 @@ Renderer::~Renderer(void)	{
 
 
 
+inline void Renderer::UpdateGlobalTextures(Shader* shader) {
+	glUniform1i(glGetUniformLocation(shader->GetProgram(), "shadowTex"), 9);
+}
+
 void Renderer::LoadPostProcessing() {
+	glGenTextures(1, &FBInfo.shadowTex);
+	glBindTexture(GL_TEXTURE_2D, FBInfo.shadowTex);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, SHADOWSIZE, SHADOWSIZE, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_R_TO_TEXTURE);
+	glBindTexture(GL_TEXTURE_2D, 0);
+
+
+
 	glGenTextures(1, &FBInfo.bufferDepthTex);
 	glBindTexture(GL_TEXTURE_2D, FBInfo.bufferDepthTex);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST); 
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH24_STENCIL8, width, height, 0, GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8, NULL);
 
 	for (int i = 0; i < 2; ++i) {
@@ -48,6 +62,7 @@ void Renderer::LoadPostProcessing() {
 	glGenFramebuffers(1, &FBInfo.processFBO); //Post processing in this
 
 	glBindFramebuffer(GL_FRAMEBUFFER, FBInfo.bufferFBO);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, FBInfo.shadowTex, 0);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, FBInfo.bufferDepthTex, 0);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT, GL_TEXTURE_2D, FBInfo.bufferDepthTex, 0);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, FBInfo.bufferColourTex[0], 0);
@@ -56,6 +71,7 @@ void Renderer::LoadPostProcessing() {
 		cout << "Framebuffer failed!\n";
 		return;
 	}
+	glDrawBuffer(GL_NONE);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
@@ -64,11 +80,13 @@ void Renderer::LoadPostProcessing() {
 
 
 void Renderer::DrawNodes() {
-	for (vector<SceneNode*>::const_iterator i = nodeList->begin(); i != nodeList->end(); ++i) {
+	vector<SceneNode*> nodeList = *activeScene->GetNodeList();
+	vector<SceneNode*> transparentNodeList = *activeScene->GetTransparentNodeList();
+	for (vector<SceneNode*>::const_iterator i = nodeList.begin(); i != nodeList.end(); ++i) {
 		DrawNode((*i));
 	}
 
-	for (vector<SceneNode*>::const_reverse_iterator i = transparentNodeList->rbegin(); i != transparentNodeList->rend(); ++i) {
+	for (vector<SceneNode*>::const_reverse_iterator i = transparentNodeList.rbegin(); i != transparentNodeList.rend(); ++i) {
 		DrawNode((*i));
 	}
 }
@@ -77,13 +95,16 @@ void Renderer::DrawNode(SceneNode* node) {
 	
 
 	if (node->GetVisible() && node->GetMesh()) {
+		node->SetOverrideShader(overrideShader);
+
 		glUseProgram(node->GetShader()->GetProgram());
 		UpdateShaderMatrices(node->GetShader());
+		UpdateGlobalTextures(node->GetShader());
 
-		/*if (light) {
-			SetShaderLight(*light, node->GetShader());
-			glUniform3fv(glGetUniformLocation(node->GetShader()->GetProgram(), "cameraPos"), 1, (float*)&camera->GetPosition());
-		}*/
+		if (activeScene->GetLight()) {
+			SetShaderLight(*activeScene->GetLight(), node->GetShader());
+			glUniform3fv(glGetUniformLocation(node->GetShader()->GetProgram(), "cameraPos"), 1, (float*)&activeScene->GetCamera()->GetPosition());
+		}
 
 		node->Draw(*this);
 

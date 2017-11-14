@@ -5,7 +5,9 @@
 #include "SceneLoader.h"
 
 int main() {
-	Window w("Cube Mapping! sky textures courtesy of http://www.hazelwhorley.com", 800, 600, false);
+	int width = 800;
+	int height = 600;
+	Window w("Graphics Coursework", width, height, false);
 	if (!w.HasInitialised()) {
 		return -1;
 	}
@@ -22,7 +24,9 @@ int main() {
 
 	SceneLoader sceneLoader;
 
-	Scene* scene1 = sceneLoader.LoadScene1();
+	Scene* scene1 = sceneLoader.LoadScene2();
+
+	scene1->SetProjMatrix(Matrix4::Perspective(1.0f, 10000.0f, (float)width / (float)height, 45.0f));
 
 	manager.SetActiveScene(scene1);
 

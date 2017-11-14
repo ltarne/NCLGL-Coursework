@@ -1,16 +1,19 @@
 #pragma once
 #include "Scene.h"
+#include "Renderer.h"
 
 class RenderStage
 {
 public:
-	RenderStage(OGLRenderer* renderer);
+	RenderStage(Renderer* renderer);
 	~RenderStage();
 
 	virtual void DrawStage(Scene* scene);
 
 protected:
-	OGLRenderer* renderer;
+	Renderer* renderer;
+
+	FrameBufferInfo* FBInfo;
 
 };
 

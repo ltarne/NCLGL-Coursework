@@ -56,12 +56,6 @@
     <ClCompile Include="HeightMap.cpp">
       <Filter>Components</Filter>
     </ClCompile>
-    <ClCompile Include="PostProcessingEffect.cpp">
-      <Filter>Renderering</Filter>
-    </ClCompile>
-    <ClCompile Include="ShadowEffect.cpp">
-      <Filter>Renderering</Filter>
-    </ClCompile>
     <ClCompile Include="MD5Mesh.cpp">
       <Filter>Components</Filter>
     </ClCompile>
@@ -71,6 +65,7 @@
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="RenderingManager.cpp" />
     <ClCompile Include="RenderStage.cpp" />
+    <ClCompile Include="ShadowStage.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common.h" />
@@ -144,12 +139,6 @@
     <ClInclude Include="Light.h">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="PostProcessingEffect.h">
-      <Filter>Renderering</Filter>
-    </ClInclude>
-    <ClInclude Include="ShadowEffect.h">
-      <Filter>Renderering</Filter>
-    </ClInclude>
     <ClInclude Include="ChildMeshInterface.h">
       <Filter>Components</Filter>
     </ClInclude>
@@ -162,6 +151,7 @@
     <ClInclude Include="Scene.h" />
     <ClInclude Include="RenderingManager.h" />
     <ClInclude Include="RenderStage.h" />
+    <ClInclude Include="ShadowStage.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Data Types">

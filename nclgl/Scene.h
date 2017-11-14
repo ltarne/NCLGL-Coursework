@@ -16,6 +16,14 @@ public:
 	vector<SceneNode*>* GetTransparentNodeList() { return &transparentNodeList; }
 	vector<SceneNode*>* GetNodeList() { return &nodeList; }
 
+	inline void SetLight(Light* light) { this->light = light; }
+
+	inline void SetProjMatrix(Matrix4 projMatrix) { this->projMatrix = projMatrix; }
+
+	inline Matrix4 GetProjMatrix() { return projMatrix; }
+	inline Matrix4 GetViewMatrix() { return viewMatrix; }
+	inline Camera* GetCamera() { return camera; }
+	inline Light* GetLight() { return light; }
 
 	void Update(float msec);
 
@@ -33,6 +41,8 @@ protected:
 	Camera* camera;
 
 	SceneNode* root;
+
+	Light* light;
 
 	vector<SceneNode*> transparentNodeList;
 	vector<SceneNode*> nodeList;

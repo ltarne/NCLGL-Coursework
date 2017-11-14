@@ -25,19 +25,20 @@ SceneNode::~SceneNode() {
 }
 
 void SceneNode::LoadUniforms() {	
+	Shader* activeShader = overrideShader == nullptr ? shader : overrideShader;
 
 	//Transform
 	Matrix4 modelMatrix = worldTransform * scale;
-	glUniformMatrix4fv(glGetUniformLocation(shader->GetProgram(), "modelMatrix"), 1, false, (float*)&modelMatrix);
+	glUniformMatrix4fv(glGetUniformLocation(activeShader->GetProgram(), "modelMatrix"), 1, false, (float*)&modelMatrix);
 
 	//Colour
-	glUniform4fv(glGetUniformLocation(shader->GetProgram(), "nodeColour"), 1, (float*)&colour);
+	glUniform4fv(glGetUniformLocation(activeShader->GetProgram(), "nodeColour"), 1, (float*)&colour);
 
 	//Textures
-	glUniform1i(glGetUniformLocation(shader->GetProgram(), "useTexture"), textures.size() > 0 ? true : false);
+	glUniform1i(glGetUniformLocation(activeShader->GetProgram(), "useTexture"), textures.size() > 0 ? true : false);
 
 	for (int i = 0; i < textures.size() && i < TEXTURE_UNIT_MAX; ++i) {
-		textures[i]->LoadTexture(shader->GetProgram(), i);
+		textures[i]->LoadTexture(activeShader->GetProgram(), i);
 	}
 }
 
