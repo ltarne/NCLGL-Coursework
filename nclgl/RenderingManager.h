@@ -1,27 +1,31 @@
 #pragma once
 #include "Renderer.h"
 #include "RenderStage.h"
-#include "Scene.h"
 
-#define RENDER_STAGES 1
+enum renderStages {SIMPLE_STAGE, MAX_STAGE};
 
 class RenderingManager
 {
 public:
-	RenderingManager(OGLRenderer* renderer);
+	RenderingManager(Renderer* renderer);
 	~RenderingManager();
 
-	virtual void UpdateScene();
+	virtual void UpdateScene(float msec);
 	virtual void DrawScene();
 
-	void SetActiveScene(Scene* activeScene) { this->activeScene = activeScene; }
+	inline void SetActiveScene(Scene* activeScene) { 
+		this->activeScene = activeScene; 
+		renderer->LoadLists(activeScene->GetTransparentNodeList(), activeScene->GetNodeList());
+	}
 
 
 protected:
-	OGLRenderer*	renderer;
-	RenderStage*	renderStages[RENDER_STAGES];
+	Renderer*	 renderer;
+	RenderStage* renderStages[MAX_STAGE];
 
 	Scene* activeScene;
+
+	
 	
 };
 

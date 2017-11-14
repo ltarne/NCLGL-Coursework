@@ -58,6 +58,8 @@ Scene* SceneLoader::LoadScene1() {
 	scene->AttachNode(node);
 	scene->AttachNode(water);
 
+	scene->BuildNodeLists(scene->GetRoot());
+	scene->QuickSortNodeLists();
 
 	return scene;
 }
