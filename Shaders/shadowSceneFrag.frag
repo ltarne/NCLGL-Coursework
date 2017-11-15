@@ -25,6 +25,8 @@ void main(void) {
   mat3 TBN = mat3(IN.tangent, IN.binormal, IN.normal);
   vec3 normal = normalize(TBN * (texture2D(bumpTex, IN.texCoord).rgb * 2.0 - 1.0));
 
+  //normal = IN.normal;
+
   vec4 diffuse = texture2D(tex, IN.texCoord);
 
   vec3 incident = normalize(lightPos - IN.worldPos);
@@ -41,7 +43,7 @@ void main(void) {
 
   float shadow = 1.0;
 
-  if(IN.shadowProj.w > 0.0) {
+ if(IN.shadowProj.w > 0.0) {
     shadow = textureProj(shadowTex, IN.shadowProj);
   }
 
@@ -50,6 +52,9 @@ void main(void) {
   vec3 colour = (diffuse.rgb * lightColour.rgb);
   colour += (lightColour.rgb * sFactor) * 0.33;
   fragColor = vec4(colour * atten * lambert, diffuse.a);
-  fragColor.rgb += (diffuse.rgb * lightColour.rgb) * 0.1;
+  fragColor.rgb += (diffuse.rgb * lightColour.rgb) * 0.3;
 
+//  fragColor = vec4(normal, 1.0);
+
+  //fragColor.rgb = vec3(lambert);
 }

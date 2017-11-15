@@ -1,13 +1,15 @@
 #include "Shader.h"
 
 
-Shader::Shader(string vertex, string fragment, string geometry) {
+Shader::Shader(string vertex, string fragment, string geometry, string tcs, string tes) {
 	program = glCreateProgram();
 
 	//Generate shader objects
 	objects[SHADER_VERTEX] = GenerateShader(vertex, GL_VERTEX_SHADER);
 	objects[SHADER_FRAGMENT] = GenerateShader(fragment, GL_FRAGMENT_SHADER);
 	objects[SHADER_GEOMETRY] = 0;
+	objects[SHADER_TCS] = 0;
+	objects[SHADER_TES] = 0;
 
 	if (!geometry.empty()) {
 		objects[SHADER_GEOMETRY] = GenerateShader(geometry, GL_GEOMETRY_SHADER);
@@ -16,6 +18,22 @@ Shader::Shader(string vertex, string fragment, string geometry) {
 		glAttachShader(program, objects[SHADER_GEOMETRY]);
 	}
 
+	if (!tcs.empty()) {
+		objects[SHADER_TCS] = GenerateShader(geometry, GL_TESS_CONTROL_SHADER);
+
+		//Attach shader to the program
+		glAttachShader(program, objects[SHADER_TCS]);
+	}
+
+	if (!tes.empty()) {
+		objects[SHADER_TES] = GenerateShader(geometry, GL_TESS_EVALUATION_SHADER);
+
+		//Attach shader to the program
+		glAttachShader(program, objects[SHADER_TES]);
+	}
+
+
+
 	//Attach shaders to the program
 	glAttachShader(program, objects[SHADER_VERTEX]);
 	glAttachShader(program, objects[SHADER_FRAGMENT]);
@@ -23,6 +41,7 @@ Shader::Shader(string vertex, string fragment, string geometry) {
 }
 
 Shader::~Shader() {
+	//might need a fix
 	//Detach shaders from the program
 	for (int i = 0; i < 3; ++i) {
 		glDetachShader(program, objects[i]);

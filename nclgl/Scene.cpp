@@ -25,6 +25,7 @@ void Scene::Update(float msec) {
 	root->Update(msec);
 	ClearNodeList();
 	BuildNodeLists(root);
+	QuickSortNodeLists();
 }
 
 void Scene::BuildNodeLists(SceneNode* from) {
