@@ -6,6 +6,7 @@
 #include "MD5Node.h"
 #include "HeightMap.h"
 #include "Scene.h"
+#include "TextMesh.h"
 #include <algorithm>
 
 #define SHADOWSIZE 2048
@@ -29,13 +30,17 @@ struct FrameBufferInfo {
 
 class Renderer : public OGLRenderer	{
 public:
-	Renderer(Window &parent);
+	Renderer(Window &parent, int* fps);
 	virtual ~Renderer(void);
 
 	virtual void RenderScene();
 
+	void DrawText(const std::string &text, Font* basicFont);
+
 	inline int GetWidth() { return width; }
 	inline int GetHeight() { return height; }
+
+	inline int GetFPS() { return *fps; }
 
 	inline void SetViewMatrix(Matrix4 viewMatrix) { this->viewMatrix = viewMatrix; }
 	inline void SetProjMatrix(Matrix4 projMatrix) { this->projMatrix = projMatrix; }
@@ -59,4 +64,6 @@ protected:
 	FrameBufferInfo FBInfo;
 
 	Scene* activeScene;
+
+	int* fps;
 };

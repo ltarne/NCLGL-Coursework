@@ -1,2 +1,10 @@
-﻿  ShadowStage.cpp
-  nclgl.vcxproj -> C:\Users\B4027488\GitHub\NCLGL Coursework\Graphics For Games\Debug\nclgl.lib
+﻿  Renderer.cpp
+  Generating Code...
+  Compiling...
+  TextStage.cpp
+c:\users\luke\documents\github\nclgl-coursework\nclgl\textstage.cpp(32): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+  ShadowStage.cpp
+  RenderingManager.cpp
+  RenderStage.cpp
+  Generating Code...
+  nclgl.vcxproj -> C:\Users\Luke\Documents\GitHub\NCLGL-Coursework\Graphics For Games\Debug\nclgl.lib

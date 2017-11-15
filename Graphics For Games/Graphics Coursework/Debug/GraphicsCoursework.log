@@ -1,3 +1,5 @@
-﻿  SceneLoader.cpp
-  GraphicsCoursework.vcxproj -> C:\Users\B4027488\GitHub\NCLGL Coursework\Graphics For Games\Debug\GraphicsCoursework.exe
-  GraphicsCoursework.vcxproj -> C:\Users\B4027488\GitHub\NCLGL Coursework\Graphics For Games\Debug\GraphicsCoursework.pdb (Partial PDB)
+﻿  main.cpp
+c:\users\luke\documents\github\nclgl-coursework\graphics for games\graphics coursework\main.cpp(44): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+glew32.lib(glew.obj) : warning LNK4099: PDB 'vc120.pdb' was not found with 'glew32.lib(glew.obj)' or at 'C:\Users\Luke\Documents\GitHub\NCLGL-Coursework\Graphics For Games\Debug\vc120.pdb'; linking object as if no debug info
+  GraphicsCoursework.vcxproj -> C:\Users\Luke\Documents\GitHub\NCLGL-Coursework\Graphics For Games\Debug\GraphicsCoursework.exe
+  GraphicsCoursework.vcxproj -> C:\Users\Luke\Documents\GitHub\NCLGL-Coursework\Graphics For Games\Debug\GraphicsCoursework.pdb (Partial PDB)

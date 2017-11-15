@@ -1,6 +1,6 @@
 #include "Renderer.h"
 
-Renderer::Renderer(Window &parent) : OGLRenderer(parent)	{
+Renderer::Renderer(Window &parent, int* fps) : OGLRenderer(parent)	{
 	//projMatrix = Matrix4::Perspective(1.0f, 10000.0f, (float)width / (float)height, 45.0f);
 
 	LoadPostProcessing();
@@ -8,8 +8,10 @@ Renderer::Renderer(Window &parent) : OGLRenderer(parent)	{
 	glEnable(GL_DEPTH_TEST);
 	//glEnable(GL_CULL_FACE);
 	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
+	
 
 	overrideShader = nullptr;
+	this->fps = fps;
 
 	init = true;
 }
@@ -130,5 +132,18 @@ void Renderer::RenderScene() {
 
 	DrawNodes();
 	
+}
+
+void Renderer::DrawText(const std::string & text,  Font* basicFont) {
+	//Create a new temporary TextMesh, using our line of text and our font
+	TextMesh* mesh = new TextMesh(text, *basicFont);
+	
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, mesh->GetTexture());
+
+	
+	mesh->Draw();
+
+	delete mesh; //Once it's drawn, we don't need it anymore!
 }
 

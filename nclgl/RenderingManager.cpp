@@ -5,13 +5,14 @@
 RenderingManager::RenderingManager(Renderer* renderer) {
 	this->renderer = renderer;
 
-	renderStages[SIMPLE_STAGE] = new ShadowStage(renderer);
+	renderStages[SHADOW_STAGE] = new ShadowStage(renderer);
+	renderStages[TEXT_STAGE] = new TextStage(renderer);
 
 }
 
 
 RenderingManager::~RenderingManager() {
-	delete renderStages[SIMPLE_STAGE];
+	delete renderStages[SHADOW_STAGE];
 }
 
 void RenderingManager::UpdateScene(float msec) {

@@ -66,6 +66,8 @@
     <ClCompile Include="RenderingManager.cpp" />
     <ClCompile Include="RenderStage.cpp" />
     <ClCompile Include="ShadowStage.cpp" />
+    <ClCompile Include="TextMesh.cpp" />
+    <ClCompile Include="TextStage.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common.h" />
@@ -152,6 +154,8 @@
     <ClInclude Include="RenderingManager.h" />
     <ClInclude Include="RenderStage.h" />
     <ClInclude Include="ShadowStage.h" />
+    <ClInclude Include="TextMesh.h" />
+    <ClInclude Include="TextStage.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Data Types">

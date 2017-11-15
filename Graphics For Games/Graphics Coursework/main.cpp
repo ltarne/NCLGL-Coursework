@@ -12,7 +12,9 @@ int main() {
 		return -1;
 	}
 
-	Renderer renderer(w);
+	int fps = 0;
+
+	Renderer renderer(w, &fps);
 	if (!renderer.HasInitialised()) {
 		return -1;
 	}
@@ -30,8 +32,20 @@ int main() {
 
 	manager.SetActiveScene(scene1);
 
+	int frameCount = 0;
+	float time = 0.0f;
+	
+
 	while (w.UpdateWindow() && !Window::GetKeyboard()->KeyDown(KEYBOARD_ESCAPE)) {
 		float msec = w.GetTimer()->GetTimedMS();
+		time += msec;
+		frameCount += 1;
+		if ((time / 1000.0f) > 1) {
+			fps = round(frameCount);
+			frameCount = 0;
+			time = 0.0f;
+		}
+
 		manager.UpdateScene(msec);
 		manager.DrawScene();
 	}

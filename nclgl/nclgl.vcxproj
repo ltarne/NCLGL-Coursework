@@ -36,6 +36,8 @@
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShadowStage.cpp" />
     <ClCompile Include="StencilNode.cpp" />
+    <ClCompile Include="TextMesh.cpp" />
+    <ClCompile Include="TextStage.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
@@ -69,6 +71,8 @@
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShadowStage.h" />
     <ClInclude Include="StencilNode.h" />
+    <ClInclude Include="TextMesh.h" />
+    <ClInclude Include="TextStage.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Vector2.h" />
     <ClInclude Include="Vector3.h" />
