@@ -6,17 +6,25 @@ layout(quads, equal_spacing, ccw) in;
 uniform mat4 modelMatrix;
 uniform mat4 viewMatrix;
 uniform mat4 projMatrix;
+uniform mat4 globalTextureMatrix;
 
-uniform float scale;
+//uniform float scale;
 
 in Vertex {
-    vec4 colour;
-    vec2 texCoord;
+  vec4 colour;
+  vec3 normal;
+  vec3 tangent;
+  vec2 texCoord;
 } IN[];
 
 out Vertex {
-    vec2 texCoord;
-     vec4 worldPos;
+  vec4 colour;
+  vec2 texCoord;
+  vec3 normal;
+  vec3 tangent;
+  vec3 binormal;
+  vec3 worldPos;
+  vec4 shadowProj;
 } OUT;
 
 // Simplex 2D noise
@@ -54,6 +62,7 @@ float snoise(vec2 v){
 // Adding frequency and octaves to the noise
 // Source: https://cmaher.github.io/posts/working-with-simplex-noise/
 float sumOctave(int numIterations, float x, float y, float persistence, float scale, float low, float high) {
+
     float maxAmp = 0;
     float amp = 1;
     float frequency = scale;
@@ -77,6 +86,13 @@ float sumOctave(int numIterations, float x, float y, float persistence, float sc
 }
 // End of frequency and octaves implementation
 
+vec4 QuadMixVec4(vec4 a, vec4 b, vec4 c, vec4 d) {
+  vec4 p0 = mix(a,c,gl_TessCoord.x);
+  vec4 p1 = mix(b,d,gl_TessCoord.x);
+
+  return mix(p0,p1,gl_TessCoord.y);
+}
+
 vec3 QuadMixVec3(vec3 a, vec3 b, vec3 c, vec3 d) {
     vec3 p0     = mix(a,c, gl_TessCoord.x);
     vec3 p1     = mix(b,d, gl_TessCoord.x);
@@ -92,25 +108,53 @@ vec2    QuadMixVec2(vec2 a, vec2 b, vec2 c, vec2 d) {
 }
 
 void main() {
+    float scale = 0.0001;
+
+    mat3 normalMatrix = transpose(inverse(mat3(modelMatrix)));
+
+
     vec3 combinedPos = QuadMixVec3( gl_in[0].gl_Position.xyz,
                                     gl_in[1].gl_Position.xyz,
                                     gl_in[2].gl_Position.xyz,
                                     gl_in[3].gl_Position.xyz );
 
-    OUT.texCoord = QuadMixVec2(     IN[0].texCoord,
-                                    IN[1].texCoord,
-                                    IN[2].texCoord,
-                                    IN[3].texCoord);
+    OUT.texCoord = QuadMixVec2( IN[0].texCoord,
+                                IN[1].texCoord,
+                                IN[2].texCoord,
+                                IN[3].texCoord);
+
+    OUT.texCoord  = OUT.texCoord * 64;
+
+    OUT.colour = QuadMixVec4(IN[0].colour,
+                            IN[1].colour,
+                            IN[2].colour,
+                            IN[3].colour);
+
+
+    vec3 normal = QuadMixVec3(IN[0].normal,
+                              IN[1].normal,
+                              IN[2].normal,
+                              IN[3].normal);
+
+    vec3 tangent = QuadMixVec3(IN[0].tangent,
+                              IN[1].tangent,
+                              IN[2].tangent,
+                              IN[3].tangent);
 
 
 
-    vec4 worldPos = modelMatrix * vec4(combinedPos, 1);
+    OUT.normal = normalize(normalMatrix * normalize(normal));
+    OUT.tangent = normalize(normalMatrix * normalize(tangent));
+    OUT.binormal = normalize(normalMatrix * normalize(cross(normal, tangent)));
 
-    float height = sumOctave(16,worldPos.x,worldPos.z,0.5f, scale, 20, 2000);
 
+
+    vec4 worldPos = (modelMatrix * vec4(combinedPos, 1));
+    float height = sumOctave(16,worldPos.x,worldPos.z,0.5f, scale, 5, 2000);
     worldPos.y += height;
+    OUT.worldPos = worldPos.xyz;
 
-    OUT.worldPos = worldPos;
+    OUT.shadowProj = (globalTextureMatrix * vec4(OUT.worldPos + (OUT.normal * 10.5), 1));
 
     gl_Position = projMatrix * viewMatrix * worldPos;
 

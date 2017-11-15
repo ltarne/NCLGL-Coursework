@@ -19,14 +19,14 @@ Shader::Shader(string vertex, string fragment, string geometry, string tcs, stri
 	}
 
 	if (!tcs.empty()) {
-		objects[SHADER_TCS] = GenerateShader(geometry, GL_TESS_CONTROL_SHADER);
+		objects[SHADER_TCS] = GenerateShader(tcs, GL_TESS_CONTROL_SHADER);
 
 		//Attach shader to the program
 		glAttachShader(program, objects[SHADER_TCS]);
 	}
 
 	if (!tes.empty()) {
-		objects[SHADER_TES] = GenerateShader(geometry, GL_TESS_EVALUATION_SHADER);
+		objects[SHADER_TES] = GenerateShader(tes, GL_TESS_EVALUATION_SHADER);
 
 		//Attach shader to the program
 		glAttachShader(program, objects[SHADER_TES]);
@@ -60,7 +60,18 @@ bool Shader::LinkProgram() {
 
 	GLint code;
 	glGetProgramiv(program, GL_LINK_STATUS, &code);
-	return code == GL_TRUE ? true : false;
+
+	if (code == GL_FALSE) {
+		cout << "Failed!" << endl;
+		int max = 512;
+		char error[512];
+		glGetProgramInfoLog(program, max, &max, &error[0]);
+		cout << error << endl << endl;
+		loadFailed = true;
+		return false;
+	}
+
+	return true;
 }
 
 void Shader::SetDefaultAttributes() {

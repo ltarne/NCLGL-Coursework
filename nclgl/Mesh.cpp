@@ -40,6 +40,17 @@ Mesh::~Mesh() {
 }
 
 void Mesh::Draw() {
+	if (type == GL_PATCHES) {
+		GLint patchVerts = 0;
+		glGetIntegerv(GL_MAX_PATCH_VERTICES, &patchVerts);
+		glPatchParameteri(GL_PATCH_VERTICES, 4);
+
+		float inner[] = { 1.0f,2.0f };
+		float outer[] = { 4.0f,4.0f,2.0f,2.0f };
+		glPatchParameterfv(GL_PATCH_DEFAULT_INNER_LEVEL, inner);
+		glPatchParameterfv(GL_PATCH_DEFAULT_OUTER_LEVEL, outer);
+	}
+
 	//Work on this array object
 	glBindVertexArray(arrayObject);
 
@@ -129,6 +140,8 @@ Mesh * Mesh::GenerateQuadPatch()
 	m->textureCoords[3] = Vector2(1.0f, 0.0f);
 
 	m->colours = new Vector4[m->numVertices];
+	m->normals = new Vector3[m->numVertices];
+	m->tangents = new Vector3[m->numVertices];
 	for (int i = 0; i < m->numVertices; ++i) {
 		m->colours[i] = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
 		m->normals[i] = Vector3(0.0f, 0.0f, -1.0f);

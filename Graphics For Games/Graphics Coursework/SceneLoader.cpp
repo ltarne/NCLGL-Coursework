@@ -13,11 +13,13 @@ Scene* SceneLoader::LoadScene1() {
 	Scene* scene = new Scene();
 
 
-	Shader* shader = new Shader(SHADERDIR"shadowSceneVert.vert", SHADERDIR"shadowSceneFrag.frag");
-	shader->LinkProgram();
-
-	/*Shader* shader = new Shader(SHADERDIR"shadowSceneVert.vert", SHADERDIR"shadowSceneFrag.frag", "", SHADERDIR"heightMapTCS.tesc", SHADERDIR"heightMapTES.tese");
+	/*Shader* shader = new Shader(SHADERDIR"shadowSceneVert.vert", SHADERDIR"shadowSceneFrag.frag");
 	shader->LinkProgram();*/
+
+	Shader* shader = new Shader(SHADERDIR"heightMapShadowVert.vert", SHADERDIR"shadowSceneFrag.frag", "", SHADERDIR"heightMapTCS.tesc", SHADERDIR"heightMapTES.tese");
+	if (!shader->LinkProgram()) {
+		return NULL;
+	}
 
 	Shader* skyBoxShader = new Shader(SHADERDIR"skyboxVert.vert", SHADERDIR"skyboxFrag.frag");
 	skyBoxShader->LinkProgram();
@@ -27,7 +29,7 @@ Scene* SceneLoader::LoadScene1() {
 
 	HeightMap* heightMap = new HeightMap(TEXTUREDIR "terrain.raw");
 	Mesh* quad = Mesh::GenerateQuad();
-	//Mesh* patch = Mesh::GenerateQuadPatch();
+	Mesh* patch = Mesh::GenerateQuadPatch();
 
 	string textures[6] = { TEXTUREDIR "rusted_west.JPG",TEXTUREDIR "rusted_east.JPG",TEXTUREDIR "rusted_up.JPG",TEXTUREDIR "rusted_down.JPG",TEXTUREDIR "rusted_south.JPG",TEXTUREDIR "rusted_north.JPG" };
 	CubeMapTexture* skyCubeMap = new CubeMapTexture(textures, "cubeTex");
@@ -49,21 +51,25 @@ Scene* SceneLoader::LoadScene1() {
 	SceneNode* water = new SceneNode(reflectionShader, quad);
 	water->AddTexture(waterTex);
 	water->AddTexture(skyCubeMap);
+	//water->SetRotation()
 
 	water->SetBoundingRadius(100000000.0f);
 
-	SceneNode* node = new SceneNode(shader, heightMap, Vector4(1, 1, 1, 1));
+	SceneNode* node = new SceneNode(shader, patch, Vector4(1, 1, 1, 1));
 	node->AddTexture(tex);
 	node->AddTexture(bumpTex);
-	node->SetBoundingRadius(10000.0f);
-	node->SetTransform(Matrix4::Translation(Vector3(-((257 * 16.0f) / 2), -300, -((257 * 16.0f) / 2))));
+	node->SetBoundingRadius(1000000.0f);
+	//node->SetTransform(Matrix4::Translation(Vector3(-((257 * 16.0f) / 2), -300, -((257 * 16.0f) / 2))));
+	node->SetTransform(Matrix4::Translation(Vector3(0, -500, 0)));
+	node->SetRotation(Matrix4::Rotation(-90, Vector3(1, 0, 0)));
+	node->SetScale(Vector3(10000, 10000, 10000));
 
 	scene->AttachNode(skybox);
 	scene->AttachNode(node);
 	scene->AttachNode(water);
 
-	scene->SetLight(new Light(Vector3((RAW_WIDTH*HEIGHTMAP_X) / 2, 500.0f, -(RAW_HEIGHT*HEIGHTMAP_Z) / 2),
-		Vector4(1, 1.0, 1.0, 1), (RAW_WIDTH*HEIGHTMAP_X)*2.0f));
+	scene->SetLight(new Light(Vector3(0, 300.0f, -200),
+		Vector4(1, 1.0, 1.0, 1), 100000.0f));
 
 	scene->BuildNodeLists(scene->GetRoot());
 	scene->QuickSortNodeLists();

@@ -1,28 +1,4 @@
-﻿  Shader.cpp
-  Mesh.cpp
-c:\users\b4027488\github\nclgl coursework\nclgl\mesh.cpp(103): warning C4018: '<': signed/unsigned mismatch
-c:\users\b4027488\github\nclgl coursework\nclgl\mesh.cpp(132): warning C4018: '<': signed/unsigned mismatch
-  Generating Code...
-  Compiling...
-  Window.cpp
-  Texture.cpp
-  StencilNode.cpp
-  ShadowStage.cpp
-  SceneNode.cpp
-c:\users\b4027488\github\nclgl coursework\nclgl\scenenode.cpp(40): warning C4018: '<': signed/unsigned mismatch
-  Scene.cpp
-  RenderingManager.cpp
-  Renderer.cpp
-  RenderStage.cpp
-  OGLRenderer.cpp
-  OBJMesh.cpp
-  MD5Node.cpp
-  MD5Mesh.cpp
-  MD5FileData.cpp
-  MD5Anim.cpp
-  HeightMap.cpp
-  Frustum.cpp
-  CubeMapTexture.cpp
-  Camera.cpp
-  Generating Code...
+﻿  Mesh.cpp
+c:\users\b4027488\github\nclgl coursework\nclgl\mesh.cpp(114): warning C4018: '<': signed/unsigned mismatch
+c:\users\b4027488\github\nclgl coursework\nclgl\mesh.cpp(145): warning C4018: '<': signed/unsigned mismatch
   nclgl.vcxproj -> C:\Users\B4027488\GitHub\NCLGL Coursework\Graphics For Games\Debug\nclgl.lib
