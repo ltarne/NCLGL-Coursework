@@ -9,6 +9,7 @@ Renderer::Renderer(Window &parent, int* fps) : OGLRenderer(parent)	{
 	//glEnable(GL_CULL_FACE);
 	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
 	
+	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 	overrideShader = nullptr;
 	this->fps = fps;
@@ -31,55 +32,65 @@ inline void Renderer::UpdateGlobalTextures(Shader* shader) {
 }
 
 void Renderer::LoadPostProcessing() {
-	glGenTextures(1, &FBInfo.shadowTex);
+	/*glGenTextures(1, &FBInfo.shadowTex);
 	glBindTexture(GL_TEXTURE_2D, FBInfo.shadowTex);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, SHADOWSIZE, SHADOWSIZE, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_R_TO_TEXTURE);
-	glBindTexture(GL_TEXTURE_2D, 0);
+	glBindTexture(GL_TEXTURE_2D, 0);*/
 
 
 
-	//glGenTextures(1, &FBInfo.bufferDepthTex);
-	//glBindTexture(GL_TEXTURE_2D, FBInfo.bufferDepthTex);
-	//glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-	//glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-	//glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	//glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST); 
-	//glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH24_STENCIL8, width, height, 0, GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8, NULL);
+	/*glGenTextures(1, &FBInfo.bufferDepthTex);
+	glBindTexture(GL_TEXTURE_2D, FBInfo.bufferDepthTex);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST); 
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH24_STENCIL8, width, height, 0, GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8, NULL);
 
-	//for (int i = 0; i < 2; ++i) {
-	//	glGenTextures(1, &FBInfo.bufferColourTex[i]);
-	//	glBindTexture(GL_TEXTURE_2D, FBInfo.bufferColourTex[i]);
-	//	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-	//	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-	//	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	//	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	//	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
-	//}
+	for (int i = 0; i < 2; ++i) {
+		glGenTextures(1, &FBInfo.bufferColourTex[i]);
+		glBindTexture(GL_TEXTURE_2D, FBInfo.bufferColourTex[i]);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+	}*/
 
-	glGenFramebuffers(1, &FBInfo.bufferFBO); //Render scene into this
+	glGenFramebuffers(1, &bufferFBO); //Render scene into this
 	//glGenFramebuffers(1, &FBInfo.processFBO); //Post processing in this
 
-	glBindFramebuffer(GL_FRAMEBUFFER, FBInfo.bufferFBO);
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, FBInfo.shadowTex, 0);
-	/*glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, FBInfo.bufferDepthTex, 0);
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT, GL_TEXTURE_2D, FBInfo.bufferDepthTex, 0);
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, FBInfo.bufferColourTex[0], 0);*/
+	glBindFramebuffer(GL_FRAMEBUFFER, bufferFBO);
+//	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT, GL_TEXTURE_2D, 0, 0);
 
-	/*if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE || !FBInfo.bufferDepthTex || !FBInfo.bufferColourTex[0]) {
+	//glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, FBInfo.shadowTex, 0);
+	//glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, FBInfo.bufferDepthTex, 0);
+	//glFramebufferTexture2D(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT, GL_TEXTURE_2D, FBInfo.bufferDepthTex, 0);
+	//glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, FBInfo.bufferColourTex[0], 0);
+
+	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
 		cout << "Framebuffer failed!\n";
 		return;
-	}*/
-	glDrawBuffer(GL_NONE);
+	}
+	//glDrawBuffer(GL_NONE);
+
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
 
 
 
+
+void Renderer::DrawLights() {
+	vector<LightNode*> lightList = *activeScene->GetLightList();
+	for (vector<LightNode*>::const_iterator i = lightList.begin(); i != lightList.end(); ++i) {
+		DrawNode(*i);
+	}
+}
 
 void Renderer::DrawNodes() {
 	vector<SceneNode*> nodeList = *activeScene->GetNodeList();
@@ -133,6 +144,7 @@ void Renderer::RenderScene() {
 	DrawNodes();
 	
 }
+
 
 void Renderer::DrawText(const std::string & text,  Font* basicFont) {
 	//Create a new temporary TextMesh, using our line of text and our font

@@ -50,7 +50,7 @@ public:
 		return (a->distanceFromCamera < b->distanceFromCamera) ? true : false;
 	}
 
-	void LoadUniforms();
+	virtual void LoadUniforms();
 
 	void AddChild(SceneNode* child);
 

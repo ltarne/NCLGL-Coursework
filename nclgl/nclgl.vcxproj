@@ -13,10 +13,13 @@
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CubeMapTexture.cpp" />
+    <ClCompile Include="DefereredLightsStage.cpp" />
     <ClCompile Include="Frustum.cpp" />
     <ClCompile Include="GameTimer.cpp" />
     <ClCompile Include="HeightMap.cpp" />
     <ClCompile Include="Keyboard.cpp" />
+    <ClCompile Include="Light.cpp" />
+    <ClCompile Include="LightNode.cpp" />
     <ClCompile Include="Matrix4.cpp" />
     <ClCompile Include="MD5Anim.cpp" />
     <ClCompile Include="MD5FileData.cpp" />
@@ -36,6 +39,7 @@
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShadowStage.cpp" />
     <ClCompile Include="StencilNode.cpp" />
+    <ClCompile Include="TessellatedHeightMapNode.cpp" />
     <ClCompile Include="TextMesh.cpp" />
     <ClCompile Include="TextStage.cpp" />
     <ClCompile Include="Texture.cpp" />
@@ -46,12 +50,14 @@
     <ClInclude Include="ChildMeshInterface.h" />
     <ClInclude Include="common.h" />
     <ClInclude Include="CubeMapTexture.h" />
+    <ClInclude Include="DefereredLightsStage.h" />
     <ClInclude Include="Frustum.h" />
     <ClInclude Include="GameTimer.h" />
     <ClInclude Include="HeightMap.h" />
     <ClInclude Include="InputDevice.h" />
     <ClInclude Include="Keyboard.h" />
     <ClInclude Include="Light.h" />
+    <ClInclude Include="LightNode.h" />
     <ClInclude Include="Matrix4.h" />
     <ClInclude Include="MD5Anim.h" />
     <ClInclude Include="MD5FileData.h" />
@@ -71,6 +77,7 @@
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShadowStage.h" />
     <ClInclude Include="StencilNode.h" />
+    <ClInclude Include="TessellatedHeightMapNode.h" />
     <ClInclude Include="TextMesh.h" />
     <ClInclude Include="TextStage.h" />
     <ClInclude Include="Texture.h" />

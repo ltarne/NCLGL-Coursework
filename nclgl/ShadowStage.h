@@ -14,5 +14,7 @@ protected:
 	void PresentScene(Scene * scene);
 
 	Shader* shadowShader;
+
+	GLuint shadowTex;
 };
 

@@ -5,6 +5,7 @@
 RenderStage::RenderStage(Renderer* renderer) {
 	this->renderer = renderer;
 	this->FBInfo = renderer->GetFBInfo();
+	this->bufferFBO = renderer->GetBufferFBO();
 }
 
 

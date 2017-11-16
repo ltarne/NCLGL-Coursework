@@ -1,5 +1,6 @@
 #pragma once
-#include "SceneNode.h"
+//#include "SceneNode.h"
+#include "LightNode.h"
 #include "Frustum.h"
 #include "Camera.h"
 #include <algorithm>
@@ -10,11 +11,13 @@ public:
 	Scene();
 	~Scene();
 
-	void AttachNode(SceneNode* node) { this->root->AddChild(node); }
+	void AddNode(SceneNode* node) { this->root->AddChild(node); }
+	void AddLight(LightNode* light) { lightList.push_back(light); }
 	SceneNode* GetRoot() { return root; }
 
 	vector<SceneNode*>* GetTransparentNodeList() { return &transparentNodeList; }
 	vector<SceneNode*>* GetNodeList() { return &nodeList; }
+	vector<LightNode*>* GetLightList() { return &lightList; }
 
 	inline void SetLight(Light* light) { this->light = light; }
 
@@ -43,6 +46,8 @@ protected:
 	SceneNode* root;
 
 	Light* light;
+
+	vector<LightNode*> lightList;
 
 	vector<SceneNode*> transparentNodeList;
 	vector<SceneNode*> nodeList;

@@ -68,6 +68,10 @@
     <ClCompile Include="ShadowStage.cpp" />
     <ClCompile Include="TextMesh.cpp" />
     <ClCompile Include="TextStage.cpp" />
+    <ClCompile Include="TessellatedHeightMapNode.cpp" />
+    <ClCompile Include="DefereredLightsStage.cpp" />
+    <ClCompile Include="Light.cpp" />
+    <ClCompile Include="LightNode.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common.h" />
@@ -138,9 +142,6 @@
     <ClInclude Include="HeightMap.h">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="Light.h">
-      <Filter>Components</Filter>
-    </ClInclude>
     <ClInclude Include="ChildMeshInterface.h">
       <Filter>Components</Filter>
     </ClInclude>
@@ -156,6 +157,10 @@
     <ClInclude Include="ShadowStage.h" />
     <ClInclude Include="TextMesh.h" />
     <ClInclude Include="TextStage.h" />
+    <ClInclude Include="TessellatedHeightMapNode.h" />
+    <ClInclude Include="DefereredLightsStage.h" />
+    <ClInclude Include="Light.h" />
+    <ClInclude Include="LightNode.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Data Types">

@@ -35,6 +35,13 @@ public:
 
 	virtual void RenderScene();
 
+	inline void UseOrthographic() {
+		projMatrix = Matrix4::Orthographic(-1.0f, 1.0f, (float)width, 0.0f, (float)height, 0.0f);
+	}
+	inline void UseProjection() {
+		projMatrix = Matrix4::Perspective(1.0f, 100000.0f, (float)width / (float)height, 45.0f);
+	}
+
 	void DrawText(const std::string &text, Font* basicFont);
 
 	inline int GetWidth() { return width; }
@@ -52,16 +59,20 @@ public:
 	inline void UpdateGlobalTextures(Shader* shader);
 
 	inline FrameBufferInfo* GetFBInfo() { return &FBInfo; }
+	inline GLuint GetBufferFBO() { return bufferFBO; }
 
 protected:
 	void LoadPostProcessing();
 
+	void DrawLights();
 	void DrawNodes();
 	void DrawNode(SceneNode* node);
 	
 	Shader* overrideShader;
 
 	FrameBufferInfo FBInfo;
+
+	GLuint bufferFBO;
 
 	Scene* activeScene;
 

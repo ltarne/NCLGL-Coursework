@@ -108,7 +108,7 @@ vec2    QuadMixVec2(vec2 a, vec2 b, vec2 c, vec2 d) {
 }
 
 void main() {
-    float scale = 0.0001;
+    float scale = 0.03;
 
     mat3 normalMatrix = transpose(inverse(mat3(modelMatrix)));
 
@@ -123,7 +123,7 @@ void main() {
                                 IN[2].texCoord,
                                 IN[3].texCoord);
 
-    OUT.texCoord  = OUT.texCoord * 64;
+    OUT.texCoord  = OUT.texCoord * 32;
 
     OUT.colour = QuadMixVec4(IN[0].colour,
                             IN[1].colour,
@@ -150,7 +150,7 @@ void main() {
 
 
     vec4 worldPos = (modelMatrix * vec4(combinedPos, 1));
-    float height = sumOctave(16,worldPos.x,worldPos.z,0.5f, scale, 5, 2000);
+    float height = sumOctave(16,worldPos.x,worldPos.z,0.5f, scale, 5, 20);
     worldPos.y += height;
     OUT.worldPos = worldPos.xyz;
 

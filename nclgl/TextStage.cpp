@@ -10,7 +10,7 @@ TextStage::TextStage(Renderer* renderer)
 	fontShader->LinkProgram();
 
 	viewMatrix = Matrix4();
-	projMatrix = Matrix4::Orthographic(-1.0f, 1.0f, (float) renderer->GetWidth(), 0.0f, (float) renderer->GetHeight(), 0.0f);;
+	projMatrix = Matrix4::Orthographic(-1.0f, 1.0f, (float) renderer->GetWidth(), 0.0f, (float) renderer->GetHeight(), 0.0f);
 }
 
 

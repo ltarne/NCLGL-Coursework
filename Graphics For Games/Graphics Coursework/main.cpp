@@ -26,7 +26,7 @@ int main() {
 
 	SceneLoader sceneLoader;
 
-	Scene* scene1 = sceneLoader.LoadScene1();
+	Scene* scene1 = sceneLoader.LoadScene2();
 
 	scene1->SetProjMatrix(Matrix4::Perspective(1.0f, 100000.0f, (float)width / (float)height, 45.0f));
 

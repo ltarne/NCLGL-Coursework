@@ -14,6 +14,7 @@ protected:
 	Renderer* renderer;
 
 	FrameBufferInfo* FBInfo;
+	GLuint bufferFBO;
 
 };
 
