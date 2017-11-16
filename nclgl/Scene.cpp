@@ -26,6 +26,10 @@ void Scene::Update(float msec) {
 	ClearNodeList();
 	BuildNodeLists(root);
 	QuickSortNodeLists();
+
+	for (int i = 0; i < lightList.size(); ++i) {
+		lightList[i]->Update(msec);
+	}
 }
 
 void Scene::BuildNodeLists(SceneNode* from) {

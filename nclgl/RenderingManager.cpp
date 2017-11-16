@@ -5,14 +5,18 @@
 RenderingManager::RenderingManager(Renderer* renderer) {
 	this->renderer = renderer;
 
-	renderStages[SHADOW_STAGE] = new ShadowStage(renderer);
+	RenderStage::GenerateQuad();
+
+	renderStages[SHADOW_STAGE] = new DefereredLightsStage(renderer);
 	renderStages[TEXT_STAGE] = new TextStage(renderer);
 
 }
 
 
 RenderingManager::~RenderingManager() {
+	RenderStage::DeleteQuad();
 	delete renderStages[SHADOW_STAGE];
+	delete renderStages[TEXT_STAGE];
 }
 
 void RenderingManager::UpdateScene(float msec) {

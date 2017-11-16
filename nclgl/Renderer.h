@@ -58,19 +58,18 @@ public:
 
 	inline void UpdateGlobalTextures(Shader* shader);
 
-	inline FrameBufferInfo* GetFBInfo() { return &FBInfo; }
 	inline GLuint GetBufferFBO() { return bufferFBO; }
 
+	void DrawLights();
 protected:
 	void LoadPostProcessing();
 
-	void DrawLights();
+	
 	void DrawNodes();
 	void DrawNode(SceneNode* node);
 	
 	Shader* overrideShader;
 
-	FrameBufferInfo FBInfo;
 
 	GLuint bufferFBO;
 

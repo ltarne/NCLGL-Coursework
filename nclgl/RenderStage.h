@@ -10,11 +10,18 @@ public:
 
 	virtual void DrawStage(Scene* scene);
 
+	static void GenerateQuad() { quad = Mesh::GenerateQuad(); }
+
+	static void DeleteQuad() { delete quad; }
+
+	
+
 protected:
 	Renderer* renderer;
 
-	FrameBufferInfo* FBInfo;
 	GLuint bufferFBO;
+
+	static Mesh* quad;
 
 };
 

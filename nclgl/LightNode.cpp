@@ -6,15 +6,23 @@ LightNode::LightNode(Shader * shader, Mesh * mesh, Vector4 colour, float radius,
 	this->radius = radius;
 	this->position = pos;
 	transform = Matrix4::Translation(pos);
+	scale = Matrix4::Scale(Vector3(radius, radius, radius));
 }
 
 LightNode::~LightNode() {
 }
 
 void LightNode::LoadUniforms() {
+	Matrix4 modelMatrix = worldTransform * scale;
+	glUniformMatrix4fv(glGetUniformLocation(shader->GetProgram(), "modelMatrix"), 1, false, (float*)&modelMatrix);
+
+	glUniform1i(glGetUniformLocation(shader->GetProgram(), "depthTex"), 3);
+	glUniform1i(glGetUniformLocation(shader->GetProgram(), "normTex"), 4);
+
 	glUniform3fv(glGetUniformLocation(shader->GetProgram(), "lightPos"), 1, (float*)&position);
 	glUniform4fv(glGetUniformLocation(shader->GetProgram(), "lightColour"), 1, (float*)&colour);
 	glUniform1f(glGetUniformLocation(shader->GetProgram(), "lightRadius"), radius);
+
 }
 
 void LightNode::Draw(const OGLRenderer & renderer) {

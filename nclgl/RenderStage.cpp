@@ -1,10 +1,9 @@
 #include "RenderStage.h"
 
-
+Mesh* RenderStage::quad = NULL;
 
 RenderStage::RenderStage(Renderer* renderer) {
 	this->renderer = renderer;
-	this->FBInfo = renderer->GetFBInfo();
 	this->bufferFBO = renderer->GetBufferFBO();
 }
 

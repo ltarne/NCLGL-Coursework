@@ -161,7 +161,7 @@ void SceneLoader::UnloadScene2() {
 Scene* SceneLoader::LoadScene3() {
 	Scene* scene = new Scene();
 
-	Shader* shader = new Shader(SHADERDIR"shadowSceneVert.vert", SHADERDIR"shadowSceneFrag.frag");
+	Shader* shader = new Shader(SHADERDIR"lightVert.vert", SHADERDIR"bufferFrag.frag");
 	//Shader* shader = new Shader(SHADERDIR"lightVert.vert", SHADERDIR"lightFrag.frag");
 	shader->LinkProgram();
 
@@ -184,13 +184,14 @@ Scene* SceneLoader::LoadScene3() {
 	scene->AddNode(quad);
 
 	Shader* pointLightShader = new Shader(SHADERDIR"pointLightVert.vert", SHADERDIR"pointLightFrag.frag");
+	pointLightShader->LinkProgram();
 	OBJMesh* sphere = new OBJMesh();
 	sphere->LoadOBJMesh(MESHDIR"sphere.obj");
 
 	for (int x = 0; x < LIGHTNUM; ++x) {
 		for (int z = 0; z < LIGHTNUM; ++z) {
 			Vector3 pos = Vector3(((RAW_WIDTH * HEIGHTMAP_X / (LIGHTNUM - 1)) * x),
-				20.0f,
+				500.0f,
 				(RAW_HEIGHT * HEIGHTMAP_Z / (LIGHTNUM - 1)) * z);
 
 			Vector4 colour = Vector4(0.5f + (float)(rand() % 129) / 128.0f,
