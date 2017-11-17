@@ -1,41 +1,21 @@
-﻿  Window.cpp
-  Texture.cpp
+﻿  SceneNode.cpp
+c:\users\b4027488\github\nclgl coursework\nclgl\scenenode.cpp(42): warning C4018: '<': signed/unsigned mismatch
+  DefereredLightsStage.cpp
+  Generating Code...
+  Compiling...
+  Scene.cpp
+c:\users\b4027488\github\nclgl coursework\nclgl\scene.cpp(30): warning C4018: '<': signed/unsigned mismatch
+  MD5Node.cpp
+  Frustum.cpp
+  Generating Code...
+  Skipping... (no relevant changes detected)
   TextStage.cpp
-c:\users\b4027488\github\nclgl coursework\nclgl\textstage.cpp(32): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
-  TextMesh.cpp
   TessellatedHeightMapNode.cpp
   StencilNode.cpp
   ShadowStage.cpp
-  Shader.cpp
-  SceneNode.cpp
-c:\users\b4027488\github\nclgl coursework\nclgl\scenenode.cpp(40): warning C4018: '<': signed/unsigned mismatch
-  Scene.cpp
-  RenderStage.cpp
   RenderingManager.cpp
   Renderer.cpp
-  Quaternion.cpp
-  Plane.cpp
-  OGLRenderer.cpp
-  OBJMesh.cpp
-  Mouse.cpp
-  Mesh.cpp
-c:\users\b4027488\github\nclgl coursework\nclgl\mesh.cpp(114): warning C4018: '<': signed/unsigned mismatch
-c:\users\b4027488\github\nclgl coursework\nclgl\mesh.cpp(145): warning C4018: '<': signed/unsigned mismatch
-  MD5Node.cpp
-  Generating Code...
-  Compiling...
-  MD5Mesh.cpp
-  MD5FileData.cpp
-  MD5Anim.cpp
-  Matrix4.cpp
-  Light.cpp
-  Keyboard.cpp
-  HeightMap.cpp
-  GameTimer.cpp
-  Frustum.cpp
-  DefereredLightsStage.cpp
-  CubeMapTexture.cpp
-  Camera.cpp
-  Generating Code...
+  RenderStage.cpp
+  LightNode.cpp
 Light.obj : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
   nclgl.vcxproj -> C:\Users\B4027488\GitHub\NCLGL Coursework\Graphics For Games\Debug\nclgl.lib

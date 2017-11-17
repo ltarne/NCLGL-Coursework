@@ -47,6 +47,7 @@ Scene* SceneLoader::LoadScene1() {
 	skybox->SetDepthTest(false);
 	skybox->AddTexture(skyCubeMap);
 	skybox->SetBoundingRadius(1000000000.0f);
+	skybox->SetFaceCulling(false);
 
 	SceneNode* water = new SceneNode(reflectionShader, quad);
 	water->AddTexture(waterTex);
@@ -179,6 +180,7 @@ Scene* SceneLoader::LoadScene3() {
 	//quad->SetScale(Vector3(1000, 1000, 1000));
 	//quad->SetRotation(Matrix4::Rotation(90.0f, Vector3(1, 0, 0)));
 	quad->SetBoundingRadius(1000000.0f);
+	quad->SetTransform(Matrix4::Translation(Vector3(-(RAW_WIDTH * HEIGHTMAP_X) / 2, -350, -(RAW_HEIGHT * HEIGHTMAP_Z))));
 
 
 	scene->AddNode(quad);
@@ -190,9 +192,9 @@ Scene* SceneLoader::LoadScene3() {
 
 	for (int x = 0; x < LIGHTNUM; ++x) {
 		for (int z = 0; z < LIGHTNUM; ++z) {
-			Vector3 pos = Vector3(((RAW_WIDTH * HEIGHTMAP_X / (LIGHTNUM - 1)) * x),
-				500.0f,
-				(RAW_HEIGHT * HEIGHTMAP_Z / (LIGHTNUM - 1)) * z);
+			Vector3 pos = Vector3(((RAW_WIDTH * HEIGHTMAP_X / (LIGHTNUM - 1)) * x) - (RAW_WIDTH * HEIGHTMAP_X) / 2,
+				-100.0f,
+				-(RAW_HEIGHT * HEIGHTMAP_Z / (LIGHTNUM - 1)) * z);
 
 			Vector4 colour = Vector4(0.5f + (float)(rand() % 129) / 128.0f,
 				0.5f + (float)(rand() % 129) / 128.0f,
@@ -201,9 +203,8 @@ Scene* SceneLoader::LoadScene3() {
 
 			float radius = (RAW_WIDTH * HEIGHTMAP_X / LIGHTNUM);
 
-			scene->AddLight(new LightNode(pointLightShader, sphere, colour, radius));
+			scene->AddLight(new LightNode(pointLightShader, sphere, colour, radius, pos));
 		}
-
 	}
 
 	scene->BuildNodeLists(scene->GetRoot());

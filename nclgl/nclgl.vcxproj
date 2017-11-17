@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BloomStage.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CubeMapTexture.cpp" />
     <ClCompile Include="DefereredLightsStage.cpp" />
@@ -46,6 +47,7 @@
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BloomStage.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="ChildMeshInterface.h" />
     <ClInclude Include="common.h" />

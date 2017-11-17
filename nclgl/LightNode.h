@@ -14,6 +14,7 @@ public:
 
 	virtual void LoadUniforms();
 
+	void UpdateTextures(GLuint depthTex, GLuint normalTex);
 	virtual void Draw(const OGLRenderer &renderer);
 
 	void SetPosition(Vector3 pos) { 

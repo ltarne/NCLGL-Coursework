@@ -16,12 +16,17 @@ void LightNode::LoadUniforms() {
 	Matrix4 modelMatrix = worldTransform * scale;
 	glUniformMatrix4fv(glGetUniformLocation(shader->GetProgram(), "modelMatrix"), 1, false, (float*)&modelMatrix);
 
-	glUniform1i(glGetUniformLocation(shader->GetProgram(), "depthTex"), 3);
-	glUniform1i(glGetUniformLocation(shader->GetProgram(), "normTex"), 4);
+	glUniform1i(glGetUniformLocation(shader->GetProgram(), "depthTex"), 9);
+	glUniform1i(glGetUniformLocation(shader->GetProgram(), "normTex"), 10);
 
 	glUniform3fv(glGetUniformLocation(shader->GetProgram(), "lightPos"), 1, (float*)&position);
 	glUniform4fv(glGetUniformLocation(shader->GetProgram(), "lightColour"), 1, (float*)&colour);
 	glUniform1f(glGetUniformLocation(shader->GetProgram(), "lightRadius"), radius);
+
+}
+
+
+void LightNode::UpdateTextures(GLuint depthTex, GLuint normalTex) {
 
 }
 

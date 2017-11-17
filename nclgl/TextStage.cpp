@@ -25,7 +25,7 @@ void TextStage::DrawStage(Scene* scene) {
 
 
 	int size = 20;
-	Vector3 position = Vector3(0, 0, 0);
+	Vector3 position = Vector3(0, 0, 1);
 
 
 	glUseProgram(fontShader->GetProgram());

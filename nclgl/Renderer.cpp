@@ -6,7 +6,7 @@ Renderer::Renderer(Window &parent, int* fps) : OGLRenderer(parent)	{
 	LoadPostProcessing();
 
 	glEnable(GL_DEPTH_TEST);
-	//glEnable(GL_CULL_FACE);
+	glEnable(GL_CULL_FACE);
 	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
 	
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -35,10 +35,10 @@ void Renderer::LoadPostProcessing() {
 
 	glBindFramebuffer(GL_FRAMEBUFFER, bufferFBO);
 
-	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
+	/*if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
 		cout << "Framebuffer failed!\n";
 		return;
-	}
+	}*/
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
@@ -58,6 +58,8 @@ void Renderer::DrawLights() {
 		else {
 			glCullFace(GL_BACK);
 		}
+		
+		temp->SetRotation(temp->GetRotation() * Matrix4::Rotation(0.5f, Vector3(0, 1, 0)));
 		DrawNode(*i);
 	}
 }

@@ -40,6 +40,9 @@ public:
 	inline void SetDepthTest(bool depthTest) { this->depthTest = depthTest; }
 	inline bool GetDepthTest() const { return depthTest; }
 
+	inline void SetFaceCulling(bool faceCulling) { this->faceCulling = faceCulling; }
+	inline bool GetFaceCulling() { return faceCulling; }
+
 	inline float GetBoundingRadius() const { return boundingRadius; }
 	inline void SetBoundingRadius(float boundingRadius) { this->boundingRadius = boundingRadius; }
 
@@ -84,6 +87,7 @@ protected:
 
 	bool visible;
 	bool depthTest;
+	bool faceCulling;
 	
 };
 

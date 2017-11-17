@@ -16,6 +16,8 @@ SceneNode::SceneNode(Shader* shader, Mesh * mesh, Vector4 colour) {
 	boundingRadius = 1.0f;
 	distanceFromCamera = 0.0f;
 
+	depthTest = true;
+	faceCulling = true;
 }
 
 SceneNode::~SceneNode() {
@@ -66,6 +68,9 @@ void SceneNode::Draw(const OGLRenderer &renderer) {
 	if (!depthTest) {
 		glDisable(GL_DEPTH_TEST);
 	}
+	if (!faceCulling) {
+		glDisable(GL_CULL_FACE);
+	}
 	
 
 	if (mesh != nullptr) {
@@ -74,5 +79,8 @@ void SceneNode::Draw(const OGLRenderer &renderer) {
 
 	if (!depthTest) {
 		glEnable(GL_DEPTH_TEST);
+	}
+	if (!faceCulling) {
+		glEnable(GL_CULL_FACE);
 	}
 }

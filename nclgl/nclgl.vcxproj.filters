@@ -72,6 +72,7 @@
     <ClCompile Include="DefereredLightsStage.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="LightNode.cpp" />
+    <ClCompile Include="BloomStage.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common.h" />
@@ -161,6 +162,7 @@
     <ClInclude Include="DefereredLightsStage.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="LightNode.h" />
+    <ClInclude Include="BloomStage.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Data Types">

@@ -55,6 +55,7 @@ bool Shader::LinkProgram() {
 	if (loadFailed) {
 		return false;
 	}
+	cout << "********************************************\n";
 
 	glLinkProgram(program);
 
@@ -62,7 +63,7 @@ bool Shader::LinkProgram() {
 	glGetProgramiv(program, GL_LINK_STATUS, &code);
 
 	if (code == GL_FALSE) {
-		cout << "Failed!" << endl;
+		cout << "Link Failed!" << endl;
 		int max = 512;
 		char error[512];
 		glGetProgramInfoLog(program, max, &max, &error[0]);
@@ -70,7 +71,7 @@ bool Shader::LinkProgram() {
 		loadFailed = true;
 		return false;
 	}
-
+	cout << "Link success!\n";
 	return true;
 }
 
@@ -86,6 +87,7 @@ bool Shader::LoadShaderFile(string from, string & into) {
 	ifstream file;
 	string temp;
 
+	
 	cout << "Loading shader text from " << from << endl << endl;
 
 	file.open(from.c_str());
@@ -100,13 +102,14 @@ bool Shader::LoadShaderFile(string from, string & into) {
 	}
 
 	file.close();
-	cout << into << endl << endl;
+	//cout << into << endl << endl;
 	cout << "Loaded shader text!" << endl << endl;
 
 	return true;
 }
 
 GLuint Shader::GenerateShader(string from, GLenum type) {
+	cout << "**************************************************\n";
 	cout << "Compiling shader ...\n";
 
 	string load;

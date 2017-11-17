@@ -21,7 +21,6 @@ void main(void) {
   pos.z = texture(depthTex, pos.xy).r;
 
   vec3 normal = normalize(texture(normTex, pos.xy).xyz * 2.0 - 1.0);
-
   vec4 clip = inverseProjView * vec4(pos * 2.0 - 1.0, 1.0);
   pos = clip.xyz / clip.w;
 
@@ -41,5 +40,9 @@ void main(void) {
   float sFactor = pow(rFactor, 33.0);
 
   fragColor[0] = vec4(lightColour.xyz * lambert * atten, 1.0);
+  //fragColor[0] = vec4(normal,1.0);
+
   fragColor[1] = vec4(lightColour.xyz * sFactor * atten * 0.33, 1.0);
+  //fragColor[1] =
+  //gl_FragDepth = 0.0f;
 }

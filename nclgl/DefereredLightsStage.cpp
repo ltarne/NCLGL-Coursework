@@ -12,7 +12,6 @@ DefereredLightsStage::DefereredLightsStage(Renderer* renderer)
 
 	glGenFramebuffers(1, &pointLightFBO);
 
-	
 
 	GenerateScreenTexture(bufferDepthTex, true);
 	GenerateScreenTexture(bufferColourTex);
@@ -66,10 +65,16 @@ void DefereredLightsStage::AttachFBOData() {
 
 }
 
+void DefereredLightsStage::DettachFBOData() {
+
+}
+
 void DefereredLightsStage::DrawStage(Scene * scene) {
 
 	AttachFBOData();
 	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+	renderer->SetViewMatrix(scene->GetViewMatrix());
+	renderer->SetProjMatrix(scene->GetProjMatrix());
 
 	FillBuffers();
 	DrawPointLights();
@@ -93,35 +98,36 @@ void DefereredLightsStage::DrawPointLights() {
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	glBlendFunc(GL_ONE, GL_ONE);
-	glEnable(GL_CULL_FACE);
+	//glEnable(GL_CULL_FACE);
 
-	glActiveTexture(GL_TEXTURE3);
+
+	//glUseProgram(13);
+
+	glActiveTexture(GL_TEXTURE9);
 	glBindTexture(GL_TEXTURE_2D, bufferDepthTex);
 
-	glActiveTexture(GL_TEXTURE4);
+	glActiveTexture(GL_TEXTURE10);
 	glBindTexture(GL_TEXTURE_2D, bufferNormalTex);
 
 	renderer->DrawLights();
 
-	glDisable(GL_CULL_FACE);
+	//glDisable(GL_CULL_FACE);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-
-
 }
 
 void DefereredLightsStage::CombineBuffers(Scene* scene) {
 
-
+	glUseProgram(combineShader->GetProgram());
 	glUniformMatrix4fv(glGetUniformLocation(combineShader->GetProgram(), "projMatrix"), 1, false, (float*)&projMatrix);
 
 	glUniform1i(glGetUniformLocation(combineShader->GetProgram(), "diffuseTex"),2);
 	glUniform1i(glGetUniformLocation(combineShader->GetProgram(), "emissiveTex"), 3);
-	glUniform1i(glGetUniformLocation(combineShader->GetProgram(), "specular"), 4);
+	glUniform1i(glGetUniformLocation(combineShader->GetProgram(), "specularTex"), 4);
 
 	glActiveTexture(GL_TEXTURE2);
 	glBindTexture(GL_TEXTURE_2D, bufferColourTex);
@@ -132,8 +138,7 @@ void DefereredLightsStage::CombineBuffers(Scene* scene) {
 	glActiveTexture(GL_TEXTURE4);
 	glBindTexture(GL_TEXTURE_2D, bufferSpecularTex);
 
-
-	glUseProgram(combineShader->GetProgram());
+	
 	quad->Draw();
 	
 	glUseProgram(0);

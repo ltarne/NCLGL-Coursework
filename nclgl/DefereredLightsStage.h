@@ -12,6 +12,7 @@ public:
 	~DefereredLightsStage();
 
 	void AttachFBOData();
+	void DettachFBOData();
 
 	virtual void DrawStage(Scene* scene);
 
