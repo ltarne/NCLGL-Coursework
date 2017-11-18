@@ -1,3 +1,6 @@
 ﻿  BloomStage.cpp
+  Generating Code...
+  Skipping... (no relevant changes detected)
+  RenderingManager.cpp
 Light.obj : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
   nclgl.vcxproj -> C:\Users\Luke\Documents\GitHub\NCLGL-Coursework\Graphics For Games\Debug\nclgl.lib

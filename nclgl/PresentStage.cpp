@@ -18,6 +18,7 @@ PresentStage::~PresentStage()
 }
 
 void PresentStage::DrawStage(Scene * scene) {
+	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 	glUseProgram(shader->GetProgram());
 	glUniformMatrix4fv(glGetUniformLocation(shader->GetProgram(), "projMatrix"), 1, false, (float*)&projMatrix);
 

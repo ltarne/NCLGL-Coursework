@@ -8,6 +8,7 @@ RenderingManager::RenderingManager(Renderer* renderer) {
 	RenderStage::GenerateQuad();
 
 	renderStages[SHADOW_STAGE] = new DefereredLightsStage(renderer);
+	renderStages[BLOOM_STAGE] = new BloomStage(renderer);
 	renderStages[PRESENT_STAGE] = new PresentStage(renderer);
 	renderStages[TEXT_STAGE] = new TextStage(renderer);
 
