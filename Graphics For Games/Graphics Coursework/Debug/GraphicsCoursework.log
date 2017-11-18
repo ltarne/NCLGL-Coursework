@@ -1,7 +1,3 @@
 ﻿  main.cpp
-c:\users\b4027488\github\nclgl coursework\graphics for games\graphics coursework\main.cpp(50): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-  Generating Code...
-  Skipping... (no relevant changes detected)
-  SceneLoader.cpp
-  GraphicsCoursework.vcxproj -> C:\Users\B4027488\GitHub\NCLGL Coursework\Graphics For Games\Debug\GraphicsCoursework.exe
-  GraphicsCoursework.vcxproj -> C:\Users\B4027488\GitHub\NCLGL Coursework\Graphics For Games\Debug\GraphicsCoursework.pdb (Partial PDB)
+c:\users\luke\documents\github\nclgl-coursework\graphics for games\graphics coursework\main.cpp(50): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+  GraphicsCoursework.vcxproj -> C:\Users\Luke\Documents\GitHub\NCLGL-Coursework\Graphics For Games\Debug\GraphicsCoursework.exe

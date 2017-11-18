@@ -6,5 +6,9 @@ class BloomStage :
 public:
 	BloomStage(Renderer* renderer);
 	~BloomStage();
+
+protected:
+	Shader* shader;
+
 };
 

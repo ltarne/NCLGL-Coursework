@@ -73,6 +73,7 @@
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="LightNode.cpp" />
     <ClCompile Include="BloomStage.cpp" />
+    <ClCompile Include="PresentStage.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common.h" />
@@ -163,6 +164,7 @@
     <ClInclude Include="Light.h" />
     <ClInclude Include="LightNode.h" />
     <ClInclude Include="BloomStage.h" />
+    <ClInclude Include="PresentStage.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Data Types">

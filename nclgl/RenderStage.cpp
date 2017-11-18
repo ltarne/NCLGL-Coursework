@@ -5,6 +5,7 @@ Mesh* RenderStage::quad = NULL;
 RenderStage::RenderStage(Renderer* renderer) {
 	this->renderer = renderer;
 	this->bufferFBO = renderer->GetBufferFBO();
+	this->colourBuffers = renderer->GetColourBuffers();
 }
 
 

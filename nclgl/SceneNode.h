@@ -32,7 +32,7 @@ public:
 	inline void		ClearOverrideShader() { overrideShader = nullptr; }
 
 	inline void				AddTexture(Texture* texture) { this->textures.push_back(texture); }
-	inline vector<Texture*> GetTextures() { return textures; }
+	inline vector<Texture*>* GetTextures() { return &textures; }
 
 	inline void SetVisible(bool visible) { this->visible = visible; }
 	inline bool GetVisible() const { return visible; }

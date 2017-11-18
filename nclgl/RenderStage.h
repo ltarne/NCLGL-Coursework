@@ -20,6 +20,7 @@ protected:
 	Renderer* renderer;
 
 	GLuint bufferFBO;
+	GLuint* colourBuffers;
 
 	static Mesh* quad;
 

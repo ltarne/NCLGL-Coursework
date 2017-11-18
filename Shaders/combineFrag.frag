@@ -8,15 +8,17 @@ in Vertex {
   vec2 texCoord;
 } IN;
 
-out vec4 fragColor;
+out vec4 fragColor[2];
 
 void main(void) {
   vec3 diffuse = texture(diffuseTex, IN.texCoord).xyz;
   vec3 light = texture(emissiveTex, IN.texCoord).xyz;
   vec3 specular = texture(specularTex, IN.texCoord).xyz;
 
-  fragColor.xyz = diffuse * 0.2;
-  fragColor.xyz += diffuse * light;
-  fragColor.xyz += specular;
-  fragColor.a = 1.0;
+  fragColor[0].xyz = diffuse * 0.2;
+  fragColor[0].xyz += diffuse * light;
+  fragColor[0].xyz += specular;
+  fragColor[0].a = 1.0;
+
+  fragColor[1] = fragColor[0];
 }

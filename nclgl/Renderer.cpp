@@ -31,14 +31,33 @@ inline void Renderer::UpdateGlobalTextures(Shader* shader) {
 
 void Renderer::LoadPostProcessing() {
 
+
 	glGenFramebuffers(1, &bufferFBO); //Render scene into this
 
+	GLuint bufferAttachments[2] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1 };
+	glGenTextures(2, colourBuffers);
 	glBindFramebuffer(GL_FRAMEBUFFER, bufferFBO);
 
-	/*if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
+	for (int i = 0; i < 2; ++i) {
+		glBindTexture(GL_TEXTURE_2D, colourBuffers[i]);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, width, height, 0, GL_RGB, GL_FLOAT, NULL);
+
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+		glFramebufferTexture2D(GL_FRAMEBUFFER, bufferAttachments[i], GL_TEXTURE_2D, colourBuffers[i], 0);
+		
+	}
+	glDrawBuffers(2, bufferAttachments);
+	
+	
+
+	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
 		cout << "Framebuffer failed!\n";
 		return;
-	}*/
+	}
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }

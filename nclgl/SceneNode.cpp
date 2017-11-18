@@ -13,6 +13,8 @@ SceneNode::SceneNode(Shader* shader, Mesh * mesh, Vector4 colour) {
 
 	visible = true;
 
+	overrideShader = nullptr;
+
 	boundingRadius = 1.0f;
 	distanceFromCamera = 0.0f;
 

@@ -2,9 +2,10 @@
 #include "Renderer.h"
 #include "ShadowStage.h"
 #include "DefereredLightsStage.h"
+#include "PresentStage.h"
 #include "TextStage.h"
 
-enum renderStages {SHADOW_STAGE, TEXT_STAGE, MAX_STAGE};
+enum renderStages {SHADOW_STAGE, PRESENT_STAGE, TEXT_STAGE, MAX_STAGE};
 
 class RenderingManager
 {

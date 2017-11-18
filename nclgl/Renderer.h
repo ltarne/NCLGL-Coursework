@@ -59,6 +59,7 @@ public:
 	inline void UpdateGlobalTextures(Shader* shader);
 
 	inline GLuint GetBufferFBO() { return bufferFBO; }
+	inline GLuint* GetColourBuffers() { return colourBuffers; }
 
 	void DrawLights();
 protected:
@@ -72,6 +73,7 @@ protected:
 
 
 	GLuint bufferFBO;
+	GLuint colourBuffers[2];
 
 	Scene* activeScene;
 

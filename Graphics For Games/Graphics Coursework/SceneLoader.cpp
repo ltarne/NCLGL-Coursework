@@ -7,12 +7,24 @@ SceneLoader::SceneLoader() {
 
 
 SceneLoader::~SceneLoader() {
+	while (shaders.size() > 0) {
+		delete shaders.back();
+		shaders.pop_back();
+	}
+	while (meshes.size() > 0) {
+		delete meshes.back();
+		meshes.pop_back();
+	}
+	while (textures.size() > 0) {
+		delete textures.back();
+		textures.pop_back();
+	}
 }
 
 Scene* SceneLoader::LoadScene1() {
 	Scene* scene = new Scene();
 
-
+	/* Shaders */
 	/*Shader* shader = new Shader(SHADERDIR"shadowSceneVert.vert", SHADERDIR"shadowSceneFrag.frag");
 	shader->LinkProgram();*/
 
@@ -20,28 +32,42 @@ Scene* SceneLoader::LoadScene1() {
 	if (!shader->LinkProgram()) {
 		return NULL;
 	}
+	shaders.push_back(shader);
 
 	Shader* skyBoxShader = new Shader(SHADERDIR"skyboxVert.vert", SHADERDIR"skyboxFrag.frag");
 	skyBoxShader->LinkProgram();
+	shaders.push_back(skyBoxShader);
 
 	Shader* reflectionShader = new Shader(SHADERDIR"lightVert.vert", SHADERDIR"reflectFrag.frag");
 	reflectionShader->LinkProgram();
+	shaders.push_back(reflectionShader);
 
+	/* Meshes */
 	HeightMap* heightMap = new HeightMap(TEXTUREDIR "terrain.raw");
+	meshes.push_back(heightMap);
 	Mesh* quad = Mesh::GenerateQuad();
+	meshes.push_back(quad);
 	Mesh* patch = Mesh::GenerateQuadPatch();
+	meshes.push_back(patch);
 
-	string textures[6] = { TEXTUREDIR "rusted_west.JPG",TEXTUREDIR "rusted_east.JPG",TEXTUREDIR "rusted_up.JPG",TEXTUREDIR "rusted_down.JPG",TEXTUREDIR "rusted_south.JPG",TEXTUREDIR "rusted_north.JPG" };
-	CubeMapTexture* skyCubeMap = new CubeMapTexture(textures, "cubeTex");
+	/* Textures */
+	string skyTextures[6] = { TEXTUREDIR "rusted_west.JPG",TEXTUREDIR "rusted_east.JPG",TEXTUREDIR "rusted_up.JPG",TEXTUREDIR "rusted_down.JPG",TEXTUREDIR "rusted_south.JPG",TEXTUREDIR "rusted_north.JPG" };
+	CubeMapTexture* skyCubeMap = new CubeMapTexture(skyTextures, "cubeTex");
+	textures.push_back(skyCubeMap);
 
 	Texture* bumpTex = new Texture(TEXTUREDIR"Barren RedsDOT3.JPG", "bumpTex");
 	bumpTex->ToggleRepeating();
+	textures.push_back(bumpTex);
 
 	Texture* waterTex = new Texture(TEXTUREDIR"water.png", "waterTex");
 	waterTex->ToggleRepeating();
+	textures.push_back(waterTex);
 
 	Texture* tex = new Texture(TEXTUREDIR "Barren Reds.JPG", "tex");
 	tex->ToggleRepeating();
+	textures.push_back(tex);
+
+	/* Scene Nodes */
 
 	SceneNode* skybox = new SceneNode(skyBoxShader, quad);
 	skybox->SetDepthTest(false);
@@ -108,22 +134,28 @@ Scene* SceneLoader::LoadScene1() {
 	return scene;
 }
 
-void SceneLoader::UnloadScene1() {
-}
 
 Scene* SceneLoader::LoadScene2() {
 	Scene* scene = new Scene();
 
+	/* Shaders */
 	Shader* shader = new Shader(SHADERDIR"shadowSceneVert.vert", SHADERDIR"shadowSceneFrag.frag");
 	//Shader* shader = new Shader(SHADERDIR"lightVert.vert", SHADERDIR"lightFrag.frag");
 	shader->LinkProgram();
+	shaders.push_back(shader);
 
+
+	/* Textures */
 	Texture* tex = new Texture(TEXTUREDIR "Barren Reds.JPG", "tex");
 	tex->ToggleRepeating();
+	textures.push_back(tex);
 
 	Texture* bumpTex = new Texture(TEXTUREDIR"Barren RedsDOT3.JPG", "bumpTex");
 	bumpTex->ToggleRepeating();
+	textures.push_back(bumpTex);
 
+
+	/* Meshes */
 	MD5FileData*	hellData = new MD5FileData(MESHDIR"hellknight.md5mesh");
 	MD5Node*		hellNode = new MD5Node(*hellData);
 	hellNode->SetShader(shader);
@@ -132,13 +164,14 @@ Scene* SceneLoader::LoadScene2() {
 	hellData->AddAnim(MESHDIR"idle2.md5anim");
 	hellNode->PlayAnim(MESHDIR"idle2.md5anim");
 
-
-	SceneNode* quad = new SceneNode(shader, Mesh::GenerateQuad());
+	Mesh* quadMesh = Mesh::GenerateQuad();
+	SceneNode* quad = new SceneNode(shader, quadMesh);
 	quad->AddTexture(tex);
 	quad->AddTexture(bumpTex);
 	quad->SetScale(Vector3(1000, 1000, 1000));
 	quad->SetRotation(Matrix4::Rotation(90.0f, Vector3(1,0,0)));
 	quad->SetBoundingRadius(1000000.0f);
+	meshes.push_back(quadMesh);
 
 
 	scene->AddNode(hellNode);
@@ -155,25 +188,33 @@ Scene* SceneLoader::LoadScene2() {
 	return scene;
 }
 
-void SceneLoader::UnloadScene2() {
-	
-}
 
 Scene* SceneLoader::LoadScene3() {
 	Scene* scene = new Scene();
 
+	/* Shader */
 	Shader* shader = new Shader(SHADERDIR"lightVert.vert", SHADERDIR"bufferFrag.frag");
 	//Shader* shader = new Shader(SHADERDIR"lightVert.vert", SHADERDIR"lightFrag.frag");
 	shader->LinkProgram();
+	shaders.push_back(shader);
 
+	Shader* pointLightShader = new Shader(SHADERDIR"pointLightVert.vert", SHADERDIR"pointLightFrag.frag");
+	pointLightShader->LinkProgram();
+	shaders.push_back(pointLightShader);
+
+	/* Textures */
 	Texture* tex = new Texture(TEXTUREDIR "Barren Reds.JPG", "tex");
 	tex->ToggleRepeating();
+	textures.push_back(tex);
 
 	Texture* bumpTex = new Texture(TEXTUREDIR"Barren RedsDOT3.JPG", "bumpTex");
 	bumpTex->ToggleRepeating();
+	textures.push_back(bumpTex);
 
-
+	/* Meshes */
 	HeightMap* heightMap = new HeightMap(TEXTUREDIR"terrain.raw");
+	meshes.push_back(heightMap);
+
 	SceneNode* quad = new SceneNode(shader, heightMap);
 	quad->AddTexture(tex);
 	quad->AddTexture(bumpTex);
@@ -185,10 +226,12 @@ Scene* SceneLoader::LoadScene3() {
 
 	scene->AddNode(quad);
 
-	Shader* pointLightShader = new Shader(SHADERDIR"pointLightVert.vert", SHADERDIR"pointLightFrag.frag");
-	pointLightShader->LinkProgram();
+	
 	OBJMesh* sphere = new OBJMesh();
 	sphere->LoadOBJMesh(MESHDIR"sphere.obj");
+
+	Texture* colourTex = new Texture("depthTex");
+	Texture* normalTex = new Texture("normTex");
 
 	for (int x = 0; x < LIGHTNUM; ++x) {
 		for (int z = 0; z < LIGHTNUM; ++z) {
@@ -202,8 +245,10 @@ Scene* SceneLoader::LoadScene3() {
 				1.0f);
 
 			float radius = (RAW_WIDTH * HEIGHTMAP_X / LIGHTNUM);
-
-			scene->AddLight(new LightNode(pointLightShader, sphere, colour, radius, pos));
+			LightNode* temp = new LightNode(pointLightShader, sphere, colour, radius, pos);
+			temp->AddTexture(colourTex);
+			temp->AddTexture(normalTex);
+			scene->AddLight(temp);
 		}
 	}
 
@@ -212,7 +257,4 @@ Scene* SceneLoader::LoadScene3() {
 
 	scenes[2] = scene;
 	return scene;
-}
-
-void SceneLoader::UnloadScene3() {
 }

@@ -9,7 +9,7 @@ DefereredLightsStage::DefereredLightsStage(Renderer* renderer)
 
 	projMatrix = Matrix4::Orthographic(-1, 1, 1, -1, -1, 1);
 	
-
+	glGenFramebuffers(1, &geometryFBO);
 	glGenFramebuffers(1, &pointLightFBO);
 
 
@@ -38,7 +38,7 @@ void DefereredLightsStage::AttachFBOData() {
 	buffers[0] = GL_COLOR_ATTACHMENT0;
 	buffers[1] = GL_COLOR_ATTACHMENT1;
 
-	glBindFramebuffer(GL_FRAMEBUFFER, bufferFBO);
+	glBindFramebuffer(GL_FRAMEBUFFER, geometryFBO);
 
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, bufferColourTex, 0);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT1, GL_TEXTURE_2D, bufferNormalTex, 0);
@@ -77,13 +77,13 @@ void DefereredLightsStage::DrawStage(Scene * scene) {
 	renderer->SetProjMatrix(scene->GetProjMatrix());
 
 	FillBuffers();
-	DrawPointLights();
+	DrawPointLights(scene);
 	CombineBuffers(scene);
 
 }
 
 void DefereredLightsStage::FillBuffers() {
-	glBindFramebuffer(GL_FRAMEBUFFER, bufferFBO);
+	glBindFramebuffer(GL_FRAMEBUFFER, geometryFBO);
 	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 
 	renderer->RenderScene();
@@ -91,29 +91,24 @@ void DefereredLightsStage::FillBuffers() {
 
 }
 
-void DefereredLightsStage::DrawPointLights() {
+void DefereredLightsStage::DrawPointLights(Scene* scene) {
 	glBindFramebuffer(GL_FRAMEBUFFER, pointLightFBO);
-
+	glEnable(GL_BLEND);
 	glClearColor(0, 0, 0, 1);
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	glBlendFunc(GL_ONE, GL_ONE);
-	//glEnable(GL_CULL_FACE);
 
+	glUseProgram((*(scene->GetLightList()->begin()))->GetShader()->GetProgram());
+	vector<Texture*>* temp = (*(scene->GetLightList()->begin()))->GetTextures();
 
-	//glUseProgram(13);
-
-	glActiveTexture(GL_TEXTURE9);
-	glBindTexture(GL_TEXTURE_2D, bufferDepthTex);
-
-	glActiveTexture(GL_TEXTURE10);
-	glBindTexture(GL_TEXTURE_2D, bufferNormalTex);
+	((*temp)[0])->SetTexture(bufferDepthTex);
+	((*temp)[1])->SetTexture(bufferNormalTex);
 
 	renderer->DrawLights();
 
-	//glDisable(GL_CULL_FACE);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
+	glCullFace(GL_BACK);
 	glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -121,6 +116,7 @@ void DefereredLightsStage::DrawPointLights() {
 }
 
 void DefereredLightsStage::CombineBuffers(Scene* scene) {
+	glBindFramebuffer(GL_FRAMEBUFFER, bufferFBO);
 
 	glUseProgram(combineShader->GetProgram());
 	glUniformMatrix4fv(glGetUniformLocation(combineShader->GetProgram(), "projMatrix"), 1, false, (float*)&projMatrix);
@@ -143,7 +139,7 @@ void DefereredLightsStage::CombineBuffers(Scene* scene) {
 	
 	glUseProgram(0);
 	
-	
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 }
 

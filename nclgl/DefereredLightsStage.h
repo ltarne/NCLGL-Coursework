@@ -18,7 +18,7 @@ public:
 
 protected:
 	void FillBuffers();
-	void DrawPointLights();
+	void DrawPointLights(Scene* scene);
 	void CombineBuffers(Scene* scene);
 
 	void GenerateScreenTexture(GLuint &into, bool depth = false);
@@ -27,6 +27,7 @@ protected:
 
 	Shader* combineShader;
 
+	GLuint geometryFBO;
 	GLuint pointLightFBO;
 
 	GLuint bufferDepthTex;
