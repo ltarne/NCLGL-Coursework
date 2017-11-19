@@ -5,6 +5,8 @@
 #include "Camera.h"
 #include <algorithm>
 
+enum RenderStages { SHADOW_STAGE, DEFERRED_LIGHT_STAGE, BLOOM_STAGE, PRESENT_STAGE, TEXT_STAGE, MAX_STAGE };
+
 class Scene
 {
 public:
@@ -28,6 +30,9 @@ public:
 	inline Camera* GetCamera() { return camera; }
 	inline Light* GetLight() { return light; }
 
+	inline void SetRenderStages(vector<RenderStages> stages) { this->stages = stages; }
+	inline vector<RenderStages> GetRenderStages() { return stages; }
+
 	void Update(float msec);
 
 	void BuildNodeLists(SceneNode* from);
@@ -48,6 +53,9 @@ protected:
 	Light* light;
 
 	vector<LightNode*> lightList;
+
+	vector<RenderStages> stages;
+
 
 	vector<SceneNode*> transparentNodeList;
 	vector<SceneNode*> nodeList;

@@ -5,6 +5,7 @@
 Scene::Scene() {
 	root = new SceneNode();
 	camera = new Camera();
+	//stages = nullptr;
 	//TODO: Allow multiple lights
 	camera->SetPosition(Vector3(0, 0, 0));
 	

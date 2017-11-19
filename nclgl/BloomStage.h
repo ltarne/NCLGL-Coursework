@@ -1,5 +1,8 @@
 #pragma once
 #include "RenderStage.h"
+
+#define POST_PASSES 10
+
 class BloomStage :
 	public RenderStage
 {
@@ -14,8 +17,14 @@ public:
 	void Combine();
 
 protected:
-	Shader* shader;
+	Shader* seperationShader;
+	Shader* blurShader;
+	Shader* bloomCombineShader;
+
 	Matrix4 projMatrix;
+
+	GLuint blurFBO;
+	GLuint blurColourBuffer;
 
 };
 

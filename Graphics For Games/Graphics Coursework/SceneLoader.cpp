@@ -129,6 +129,9 @@ Scene* SceneLoader::LoadScene1() {
 	scene->BuildNodeLists(scene->GetRoot());
 	scene->QuickSortNodeLists();
 
+	vector<RenderStages> stages = { DEFERRED_LIGHT_STAGE, PRESENT_STAGE, TEXT_STAGE };
+	scene->SetRenderStages(stages);
+
 	scenes[0];
 
 	return scene;
@@ -183,6 +186,9 @@ Scene* SceneLoader::LoadScene2() {
 	scene->BuildNodeLists(scene->GetRoot());
 	scene->QuickSortNodeLists();
 
+	vector<RenderStages> stages = { SHADOW_STAGE, PRESENT_STAGE, TEXT_STAGE };
+	scene->SetRenderStages(stages);
+
 	scenes[1] = scene;
 
 	return scene;
@@ -202,6 +208,10 @@ Scene* SceneLoader::LoadScene3() {
 	pointLightShader->LinkProgram();
 	shaders.push_back(pointLightShader);
 
+	Shader* skyBoxShader = new Shader(SHADERDIR"skyboxVert.vert", SHADERDIR"skyboxFrag.frag");
+	skyBoxShader->LinkProgram();
+	shaders.push_back(skyBoxShader);
+
 	/* Textures */
 	Texture* tex = new Texture(TEXTUREDIR "Barren Reds.JPG", "tex");
 	tex->ToggleRepeating();
@@ -211,20 +221,33 @@ Scene* SceneLoader::LoadScene3() {
 	bumpTex->ToggleRepeating();
 	textures.push_back(bumpTex);
 
+	string skyTextures[6] = { TEXTUREDIR "rusted_west.JPG",TEXTUREDIR "rusted_east.JPG",TEXTUREDIR "rusted_up.JPG",TEXTUREDIR "rusted_down.JPG",TEXTUREDIR "rusted_south.JPG",TEXTUREDIR "rusted_north.JPG" };
+	CubeMapTexture* skyCubeMap = new CubeMapTexture(skyTextures, "cubeTex");
+	textures.push_back(skyCubeMap);
+
 	/* Meshes */
 	HeightMap* heightMap = new HeightMap(TEXTUREDIR"terrain.raw");
 	meshes.push_back(heightMap);
 
-	SceneNode* quad = new SceneNode(shader, heightMap);
-	quad->AddTexture(tex);
-	quad->AddTexture(bumpTex);
+	Mesh* quadMesh = Mesh::GenerateQuad();
+
+	SceneNode* heightMapNode = new SceneNode(shader, heightMap);
+	heightMapNode->AddTexture(tex);
+	heightMapNode->AddTexture(bumpTex);
 	//quad->SetScale(Vector3(1000, 1000, 1000));
 	//quad->SetRotation(Matrix4::Rotation(90.0f, Vector3(1, 0, 0)));
-	quad->SetBoundingRadius(1000000.0f);
-	quad->SetTransform(Matrix4::Translation(Vector3(-(RAW_WIDTH * HEIGHTMAP_X) / 2, -350, -(RAW_HEIGHT * HEIGHTMAP_Z))));
+	heightMapNode->SetBoundingRadius(1000000.0f);
+	heightMapNode->SetTransform(Matrix4::Translation(Vector3(-(RAW_WIDTH * HEIGHTMAP_X) / 2, -350, -(RAW_HEIGHT * HEIGHTMAP_Z))));
 
 
-	scene->AddNode(quad);
+	SceneNode* skybox = new SceneNode(skyBoxShader, quadMesh);
+	skybox->SetDepthTest(false);
+	skybox->AddTexture(skyCubeMap);
+	skybox->SetBoundingRadius(1000000000.0f);
+	skybox->SetFaceCulling(false);
+
+	scene->AddNode(skybox);
+	scene->AddNode(heightMapNode);
 
 	
 	OBJMesh* sphere = new OBJMesh();
@@ -255,6 +278,8 @@ Scene* SceneLoader::LoadScene3() {
 	scene->BuildNodeLists(scene->GetRoot());
 	scene->QuickSortNodeLists();
 
+	vector<RenderStages> stages = { DEFERRED_LIGHT_STAGE, BLOOM_STAGE, PRESENT_STAGE, TEXT_STAGE };
+	scene->SetRenderStages(stages);
 	scenes[2] = scene;
 	return scene;
 }

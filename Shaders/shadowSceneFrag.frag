@@ -19,7 +19,7 @@ in Vertex {
   vec4 shadowProj;
 } IN;
 
-out vec4 fragColor;
+out vec4 fragColor[2];
 
 void main(void) {
   mat3 TBN = mat3(IN.tangent, IN.binormal, IN.normal);
@@ -51,9 +51,11 @@ void main(void) {
 
   vec3 colour = (diffuse.rgb * lightColour.rgb);
   colour += (lightColour.rgb * sFactor) * 0.33;
-  fragColor = vec4(colour * (atten*2) * lambert, diffuse.a);
-  fragColor.rgb += (diffuse.rgb * lightColour.rgb) * 0.3;
+  fragColor[0] = vec4(colour * (atten*2) * lambert, diffuse.a);
+  fragColor.rgb[0] += (diffuse.rgb * lightColour.rgb) * 0.3;
 
+
+  fragColor[1] = fragColor[0];
 //  fragColor = vec4(normal, 1.0);
 
   //fragColor.rgb = vec3(lambert);
