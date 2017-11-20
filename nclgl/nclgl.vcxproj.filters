@@ -63,17 +63,37 @@
       <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="Scene.cpp" />
-    <ClCompile Include="RenderingManager.cpp" />
-    <ClCompile Include="RenderStage.cpp" />
-    <ClCompile Include="ShadowStage.cpp" />
-    <ClCompile Include="TextMesh.cpp" />
-    <ClCompile Include="TextStage.cpp" />
-    <ClCompile Include="TessellatedHeightMapNode.cpp" />
-    <ClCompile Include="DefereredLightsStage.cpp" />
     <ClCompile Include="Light.cpp" />
-    <ClCompile Include="LightNode.cpp" />
-    <ClCompile Include="BloomStage.cpp" />
-    <ClCompile Include="PresentStage.cpp" />
+    <ClCompile Include="BloomStage.cpp">
+      <Filter>Renderering\Stages</Filter>
+    </ClCompile>
+    <ClCompile Include="DefereredLightsStage.cpp">
+      <Filter>Renderering\Stages</Filter>
+    </ClCompile>
+    <ClCompile Include="PresentStage.cpp">
+      <Filter>Renderering\Stages</Filter>
+    </ClCompile>
+    <ClCompile Include="ShadowStage.cpp">
+      <Filter>Renderering\Stages</Filter>
+    </ClCompile>
+    <ClCompile Include="TextStage.cpp">
+      <Filter>Renderering\Stages</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderingManager.cpp">
+      <Filter>Renderering</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderStage.cpp">
+      <Filter>Renderering\Stages</Filter>
+    </ClCompile>
+    <ClCompile Include="TextMesh.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="LightNode.cpp">
+      <Filter>SceneNodes</Filter>
+    </ClCompile>
+    <ClCompile Include="TessellatedHeightMapNode.cpp">
+      <Filter>SceneNodes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common.h" />
@@ -154,17 +174,37 @@
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="Scene.h" />
-    <ClInclude Include="RenderingManager.h" />
-    <ClInclude Include="RenderStage.h" />
-    <ClInclude Include="ShadowStage.h" />
-    <ClInclude Include="TextMesh.h" />
-    <ClInclude Include="TextStage.h" />
-    <ClInclude Include="TessellatedHeightMapNode.h" />
-    <ClInclude Include="DefereredLightsStage.h" />
     <ClInclude Include="Light.h" />
-    <ClInclude Include="LightNode.h" />
-    <ClInclude Include="BloomStage.h" />
-    <ClInclude Include="PresentStage.h" />
+    <ClInclude Include="BloomStage.h">
+      <Filter>Renderering\Stages</Filter>
+    </ClInclude>
+    <ClInclude Include="DefereredLightsStage.h">
+      <Filter>Renderering\Stages</Filter>
+    </ClInclude>
+    <ClInclude Include="PresentStage.h">
+      <Filter>Renderering\Stages</Filter>
+    </ClInclude>
+    <ClInclude Include="ShadowStage.h">
+      <Filter>Renderering\Stages</Filter>
+    </ClInclude>
+    <ClInclude Include="TextStage.h">
+      <Filter>Renderering\Stages</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderingManager.h">
+      <Filter>Renderering</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderStage.h">
+      <Filter>Renderering\Stages</Filter>
+    </ClInclude>
+    <ClInclude Include="TextMesh.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="LightNode.h">
+      <Filter>SceneNodes</Filter>
+    </ClInclude>
+    <ClInclude Include="TessellatedHeightMapNode.h">
+      <Filter>SceneNodes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Data Types">
@@ -181,6 +221,9 @@
     </Filter>
     <Filter Include="Components">
       <UniqueIdentifier>{aa971daa-d2a8-4a35-b08e-54539b38c9e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Renderering\Stages">
+      <UniqueIdentifier>{05df5776-9322-4da0-ad60-03c612657641}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

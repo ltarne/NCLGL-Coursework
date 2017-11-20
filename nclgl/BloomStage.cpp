@@ -44,6 +44,7 @@ void BloomStage::DrawStage(Scene * scene) {
 	IsolateBrightAreas();
 	BlurBrightAreas();
 	Combine();
+	//DrawCombineQuad();
 }
 
 void BloomStage::IsolateBrightAreas() {
@@ -68,16 +69,17 @@ void BloomStage::IsolateBrightAreas() {
 }
 
 void BloomStage::BlurBrightAreas() {
+	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 	glBindFramebuffer(GL_FRAMEBUFFER, blurFBO);
 	glUseProgram(blurShader->GetProgram());
 	//glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, blurColourBuffer, 0);
-	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 
 	//UpdateShaderMatrices(blurShader);
 	glUniformMatrix4fv(glGetUniformLocation(blurShader->GetProgram(), "projMatrix"), 1, false, (float*)&projMatrix);
 
 	glUniform1i(glGetUniformLocation(blurShader->GetProgram(), "tex"), 2);
 	glDisable(GL_DEPTH_TEST);
+	
 
 	glUniform2f(glGetUniformLocation(blurShader->GetProgram(), "pixelSize"), 1.0f / renderer->GetWidth(), 1.0f / renderer->GetHeight());
 
@@ -98,7 +100,6 @@ void BloomStage::BlurBrightAreas() {
 		glBindTexture(GL_TEXTURE_2D, blurColourBuffer);
 		quad->Draw();
 	}
-
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glUseProgram(0);
 	glEnable(GL_DEPTH_TEST);

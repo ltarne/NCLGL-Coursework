@@ -5,7 +5,7 @@
 #include "Camera.h"
 #include <algorithm>
 
-enum RenderStages { SHADOW_STAGE, DEFERRED_LIGHT_STAGE, BLOOM_STAGE, PRESENT_STAGE, TEXT_STAGE, MAX_STAGE };
+enum RenderStages { BASIC_STAGE, SHADOW_STAGE, DEFERRED_LIGHT_STAGE, BLOOM_STAGE, PRESENT_STAGE, TEXT_STAGE, MAX_STAGE };
 
 class Scene
 {

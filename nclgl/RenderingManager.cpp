@@ -7,6 +7,7 @@ RenderingManager::RenderingManager(Renderer* renderer) {
 
 	RenderStage::GenerateQuad();
 
+	renderStages[BASIC_STAGE] = new RenderStage(renderer);
 	renderStages[SHADOW_STAGE] = new ShadowStage(renderer);
 	renderStages[DEFERRED_LIGHT_STAGE] = new DefereredLightsStage(renderer);
 	renderStages[BLOOM_STAGE] = new BloomStage(renderer);
@@ -31,11 +32,6 @@ void RenderingManager::DrawScene() {
 	for (int i = 0; i < stages.size(); ++i) {
 		renderStages[stages[i]]->DrawStage(activeScene);
 	}
-
-
-	/*for (int i = 0; i < MAX_STAGE; ++i) {
-		renderStages[i]->DrawStage(activeScene);
-	}*/
 
 	renderer->SwapBuffers();
 }

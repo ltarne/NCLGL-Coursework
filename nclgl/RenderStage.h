@@ -12,12 +12,17 @@ public:
 
 	static void GenerateQuad() { quad = Mesh::GenerateQuad(); }
 
+	void DrawCombineQuad();
+
 	static void DeleteQuad() { delete quad; }
 
 	
 
 protected:
 	Renderer* renderer;
+
+	Shader* stageShader;
+	Matrix4 projMatrix;
 
 	GLuint bufferFBO;
 	GLuint* colourBuffers;

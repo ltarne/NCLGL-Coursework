@@ -21,8 +21,6 @@ protected:
 	Shader* blurShader;
 	Shader* bloomCombineShader;
 
-	Matrix4 projMatrix;
-
 	GLuint blurFBO;
 	GLuint blurColourBuffer;
 

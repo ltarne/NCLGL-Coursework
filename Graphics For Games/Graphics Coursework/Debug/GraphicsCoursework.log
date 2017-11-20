@@ -1,7 +1,2 @@
-﻿  SceneLoader.cpp
-  Generating Code...
-  Compiling...
-  main.cpp
-c:\users\luke\documents\github\nclgl-coursework\graphics for games\graphics coursework\main.cpp(52): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-  Generating Code...
-  GraphicsCoursework.vcxproj -> C:\Users\Luke\Documents\GitHub\NCLGL-Coursework\Graphics For Games\Debug\GraphicsCoursework.exe
+﻿  GraphicsCoursework.vcxproj -> C:\Users\B4027488\GitHub\NCLGL Coursework\Graphics For Games\Debug\GraphicsCoursework.exe
+  GraphicsCoursework.vcxproj -> C:\Users\B4027488\GitHub\NCLGL Coursework\Graphics For Games\Debug\GraphicsCoursework.pdb (Partial PDB)

@@ -31,12 +31,12 @@ int main() {
 	Scene* scene2 = sceneLoader.LoadScene2();
 	Scene* scene3 = sceneLoader.LoadScene3();
 
+	scene1->SetProjMatrix(Matrix4::Perspective(1.0f, 100000.0f, (float)width / (float)height, 45.0f));
+	scene2->SetProjMatrix(Matrix4::Perspective(1.0f, 100000.0f, (float)width / (float)height, 45.0f));
 	scene3->SetProjMatrix(Matrix4::Perspective(1.0f, 100000.0f, (float)width / (float)height, 45.0f));
+
 	RenderingManager manager(&renderer);
 
-	
-
-	
 
 	manager.SetActiveScene(scene3);
 
@@ -62,6 +62,15 @@ int main() {
 		}
 		else if (Window::GetKeyboard()->KeyDown(KEYBOARD_3)) {
 			manager.SetActiveScene(scene3);
+		}
+		else if (Window::GetKeyboard()->KeyDown(KEYBOARD_LEFT)) {
+			//manager.SetActiveScene(scene3);
+		}
+		else if (Window::GetKeyboard()->KeyDown(KEYBOARD_RIGHT)) {
+			//manager.SetActiveScene(scene3);
+		}
+		else if (Window::GetKeyboard()->KeyDown(KEYBOARD_PAUSE)) {
+			//manager.SetActiveScene(scene3);
 		}
 
 		manager.UpdateScene(msec);

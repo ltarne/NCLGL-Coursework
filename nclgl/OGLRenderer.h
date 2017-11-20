@@ -48,6 +48,8 @@ using std::vector;
 #define GL_BREAKPOINT //
 #endif
 
+#define OPENGL_DEBUGGING
+
 //#define OPENGL_DEBUGGING
 
 static const float biasValues[16] = {

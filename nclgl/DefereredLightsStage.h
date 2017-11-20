@@ -23,8 +23,6 @@ protected:
 
 	void GenerateScreenTexture(GLuint &into, bool depth = false);
 
-	Matrix4 projMatrix;
-
 	Shader* combineShader;
 
 	GLuint geometryFBO;
