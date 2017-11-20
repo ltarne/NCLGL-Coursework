@@ -31,5 +31,6 @@ void main(void){
 		vec4 tmp = texture2D(tex, IN.texCoord.xy + values[i]);
 		fragColor += tmp * weights[i];
 	}
+	fragColor.a = 1.0;
 
 }

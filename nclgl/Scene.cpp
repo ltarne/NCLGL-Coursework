@@ -8,6 +8,7 @@ Scene::Scene() {
 	//stages = nullptr;
 	//TODO: Allow multiple lights
 	camera->SetPosition(Vector3(0, 0, 0));
+	skybox = NULL;
 	
 }
 
@@ -19,14 +20,21 @@ Scene::~Scene() {
 }
 
 void Scene::Update(float msec) {
+	
+	
+	
 	camera->UpdateCamera(msec);
 	viewMatrix = camera->BuildViewMatrix();
 	frameFrustrum.FromMatrix(projMatrix * viewMatrix);
 	//TODO: Sending of proj and view matrix
 	root->Update(msec);
 	ClearNodeList();
+	if (skybox) {
+		nodeList.push_back(skybox);
+	}
 	BuildNodeLists(root);
 	QuickSortNodeLists();
+	
 
 	for (int i = 0; i < lightList.size(); ++i) {
 		lightList[i]->Update(msec);
@@ -73,7 +81,7 @@ void Scene::InsertionSortNodeLists() {
 	//	}
 	//	arr[j + 1] = key;
 	//}
-	vector<SceneNode*>::iterator i = transparentNodeList.begin();
+	/*vector<SceneNode*>::iterator i = transparentNodeList.begin();
 	i++;
 	vector<SceneNode*>::iterator j;
 	for (i; i != transparentNodeList.end(); ++i) {
@@ -83,7 +91,7 @@ void Scene::InsertionSortNodeLists() {
 			j--;
 			
 		}
-	}
+	}*/
 }
 
 void Scene::ClearNodeList() {

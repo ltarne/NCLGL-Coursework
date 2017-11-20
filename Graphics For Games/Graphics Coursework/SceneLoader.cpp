@@ -119,18 +119,19 @@ Scene* SceneLoader::LoadScene1() {
 	node4->SetScale(Vector3(10, 10, 10));
 	heightMapRoot->AddChild(node4);
 
-	scene->AddNode(skybox);
+	scene->SetSkyBox(skybox);
 	scene->AddNode(heightMapRoot);
 	scene->AddNode(water);
 
 	scene->SetLight(new Light(Vector3(0, 30.0f, -400),
 		Vector4(1, 1.0, 1.0, 1), 100000.0f));
 
-	scene->BuildNodeLists(scene->GetRoot());
-	scene->QuickSortNodeLists();
 
 	vector<RenderStages> stages = { DEFERRED_LIGHT_STAGE, PRESENT_STAGE, TEXT_STAGE };
 	scene->SetRenderStages(stages);
+
+	scene->BuildNodeLists(scene->GetRoot());
+	scene->QuickSortNodeLists();
 
 	scenes[0];
 
@@ -159,6 +160,10 @@ Scene* SceneLoader::LoadScene2() {
 
 
 	/* Meshes */
+	OBJMesh* room = new OBJMesh(MESHDIR"cube.obj");
+	OBJMesh* fire = new OBJMesh(MESHDIR"fire.obj");
+
+
 	MD5FileData*	hellData = new MD5FileData(MESHDIR"hellknight.md5mesh");
 	MD5Node*		hellNode = new MD5Node(*hellData);
 	hellNode->SetShader(shader);
@@ -176,18 +181,26 @@ Scene* SceneLoader::LoadScene2() {
 	quad->SetBoundingRadius(1000000.0f);
 	meshes.push_back(quadMesh);
 
+	SceneNode* firePlace = new SceneNode(shader, fire);
+	firePlace->SetTransform(Matrix4::Translation(Vector3(0, 10, 0)));
+	quad->SetScale(Vector3(1000, 1000, 1000));
 
-	scene->AddNode(hellNode);
+
+	//scene->AddNode(hellNode);
+	scene->AddNode(firePlace);
 	scene->AddNode(quad);
 
-	scene->SetLight(new Light(Vector3(0,200,-300),
-		Vector4(1, 1.0, 1.0, 1), 10000.0f));
+	Shader* stageShader = new Shader(SHADERDIR"shadowVert.vert", SHADERDIR"shadowFrag.frag");
+	stageShader->LinkProgram();
 
-	scene->BuildNodeLists(scene->GetRoot());
-	scene->QuickSortNodeLists();
+	scene->AddLight(new LightNode(stageShader, nullptr,Vector4(1.0, 1.0, 1.0, 1.0), 10000.0f, Vector3(0,200,-300)));
+
 
 	vector<RenderStages> stages = { SHADOW_STAGE, PRESENT_STAGE, TEXT_STAGE };
 	scene->SetRenderStages(stages);
+
+	scene->BuildNodeLists(scene->GetRoot());
+	scene->QuickSortNodeLists();
 
 	scenes[1] = scene;
 
@@ -246,7 +259,7 @@ Scene* SceneLoader::LoadScene3() {
 	skybox->SetBoundingRadius(1000000000.0f);
 	skybox->SetFaceCulling(false);
 
-	scene->AddNode(skybox);
+	scene->SetSkyBox(skybox);
 	scene->AddNode(heightMapNode);
 
 	

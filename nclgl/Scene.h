@@ -25,6 +25,8 @@ public:
 
 	inline void SetProjMatrix(Matrix4 projMatrix) { this->projMatrix = projMatrix; }
 
+	inline void SetSkyBox(SceneNode* skybox) { this->skybox = skybox; }
+
 	inline Matrix4 GetProjMatrix() { return projMatrix; }
 	inline Matrix4 GetViewMatrix() { return viewMatrix; }
 	inline Camera* GetCamera() { return camera; }
@@ -34,6 +36,7 @@ public:
 	inline vector<RenderStages> GetRenderStages() { return stages; }
 
 	void Update(float msec);
+
 
 	void BuildNodeLists(SceneNode* from);
 	void QuickSortNodeLists();
@@ -49,6 +52,8 @@ protected:
 	Camera* camera;
 
 	SceneNode* root;
+
+	SceneNode* skybox;
 
 	Light* light;
 

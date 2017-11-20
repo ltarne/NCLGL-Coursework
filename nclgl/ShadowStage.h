@@ -13,7 +13,7 @@ protected:
 	void CreateShadowTextures(Scene * scene);
 	void PresentScene(Scene * scene);
 
-	Shader* shadowShader;
+	GLuint shadowFBO;
 
 	GLuint shadowTex;
 };

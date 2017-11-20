@@ -94,6 +94,7 @@
     <ClCompile Include="TessellatedHeightMapNode.cpp">
       <Filter>SceneNodes</Filter>
     </ClCompile>
+    <ClCompile Include="ParticleEmitter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common.h" />
@@ -205,6 +206,7 @@
     <ClInclude Include="TessellatedHeightMapNode.h">
       <Filter>SceneNodes</Filter>
     </ClInclude>
+    <ClInclude Include="ParticleEmitter.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Data Types">

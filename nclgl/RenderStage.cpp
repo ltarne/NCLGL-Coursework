@@ -6,10 +6,15 @@ RenderStage::RenderStage(Renderer* renderer) {
 	this->renderer = renderer;
 	this->bufferFBO = renderer->GetBufferFBO();
 	this->colourBuffers = renderer->GetColourBuffers();
+	stageShader = NULL;
 }
 
 
 RenderStage::~RenderStage() {
+	if (stageShader) {
+		delete stageShader;
+	}
+	
 }
 
 void RenderStage::DrawStage(Scene * scene) {

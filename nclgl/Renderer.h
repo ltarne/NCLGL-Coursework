@@ -61,6 +61,9 @@ public:
 	inline GLuint GetBufferFBO() { return bufferFBO; }
 	inline GLuint* GetColourBuffers() { return colourBuffers; }
 
+	inline void SetUsingShadows(bool usingShadows) { this->usingShadows = usingShadows; }
+	inline bool GetUsingShadows() { return usingShadows; }
+
 	void DrawLights();
 protected:
 	void LoadPostProcessing();
@@ -71,6 +74,7 @@ protected:
 	
 	Shader* overrideShader;
 
+	bool usingShadows;
 
 	GLuint bufferFBO;
 	GLuint colourBuffers[2];

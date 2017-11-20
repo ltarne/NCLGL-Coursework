@@ -14,6 +14,8 @@ Renderer::Renderer(Window &parent, int* fps) : OGLRenderer(parent)	{
 	overrideShader = nullptr;
 	this->fps = fps;
 
+	usingShadows = false;
+
 	init = true;
 }
 Renderer::~Renderer(void)	{
@@ -102,13 +104,17 @@ void Renderer::DrawNode(SceneNode* node) {
 		node->SetOverrideShader(overrideShader);
 
 		glUseProgram(node->GetShader()->GetProgram());
+		viewMatrix = activeScene->GetCamera()->BuildViewMatrix();
 		UpdateShaderMatrices(node->GetShader());
 		UpdateGlobalTextures(node->GetShader());
 
-		/*if (activeScene->GetLight()) {
-			SetShaderLight(*activeScene->GetLight(), node->GetShader());
-			
-		}*/
+		if (usingShadows) {
+			LightNode* light = (*activeScene->GetLightList())[0];
+			//SetShaderLight(*activeScene->GetLight(), node->GetShader());
+			glUniform3fv(glGetUniformLocation(node->GetShader()->GetProgram(), "lightPos"), 1, (float*)&light->GetPosition());
+			glUniform4fv(glGetUniformLocation(node->GetShader()->GetProgram(), "lightColour"), 1, (float*)&light->GetColour());
+			glUniform1f(glGetUniformLocation(node->GetShader()->GetProgram(), "lightRadius"), light->GetRadius());
+		}
 		glUniform3fv(glGetUniformLocation(node->GetShader()->GetProgram(), "cameraPos"), 1, (float*)&activeScene->GetCamera()->GetPosition());
 		glUniform2f(glGetUniformLocation(node->GetShader()->GetProgram(), "pixelSize"), 1.0f / width, 1.0f / height);
 
