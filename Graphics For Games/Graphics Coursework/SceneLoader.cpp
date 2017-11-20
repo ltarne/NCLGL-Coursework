@@ -154,40 +154,60 @@ Scene* SceneLoader::LoadScene2() {
 	tex->ToggleRepeating();
 	textures.push_back(tex);
 
+	Texture* bricks = new Texture(TEXTUREDIR "brick.tga", "tex");
+	bricks->ToggleRepeating();
+	textures.push_back(bricks);
+
+	Texture* brickBump = new Texture(TEXTUREDIR "brickDOT3.tga", "bumpTex");
+	brickBump->ToggleRepeating();
+	textures.push_back(brickBump);
+
 	Texture* bumpTex = new Texture(TEXTUREDIR"Barren RedsDOT3.JPG", "bumpTex");
 	bumpTex->ToggleRepeating();
 	textures.push_back(bumpTex);
 
+
+	Texture* shadowMap = new Texture("shadowTex");
+	textures.push_back(shadowMap);
 
 	/* Meshes */
 	OBJMesh* room = new OBJMesh(MESHDIR"cube.obj");
 	OBJMesh* fire = new OBJMesh(MESHDIR"fire.obj");
 
 
-	MD5FileData*	hellData = new MD5FileData(MESHDIR"hellknight.md5mesh");
+	/*MD5FileData*	hellData = new MD5FileData(MESHDIR"hellknight.md5mesh");
 	MD5Node*		hellNode = new MD5Node(*hellData);
 	hellNode->SetShader(shader);
 	hellNode->SetBoundingRadius(1000.0f);
+	hellNode->AddTexture(shadowMap);
 
 	hellData->AddAnim(MESHDIR"idle2.md5anim");
-	hellNode->PlayAnim(MESHDIR"idle2.md5anim");
+	hellNode->PlayAnim(MESHDIR"idle2.md5anim");*/
+
+	SceneNode* cube = new SceneNode(shader, room);
+	cube->SetFaceCulling(false);
+	cube->AddTexture(bricks);
+	cube->AddTexture(brickBump);
+	cube->AddTexture(shadowMap);
+	cube->SetTransform(Matrix4::Translation(Vector3(0, 10, 0)));
+	cube->SetScale(Vector3(100, 100, 100));
+	cube->SetBoundingRadius(1000000.0f);
+
 
 	Mesh* quadMesh = Mesh::GenerateQuad();
 	SceneNode* quad = new SceneNode(shader, quadMesh);
 	quad->AddTexture(tex);
 	quad->AddTexture(bumpTex);
+	quad->AddTexture(shadowMap);
 	quad->SetScale(Vector3(1000, 1000, 1000));
 	quad->SetRotation(Matrix4::Rotation(90.0f, Vector3(1,0,0)));
 	quad->SetBoundingRadius(1000000.0f);
 	meshes.push_back(quadMesh);
 
-	SceneNode* firePlace = new SceneNode(shader, fire);
-	firePlace->SetTransform(Matrix4::Translation(Vector3(0, 10, 0)));
-	quad->SetScale(Vector3(1000, 1000, 1000));
 
 
-	//scene->AddNode(hellNode);
-	scene->AddNode(firePlace);
+	scene->AddNode(cube);
+
 	scene->AddNode(quad);
 
 	Shader* stageShader = new Shader(SHADERDIR"shadowVert.vert", SHADERDIR"shadowFrag.frag");

@@ -13,7 +13,6 @@ SceneNode::SceneNode(Shader* shader, Mesh * mesh, Vector4 colour) {
 
 	visible = true;
 
-	overrideShader = nullptr;
 
 	boundingRadius = 1.0f;
 	distanceFromCamera = 0.0f;
@@ -28,21 +27,21 @@ SceneNode::~SceneNode() {
 	}
 }
 
-void SceneNode::LoadUniforms() {	
-	Shader* activeShader = overrideShader == nullptr ? shader : overrideShader;
+void SceneNode::LoadUniforms(Shader* shader) {	
+	//Shader* activeShader = overrideShader == nullptr ? shader : overrideShader;
 
 	//Transform
 	Matrix4 modelMatrix = worldTransform * scale;
-	glUniformMatrix4fv(glGetUniformLocation(activeShader->GetProgram(), "modelMatrix"), 1, false, (float*)&modelMatrix);
+	glUniformMatrix4fv(glGetUniformLocation(shader->GetProgram(), "modelMatrix"), 1, false, (float*)&modelMatrix);
 
 	//Colour
-	glUniform4fv(glGetUniformLocation(activeShader->GetProgram(), "nodeColour"), 1, (float*)&colour);
+	glUniform4fv(glGetUniformLocation(shader->GetProgram(), "nodeColour"), 1, (float*)&colour);
 
 	//Textures
-	glUniform1i(glGetUniformLocation(activeShader->GetProgram(), "useTexture"), textures.size() > 0 ? true : false);
+	glUniform1i(glGetUniformLocation(shader->GetProgram(), "useTexture"), textures.size() > 0 ? true : false);
 
 	for (int i = 0; i < textures.size() && i < TEXTURE_UNIT_MAX; ++i) {
-		textures[i]->LoadTexture(activeShader->GetProgram(), i);
+		textures[i]->LoadTexture(shader->GetProgram(), i);
 	}
 }
 
@@ -63,10 +62,13 @@ void SceneNode::Update(float msec) {
 	}
 }
 
-void SceneNode::Draw(const OGLRenderer &renderer) {
+void SceneNode::Draw(const OGLRenderer &renderer, Shader* overrideShader) {
 
+	if (overrideShader != nullptr) {
+		LoadUniforms(overrideShader);
+	}
+	LoadUniforms(shader);
 
-	LoadUniforms();
 	if (!depthTest) {
 		glDisable(GL_DEPTH_TEST);
 	}

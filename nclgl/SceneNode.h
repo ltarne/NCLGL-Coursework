@@ -26,10 +26,8 @@ public:
 	inline Mesh*	GetMesh()	const	{ return mesh; }
 
 	inline void		SetShader(Shader* shader) { this->shader = shader; }
-	inline Shader*	GetShader() const { return overrideShader == nullptr ? shader : overrideShader; }
+	inline Shader*	GetShader() const { return shader; }
 
-	inline void		SetOverrideShader(Shader* shader) { this->overrideShader = shader; }
-	inline void		ClearOverrideShader() { overrideShader = nullptr; }
 
 	inline void				AddTexture(Texture* texture) { this->textures.push_back(texture); }
 	inline vector<Texture*>* GetTextures() { return &textures; }
@@ -53,12 +51,12 @@ public:
 		return (a->distanceFromCamera < b->distanceFromCamera) ? true : false;
 	}
 
-	virtual void LoadUniforms();
+	virtual void LoadUniforms(Shader* shader);
 
 	void AddChild(SceneNode* child);
 
 	virtual void Update(float msec);
-	virtual void Draw(const OGLRenderer &renderer);
+	virtual void Draw(const OGLRenderer &renderer, Shader* overrideShader = nullptr);
 
 
 	inline std::vector<SceneNode*>::const_iterator GetChildIteratorStart()	{ return children.begin(); }
@@ -75,15 +73,12 @@ protected:
 	Matrix4 scale;
 
 	Shader*		shader;
-	Shader*		overrideShader;
 	Mesh*		mesh;
 	vector<Texture*> textures;
 	Vector4		colour;
 
 	float distanceFromCamera;
 	float boundingRadius;
-
-	//static int count;
 
 	bool visible;
 	bool depthTest;

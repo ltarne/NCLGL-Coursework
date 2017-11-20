@@ -13,7 +13,7 @@ StencilNode::~StencilNode()
 }
 
 void StencilNode::Draw(const OGLRenderer & renderer) {
-	LoadUniforms();
+	LoadUniforms(shader);
 	glDepthMask(GL_FALSE);
 	glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
 	glStencilFunc(GL_ALWAYS, 2, ~0);

@@ -34,6 +34,7 @@ public:
 	virtual ~Renderer(void);
 
 	virtual void RenderScene();
+	
 
 	inline void UseOrthographic() {
 		projMatrix = Matrix4::Orthographic(-1.0f, 1.0f, (float)width, 0.0f, (float)height, 0.0f);
@@ -54,7 +55,6 @@ public:
 	inline void SetTextureMatrix(Matrix4 textureMatrix) { this->textureMatrix = textureMatrix; }
 
 	inline void SetActiveScene(Scene* activeScene) { this->activeScene = activeScene; }
-	inline void SetOverrideShader(Shader* shader) { this->overrideShader = shader; }
 
 	inline void UpdateGlobalTextures(Shader* shader);
 
@@ -64,15 +64,14 @@ public:
 	inline void SetUsingShadows(bool usingShadows) { this->usingShadows = usingShadows; }
 	inline bool GetUsingShadows() { return usingShadows; }
 
+	void DrawNodes(Shader* overrideShader = nullptr);
+
 	void DrawLights();
 protected:
 	void LoadPostProcessing();
-
 	
-	void DrawNodes();
-	void DrawNode(SceneNode* node);
 	
-	Shader* overrideShader;
+	void DrawNode(SceneNode* node, Shader* overrideShader = nullptr);
 
 	bool usingShadows;
 

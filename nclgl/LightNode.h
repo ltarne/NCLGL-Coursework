@@ -12,10 +12,10 @@ public:
 		this->normTex = normTex;
 	}
 
-	virtual void LoadUniforms();
+	virtual void LoadUniforms(Shader* shader);
 
 	void UpdateTextures(GLuint depthTex, GLuint normalTex);
-	virtual void Draw(const OGLRenderer &renderer);
+	virtual void Draw(const OGLRenderer &renderer, Shader* overrideShader = nullptr);
 
 	void SetPosition(Vector3 pos) { 
 		transform = Matrix4::Translation(pos);

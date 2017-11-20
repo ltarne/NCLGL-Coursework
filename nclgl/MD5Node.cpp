@@ -95,7 +95,7 @@ void	MD5Node::Draw(const OGLRenderer &r) {
 	m->SkinVertices(currentSkeleton);
 #endif
 	//Finally, we draw the mesh, just like the base class Draw function...
-	SceneNode::LoadUniforms();
+	SceneNode::LoadUniforms(shader);
 	glUniform1i(glGetUniformLocation(shader->GetProgram(), "diffuseTex"), 12);
 	glActiveTexture(GL_TEXTURE12);
 	glBindTexture(GL_TEXTURE_2D, m->GetTexture());

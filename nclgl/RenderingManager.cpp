@@ -25,6 +25,7 @@ RenderingManager::~RenderingManager() {
 
 void RenderingManager::UpdateScene(float msec) {
 	activeScene->Update(msec);
+	renderer->SetViewMatrix(activeScene->GetViewMatrix());
 }
 
 void RenderingManager::DrawScene() {
