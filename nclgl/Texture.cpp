@@ -6,6 +6,7 @@ Texture::Texture(string name) {
 	this->name = name;
 	repeating = false;
 	filtering = false;
+	texture = NULL;
 }
 
 Texture::Texture(string filePath, string name) {

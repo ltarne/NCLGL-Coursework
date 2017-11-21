@@ -13,13 +13,21 @@ public:
 	Scene();
 	~Scene();
 
-	void AddNode(SceneNode* node) { this->root->AddChild(node); }
-	void AddLight(LightNode* light) { lightList.push_back(light); }
-	SceneNode* GetRoot() { return root; }
+	inline void AddNode(SceneNode* node) { this->root->AddChild(node); }
+	inline void AddLight(LightNode* light) { lightList.push_back(light); }
+	inline void AddEffect(SceneNode* effect) { particleEffects.push_back(effect); }
 
-	vector<SceneNode*>* GetTransparentNodeList() { return &transparentNodeList; }
-	vector<SceneNode*>* GetNodeList() { return &nodeList; }
-	vector<LightNode*>* GetLightList() { return &lightList; }
+	inline SceneNode* GetRoot() { return root; }
+
+	inline vector<SceneNode*>* GetTransparentNodeList() { return &transparentNodeList; }
+	inline vector<SceneNode*>* GetNodeList() { return &nodeList; }
+	inline vector<LightNode*>* GetLightList() { return &lightList; }
+
+	void SetParticleEffectsVisibility(bool visible) {
+		for (int i = 0; i < particleEffects.size(); ++i) {
+			particleEffects[i]->SetVisible(visible);
+		}
+	}
 
 	inline void SetLight(Light* light) { this->light = light; }
 
@@ -56,6 +64,8 @@ protected:
 	SceneNode* skybox;
 
 	Light* light;
+
+	vector<SceneNode*> particleEffects;
 
 	vector<LightNode*> lightList;
 

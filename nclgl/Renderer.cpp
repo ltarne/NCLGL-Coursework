@@ -104,7 +104,7 @@ void Renderer::DrawNode(SceneNode* node, Shader* overrideShader) {
 	if (node->GetVisible() && node->GetMesh()) {
 		//node->SetOverrideShader(overrideShader);
 
-		glUseProgram(node->GetShader()->GetProgram());
+		glUseProgram(activeShader->GetProgram());
 		//viewMatrix = activeScene->GetViewMatrix();
 		UpdateShaderMatrices(activeShader);
 		

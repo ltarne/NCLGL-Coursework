@@ -30,12 +30,13 @@ ShadowStage::~ShadowStage() {
 
 void ShadowStage::DrawStage(Scene * scene) {
 
-
 	renderer->SetViewMatrix(scene->GetViewMatrix());
 	renderer->SetProjMatrix(scene->GetProjMatrix());
 	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 	renderer->SetUsingShadows(true);
+	scene->SetParticleEffectsVisibility(false);
 	CreateShadowTextures(scene);
+	scene->SetParticleEffectsVisibility(true);
 	PresentScene(scene);
 	renderer->SetUsingShadows(false);
 

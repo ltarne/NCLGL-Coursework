@@ -166,13 +166,20 @@ Scene* SceneLoader::LoadScene2() {
 	bumpTex->ToggleRepeating();
 	textures.push_back(bumpTex);
 
+	Texture* fireTex = new Texture(TEXTUREDIR"fire.png", "tex");
+	//bumpTex->ToggleRepeating();
+	textures.push_back(fireTex);
+
 
 	Texture* shadowMap = new Texture("shadowTex");
 	textures.push_back(shadowMap);
 
 	/* Meshes */
-	OBJMesh* room = new OBJMesh(MESHDIR"cube.obj");
-	OBJMesh* fire = new OBJMesh(MESHDIR"fire.obj");
+	OBJMesh* room = new OBJMesh(MESHDIR"centeredcube.obj");
+	OBJMesh* fire = new OBJMesh(MESHDIR"fire-fix.obj");
+
+	ParticleEmitter* embers = new ParticleEmitter();
+	meshes.push_back(embers);
 
 
 	/*MD5FileData*	hellData = new MD5FileData(MESHDIR"hellknight.md5mesh");
@@ -204,10 +211,17 @@ Scene* SceneLoader::LoadScene2() {
 	quad->SetBoundingRadius(1000000.0f);
 	meshes.push_back(quadMesh);
 
+	SceneNode* firePlace = new SceneNode(shader, fire);
+	firePlace->SetTransform(Matrix4::Translation(Vector3(0, 40, 0)));
+	firePlace->SetScale(Vector3(80, 80, 80));
+	firePlace->AddTexture(fireTex);
+	firePlace->AddTexture(shadowMap);
+	firePlace->SetBoundingRadius(100000.0f);
 
 
-	scene->AddNode(cube);
 
+	//scene->AddNode(cube);
+	scene->AddNode(firePlace);
 	scene->AddNode(quad);
 
 	Shader* stageShader = new Shader(SHADERDIR"shadowVert.vert", SHADERDIR"shadowFrag.frag");
