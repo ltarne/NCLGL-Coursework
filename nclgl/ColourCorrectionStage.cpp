@@ -29,7 +29,7 @@ void ColourCorrectionStage::DrawStage(Scene * scene) {
 	glActiveTexture(GL_TEXTURE2);
 	glBindTexture(GL_TEXTURE_2D, colourBuffers[0]);
 	glActiveTexture(GL_TEXTURE3);
-	glBindTexture(GL_TEXTURE_3D, textureLookup);
+	glBindTexture(GL_TEXTURE_2D, textureLookup);
 
 	glDisable(GL_DEPTH_TEST);
 

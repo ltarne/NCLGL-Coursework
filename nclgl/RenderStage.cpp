@@ -6,6 +6,7 @@ RenderStage::RenderStage(Renderer* renderer) {
 	this->renderer = renderer;
 	this->bufferFBO = renderer->GetBufferFBO();
 	this->colourBuffers = renderer->GetColourBuffers();
+	this->bufferDepthTex = renderer->GetBufferDepthTex();
 	stageShader = NULL;
 }
 

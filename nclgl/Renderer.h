@@ -1,6 +1,7 @@
 #pragma once
 #include "OGLRenderer.h"
 #include "StencilNode.h"
+#include "ParticleNode.h"
 #include "Camera.h"
 #include "Frustum.h"
 #include "MD5Node.h"
@@ -60,6 +61,7 @@ public:
 
 	inline GLuint GetBufferFBO() { return bufferFBO; }
 	inline GLuint* GetColourBuffers() { return colourBuffers; }
+	inline GLuint GetBufferDepthTex() { return bufferDepthTex; }
 
 	inline void SetUsingShadows(bool usingShadows) { this->usingShadows = usingShadows; }
 	inline bool GetUsingShadows() { return usingShadows; }

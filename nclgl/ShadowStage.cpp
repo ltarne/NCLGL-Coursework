@@ -75,12 +75,13 @@ void ShadowStage::PresentScene(Scene * scene) {
 	glActiveTexture(GL_TEXTURE9);
 	glBindTexture(GL_TEXTURE_2D, shadowTex);
 	glBindFramebuffer(GL_FRAMEBUFFER, bufferFBO);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, bufferDepthTex, 0);
 	
 	(*scene->GetRoot()->GetChildIteratorStart())->GetTextures()->back()->SetTexture(shadowTex);
 
 	renderer->SetViewMatrix(scene->GetCamera()->BuildViewMatrix());
 
 	renderer->RenderScene();
-	
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, 0, 0);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }

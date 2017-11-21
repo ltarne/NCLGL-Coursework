@@ -28,7 +28,7 @@ ParticleEmitter::ParticleEmitter(void)	{
 	//texture = SOIL_load_OGL_texture("../Textures/particle.tga",
 	//SOIL_LOAD_AUTO,SOIL_CREATE_NEW_ID,SOIL_FLAG_COMPRESS_TO_DXT);
 
-	texture = SOIL_load_OGL_texture(TEXTUREDIR"water.png",
+	texture = SOIL_load_OGL_texture(TEXTUREDIR"smoke.png",
 		SOIL_LOAD_AUTO,SOIL_CREATE_NEW_ID,SOIL_FLAG_COMPRESS_TO_DXT);
 }
 
@@ -127,7 +127,7 @@ Particle* ParticleEmitter::GetFreeParticle()	{
 	//Now we have to reset its values - if it was popped off the
 	//free list, it'll still have the values of its 'previous life'
 
-	p->colour		= Vector4(RAND(),RAND(),RAND(),1.0);
+	p->colour		= Vector4(1.0f,1.0f,1.0f,1.0);
 	p->direction	= initialDirection;
 	//p->direction.x += ((RAND()-RAND()) * particleVariance);
 	p->direction.y += ((RAND()) * particleVariance);
@@ -219,6 +219,7 @@ void ParticleEmitter::Draw()	{
 	glBindTexture(GL_TEXTURE_2D, texture);
 	glDrawArrays(GL_POINTS,  0, particles.size());	// draw ordered list of vertices
 	glBindTexture(GL_TEXTURE_2D, 0);
-	glDisable(GL_BLEND);
+	//glDisable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glBindVertexArray(0); //Remember to turn off our VAO ;)
 };

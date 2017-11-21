@@ -8,7 +8,7 @@ public:
 	SceneNode(Shader* shader = nullptr, Mesh* mesh = nullptr, Vector4 colour = Vector4(1,1,1,1));
 	~SceneNode();
 
-	inline void			SetTransform(const Matrix4 &transform)	{ this->transform = transform; }
+	inline void				SetTransform(const Matrix4 &transform)	{ this->transform = transform; }
 	inline const Matrix4&	GetTransform()					const	{ return transform; }
 	inline Matrix4			GetWorldTransform()				const	{ return worldTransform; }
 

@@ -28,7 +28,7 @@ Scene* SceneLoader::LoadScene1() {
 	/*Shader* shader = new Shader(SHADERDIR"shadowSceneVert.vert", SHADERDIR"shadowSceneFrag.frag");
 	shader->LinkProgram();*/
 
-	Shader* shader = new Shader(SHADERDIR"heightMapShadowVert.vert", SHADERDIR"shadowSceneFrag.frag", "", SHADERDIR"heightMapTCS.tesc", SHADERDIR"heightMapTES.tese");
+	Shader* shader = new Shader(SHADERDIR"heightMapShadowVert.vert", SHADERDIR"bufferFrag.frag", "", SHADERDIR"heightMapTCS.tesc", SHADERDIR"heightMapTES.tese");
 	if (!shader->LinkProgram()) {
 		return NULL;
 	}
@@ -42,7 +42,7 @@ Scene* SceneLoader::LoadScene1() {
 	skyBoxShader->LinkProgram();
 	shaders.push_back(skyBoxShader);
 
-	Shader* reflectionShader = new Shader(SHADERDIR"lightVert.vert", SHADERDIR"reflectFrag.frag");
+	Shader* reflectionShader = new Shader(SHADERDIR"lightVert.vert", SHADERDIR"bufferFrag.frag");
 	reflectionShader->LinkProgram();
 	shaders.push_back(reflectionShader);
 
@@ -84,13 +84,14 @@ Scene* SceneLoader::LoadScene1() {
 	SceneNode* water = new SceneNode(reflectionShader, quad);
 	water->AddTexture(waterTex);
 	water->AddTexture(skyCubeMap);
-	water->SetTransform(Matrix4::Translation(Vector3(0, 0, 0)));
+	water->SetTransform(Matrix4::Translation(Vector3(0, 700, 0)));
 	water->SetRotation(Matrix4::Rotation(90.0f, Vector3(1, 0, 0)));
 	water->SetScale(Vector3(scale, scale, scale));
 
 	water->SetBoundingRadius(100000000.0f);
 
 	SceneNode* heightMapRoot = new SceneNode();
+	heightMapRoot->SetVisible(false);
 	heightMapRoot->SetBoundingRadius(1000000.0f);
 	heightMapRoot->SetTransform(Matrix4::Translation(Vector3(0, -10, 0)));
 	heightMapRoot->SetScale(Vector3(100, 100, 100));
@@ -141,21 +142,21 @@ Scene* SceneLoader::LoadScene1() {
 	Texture* colourTex = new Texture("depthTex");
 	Texture* normalTex = new Texture("normTex");
 
-	Vector3 pos = Vector3(0, 50.0f, 0);
+	for (int i = 0; i < 10; ++i) {
+		Vector3 pos = Vector3(0, 100.0f, -i * 500);
 
-	Vector4 colour = Vector4(0.5f + (float)(rand() % 129) / 128.0f,
-		0.5f + (float)(rand() % 129) / 128.0f,
-		0.5f + (float)(rand() % 129) / 128.0f,
-		1.0f);
+		Vector4 colour = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
 
-	float radius = (1000000);
-	LightNode* temp = new LightNode(pointLightShader, sphere, colour, radius, pos);
-	temp->AddTexture(colourTex);
-	temp->AddTexture(normalTex);
-	scene->AddLight(temp);
+		float radius = (1000000);
+		LightNode* temp = new LightNode(pointLightShader, sphere, colour, radius, pos);
+		temp->AddTexture(colourTex);
+		temp->AddTexture(normalTex);
+		scene->AddLight(temp);
+	}
+	
 
 
-	vector<RenderStages> stages = { DEFERRED_LIGHT_STAGE, PRESENT_STAGE, TEXT_STAGE };
+	vector<RenderStages> stages = { DEFERRED_LIGHT_STAGE, COLOUR_CORRECTION_STAGE, PRESENT_STAGE, TEXT_STAGE };
 	scene->SetRenderStages(stages);
 
 	scene->BuildNodeLists(scene->GetRoot());
@@ -217,9 +218,9 @@ Scene* SceneLoader::LoadScene2() {
 	ParticleEmitter* embers = new ParticleEmitter();
 	embers->SetParticleSize(2.0f);
 	embers->SetParticleVariance(1.0f);
-	embers->SetLaunchParticles(16.0f);
+	embers->SetLaunchParticles(10.0f);
 	embers->SetParticleLifetime(20000.0f);
-	embers->SetParticleSpeed(0.1f);
+	embers->SetParticleSpeed(0.08f);
 	meshes.push_back(embers);
 
 
@@ -232,14 +233,14 @@ Scene* SceneLoader::LoadScene2() {
 	hellData->AddAnim(MESHDIR"idle2.md5anim");
 	hellNode->PlayAnim(MESHDIR"idle2.md5anim");*/
 
-	SceneNode* cube = new SceneNode(shader, room);
+	SceneNode* cube = new SceneNode(shaderNoBump, room);
 	cube->SetFaceCulling(false);
 	cube->AddTexture(bricks);
 	cube->AddTexture(brickBump);
 	cube->AddTexture(shadowMap);
 	cube->SetTransform(Matrix4::Translation(Vector3(0, 10, -400)));
 	cube->SetScale(Vector3(100, 100, 100));
-	cube->SetBoundingRadius(1000000.0f);
+	cube->SetBoundingRadius(180.0f);
 
 
 	Mesh* quadMesh = Mesh::GenerateQuad();
@@ -259,23 +260,25 @@ Scene* SceneLoader::LoadScene2() {
 	firePlace->AddTexture(shadowMap);
 	firePlace->SetBoundingRadius(80.0f);
 
-	SceneNode* emberEmitter = new SceneNode(particleShader, embers);
+	ParticleNode* emberEmitter = new ParticleNode(particleShader, embers);
 	emberEmitter->SetTransform(Matrix4::Translation(Vector3(0, 0, 0)));
-	emberEmitter->SetBoundingRadius(100000.0f);
+	emberEmitter->SetBoundingRadius(200.0f);
 	emberEmitter->SetColour(Vector4(1.0, 1.0, 1.0, 0.5));
+
+	firePlace->AddChild(emberEmitter);
 
 	scene->AddEffect(emberEmitter);
 
 
 	scene->AddNode(cube);
 	scene->AddNode(firePlace);
-	scene->AddNode(emberEmitter);
+	//scene->AddNode(emberEmitter);
 	scene->AddNode(quad);
 
 	Shader* stageShader = new Shader(SHADERDIR"shadowVert.vert", SHADERDIR"shadowFrag.frag");
 	stageShader->LinkProgram();
 
-	scene->AddLight(new LightNode(stageShader, nullptr,Vector4(1.0, 0.67, 0.0, 1.0), 10000.0f, Vector3(0,120,0)));
+	scene->AddLight(new LightNode(stageShader, nullptr,Vector4(1.0, 0.67, 0.0, 1.0), 10000.0f, Vector3(0,120,100)));
 
 
 	vector<RenderStages> stages = { SHADOW_STAGE, PRESENT_STAGE, TEXT_STAGE };
@@ -329,8 +332,6 @@ Scene* SceneLoader::LoadScene3() {
 	SceneNode* heightMapNode = new SceneNode(shader, heightMap);
 	heightMapNode->AddTexture(tex);
 	heightMapNode->AddTexture(bumpTex);
-	//quad->SetScale(Vector3(1000, 1000, 1000));
-	//quad->SetRotation(Matrix4::Rotation(90.0f, Vector3(1, 0, 0)));
 	heightMapNode->SetBoundingRadius(1000000.0f);
 	heightMapNode->SetTransform(Matrix4::Translation(Vector3(-(RAW_WIDTH * HEIGHTMAP_X) / 2, -350, -(RAW_HEIGHT * HEIGHTMAP_Z))));
 
@@ -373,7 +374,7 @@ Scene* SceneLoader::LoadScene3() {
 	scene->BuildNodeLists(scene->GetRoot());
 	scene->QuickSortNodeLists();
 
-	vector<RenderStages> stages = { DEFERRED_LIGHT_STAGE, COLOUR_CORRECTION_STAGE, PRESENT_STAGE, TEXT_STAGE };
+	vector<RenderStages> stages = { DEFERRED_LIGHT_STAGE, BLOOM_STAGE, PRESENT_STAGE, TEXT_STAGE };
 	scene->SetRenderStages(stages);
 	scenes[2] = scene;
 	return scene;

@@ -3,7 +3,7 @@
 #include "../../nclgl/HeightMap.h"
 #include "../../nclgl/MD5Node.h"
 #include "../../nclgl/OBJMesh.h"
-#include "../../nclgl/ParticleEmitter.h"
+#include "../../nclgl/ParticleNode.h"
 
 #define LIGHTNUM 8
 

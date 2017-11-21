@@ -38,7 +38,7 @@ int main() {
 	RenderingManager manager(&renderer);
 
 
-	manager.SetActiveScene(scene2);
+	manager.SetActiveScene(scene3);
 
 	int frameCount = 0;
 	float time = 0.0f;

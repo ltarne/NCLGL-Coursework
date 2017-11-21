@@ -98,6 +98,7 @@
       <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="ColourCorrectionStage.cpp" />
+    <ClCompile Include="ParticleNode.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common.h" />
@@ -213,6 +214,7 @@
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="ColourCorrectionStage.h" />
+    <ClInclude Include="ParticleNode.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Data Types">

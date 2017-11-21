@@ -47,7 +47,7 @@ void Renderer::LoadPostProcessing() {
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH24_STENCIL8, width, height, 0, GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8, NULL);	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, bufferDepthTex, 0);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH24_STENCIL8, width, height, 0, GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8, NULL);	//glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, bufferDepthTex, 0);
 
 	for (int i = 0; i < 2; ++i) {
 		glBindTexture(GL_TEXTURE_2D, colourBuffers[i]);
@@ -112,7 +112,7 @@ void Renderer::DrawNode(SceneNode* node, Shader* overrideShader) {
 	Shader* activeShader = overrideShader != nullptr ? overrideShader : node->GetShader();
 	
 
-	if (node->GetVisible() && node->GetMesh()) {
+	if (node->GetVisible()) {
 		//node->SetOverrideShader(overrideShader);
 
 		glUseProgram(activeShader->GetProgram());

@@ -15,7 +15,7 @@ void main(void) {
 
   fragColor[0] = color;
 
-  if(brightness > 0.5) {
+  if(brightness > 1.0) {
     fragColor[1] = vec4(color.rgb, 1.0);
   }
   else {

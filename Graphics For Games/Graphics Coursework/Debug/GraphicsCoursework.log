@@ -1,6 +1,2 @@
-﻿  SceneLoader.cpp
-c:\users\b4027488\github\nclgl coursework\nclgl\scene.h(28): warning C4018: '<': signed/unsigned mismatch
-c:\users\b4027488\github\nclgl coursework\graphics for games\graphics coursework\sceneloader.cpp(220): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\b4027488\github\nclgl coursework\graphics for games\graphics coursework\sceneloader.cpp(278): warning C4305: 'argument': truncation from 'double' to 'float'
-  GraphicsCoursework.vcxproj -> C:\Users\B4027488\GitHub\NCLGL Coursework\Graphics For Games\Debug\GraphicsCoursework.exe
+﻿  GraphicsCoursework.vcxproj -> C:\Users\B4027488\GitHub\NCLGL Coursework\Graphics For Games\Debug\GraphicsCoursework.exe
   GraphicsCoursework.vcxproj -> C:\Users\B4027488\GitHub\NCLGL Coursework\Graphics For Games\Debug\GraphicsCoursework.pdb (Partial PDB)

@@ -51,7 +51,7 @@ out Vertex {
 } OUT;
 
 void main() {
-  float particleSize = 2.0f;
+  float particleSize = 50.0f;
 //gl_in is another GLSL keyword. It'll give us
 //how many primitives we're accepting from
 //the vertex shader. as we're taking in points

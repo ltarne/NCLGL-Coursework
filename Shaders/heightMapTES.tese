@@ -24,7 +24,6 @@ out Vertex {
   vec3 tangent;
   vec3 binormal;
   vec3 worldPos;
-  vec4 shadowProj;
 } OUT;
 
 // Simplex 2D noise
@@ -108,7 +107,7 @@ vec2    QuadMixVec2(vec2 a, vec2 b, vec2 c, vec2 d) {
 }
 
 void main() {
-    float scale = 0.003;
+    float scale = 0.0003;
 
     mat3 normalMatrix = transpose(inverse(mat3(modelMatrix)));
 
@@ -150,11 +149,10 @@ void main() {
 
 
     vec4 worldPos = (modelMatrix * vec4(combinedPos, 1));
-    float height = sumOctave(16,worldPos.x,worldPos.z,0.5f, scale, 5, 200);
+    float height = sumOctave(16,worldPos.x,worldPos.z,0.5f, scale, 5, 2000);
     worldPos.y += height;
     OUT.worldPos = worldPos.xyz;
 
-    OUT.shadowProj = (globalTextureMatrix * vec4(OUT.worldPos + (OUT.normal * 10.5), 1));
 
     gl_Position = projMatrix * viewMatrix * worldPos;
 

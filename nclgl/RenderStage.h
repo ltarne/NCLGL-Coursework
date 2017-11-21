@@ -26,6 +26,7 @@ protected:
 
 	GLuint bufferFBO;
 	GLuint* colourBuffers;
+	GLuint bufferDepthTex;
 
 	static Mesh* quad;
 
