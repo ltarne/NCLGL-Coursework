@@ -2,6 +2,7 @@
 #include "Renderer.h"
 #include "ShadowStage.h"
 #include "DefereredLightsStage.h"
+#include "ColourCorrectionStage.h"
 #include "PresentStage.h"
 #include "BloomStage.h"
 #include "TextStage.h"

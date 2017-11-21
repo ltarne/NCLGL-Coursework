@@ -39,7 +39,7 @@ void main(void) {
   float rFactor = clamp(dot(halfDir, normal), 0.0, 1.0);
   float sFactor = pow(rFactor, 33.0);
 
-  atten *= 3;
+  atten *= 2;
 
   fragColor[0] = vec4(lightColour.xyz * lambert * atten, 1.0);
   //fragColor[0] = vec4(normal,1.0);

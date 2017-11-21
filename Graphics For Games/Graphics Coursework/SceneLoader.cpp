@@ -79,15 +79,16 @@ Scene* SceneLoader::LoadScene1() {
 	skybox->SetBoundingRadius(1000000000.0f);
 	skybox->SetFaceCulling(false);
 
+	float scale = 1000.0f;
+
 	SceneNode* water = new SceneNode(reflectionShader, quad);
 	water->AddTexture(waterTex);
 	water->AddTexture(skyCubeMap);
+	water->SetTransform(Matrix4::Translation(Vector3(0, 0, 0)));
 	water->SetRotation(Matrix4::Rotation(90.0f, Vector3(1, 0, 0)));
-	water->SetScale(Vector3(20,20,20));
+	water->SetScale(Vector3(scale, scale, scale));
 
 	water->SetBoundingRadius(100000000.0f);
-
-	float scale = 1000.0f;
 
 	SceneNode* heightMapRoot = new SceneNode();
 	heightMapRoot->SetBoundingRadius(1000000.0f);
@@ -100,6 +101,7 @@ Scene* SceneLoader::LoadScene1() {
 	node1->SetTransform(Matrix4::Translation(Vector3(0, 0, 0))); 
 	node1->SetRotation(Matrix4::Rotation(-90, Vector3(1, 0, 0)));
 	node1->SetScale(Vector3(scale, scale, scale));
+	node1->SetBoundingRadius(1000000.0f);
 	heightMapRoot->AddChild(node1);
 	SceneNode* node2 = new SceneNode(shader, patch, Vector4(1, 1, 1, 1));
 	node2->AddTexture(tex);
@@ -108,14 +110,16 @@ Scene* SceneLoader::LoadScene1() {
 	node2->SetTransform(Matrix4::Translation(Vector3(scale, 0, 0)));
 	node2->SetRotation(Matrix4::Rotation(-90, Vector3(1, 0, 0)));
 	node2->SetScale(Vector3(scale, scale, scale));
+	node2->SetBoundingRadius(1000000.0f);
 	heightMapRoot->AddChild(node2);
 	SceneNode* node3 = new SceneNode(shader, patch, Vector4(1, 1, 1, 1));
 	node3->AddTexture(tex);
 	node3->AddTexture(bumpTex);
 	node3->SetBoundingRadius(300.0f);
-	node3->SetTransform(Matrix4::Translation(Vector3(20, 0, -scale)));
+	node3->SetTransform(Matrix4::Translation(Vector3(scale, 0, -scale)));
 	node3->SetRotation(Matrix4::Rotation(-90, Vector3(1, 0, 0)));
 	node3->SetScale(Vector3(scale, scale, scale));
+	node3->SetBoundingRadius(1000000.0f);
 	heightMapRoot->AddChild(node3);
 	SceneNode* node4 = new SceneNode(shader, patch, Vector4(1, 1, 1, 1));
 	node4->AddTexture(tex);
@@ -124,6 +128,7 @@ Scene* SceneLoader::LoadScene1() {
 	node4->SetTransform(Matrix4::Translation(Vector3(0, 0, -scale)));
 	node4->SetRotation(Matrix4::Rotation(-90, Vector3(1, 0, 0)));
 	node4->SetScale(Vector3(scale, scale, scale));
+	node4->SetBoundingRadius(1000000.0f);
 	heightMapRoot->AddChild(node4);
 
 	scene->SetSkyBox(skybox);
@@ -136,7 +141,7 @@ Scene* SceneLoader::LoadScene1() {
 	Texture* colourTex = new Texture("depthTex");
 	Texture* normalTex = new Texture("normTex");
 
-	Vector3 pos = Vector3(0, 1000.0f, 0);
+	Vector3 pos = Vector3(0, 50.0f, 0);
 
 	Vector4 colour = Vector4(0.5f + (float)(rand() % 129) / 128.0f,
 		0.5f + (float)(rand() % 129) / 128.0f,
@@ -165,11 +170,15 @@ Scene* SceneLoader::LoadScene1() {
 Scene* SceneLoader::LoadScene2() {
 	Scene* scene = new Scene();
 
+	//Shader* basicShader = new Shader(SHADERDIR"texturedVertex.glsl", SHADERDIR"texturedFragment.glsl");
 	/* Shaders */
 	Shader* shader = new Shader(SHADERDIR"shadowSceneVert.vert", SHADERDIR"shadowSceneFrag.frag");
-	//Shader* shader = new Shader(SHADERDIR"lightVert.vert", SHADERDIR"lightFrag.frag");
 	shader->LinkProgram();
 	shaders.push_back(shader);
+
+	Shader* shaderNoBump = new Shader(SHADERDIR"shadowSceneVert.vert", SHADERDIR"shadowSceneFragNoBump.frag");
+	shaderNoBump->LinkProgram();
+	shaders.push_back(shaderNoBump);
 
 	Shader* particleShader = new Shader(SHADERDIR"particleVert.vert", SHADERDIR"particleFrag.frag", SHADERDIR"particleGeom.geom");
 	particleShader->LinkProgram();
@@ -202,7 +211,7 @@ Scene* SceneLoader::LoadScene2() {
 	textures.push_back(shadowMap);
 
 	/* Meshes */
-	OBJMesh* room = new OBJMesh(MESHDIR"centeredcube.obj");
+	OBJMesh* room = new OBJMesh(MESHDIR"cube.obj");
 	OBJMesh* fire = new OBJMesh(MESHDIR"fire-fix.obj");
 
 	ParticleEmitter* embers = new ParticleEmitter();
@@ -228,7 +237,7 @@ Scene* SceneLoader::LoadScene2() {
 	cube->AddTexture(bricks);
 	cube->AddTexture(brickBump);
 	cube->AddTexture(shadowMap);
-	cube->SetTransform(Matrix4::Translation(Vector3(0, 10, 0)));
+	cube->SetTransform(Matrix4::Translation(Vector3(0, 10, -400)));
 	cube->SetScale(Vector3(100, 100, 100));
 	cube->SetBoundingRadius(1000000.0f);
 
@@ -240,24 +249,25 @@ Scene* SceneLoader::LoadScene2() {
 	quad->AddTexture(shadowMap);
 	quad->SetScale(Vector3(1000, 1000, 1000));
 	quad->SetRotation(Matrix4::Rotation(90.0f, Vector3(1,0,0)));
-	quad->SetBoundingRadius(1000000.0f);
+	quad->SetBoundingRadius(1300.0f);
 	meshes.push_back(quadMesh);
 
-	SceneNode* firePlace = new SceneNode(shader, fire);
+	SceneNode* firePlace = new SceneNode(shaderNoBump, fire);
 	firePlace->SetTransform(Matrix4::Translation(Vector3(0, 40, 0)));
 	firePlace->SetScale(Vector3(80, 80, 80));
 	firePlace->AddTexture(fireTex);
 	firePlace->AddTexture(shadowMap);
-	firePlace->SetBoundingRadius(100000.0f);
+	firePlace->SetBoundingRadius(80.0f);
 
 	SceneNode* emberEmitter = new SceneNode(particleShader, embers);
 	emberEmitter->SetTransform(Matrix4::Translation(Vector3(0, 0, 0)));
 	emberEmitter->SetBoundingRadius(100000.0f);
+	emberEmitter->SetColour(Vector4(1.0, 1.0, 1.0, 0.5));
 
 	scene->AddEffect(emberEmitter);
 
 
-	//scene->AddNode(cube);
+	scene->AddNode(cube);
 	scene->AddNode(firePlace);
 	scene->AddNode(emberEmitter);
 	scene->AddNode(quad);
@@ -265,7 +275,7 @@ Scene* SceneLoader::LoadScene2() {
 	Shader* stageShader = new Shader(SHADERDIR"shadowVert.vert", SHADERDIR"shadowFrag.frag");
 	stageShader->LinkProgram();
 
-	scene->AddLight(new LightNode(stageShader, nullptr,Vector4(1.0, 0.67, 0.0, 1.0), 1000.0f, Vector3(0,160,0)));
+	scene->AddLight(new LightNode(stageShader, nullptr,Vector4(1.0, 0.67, 0.0, 1.0), 10000.0f, Vector3(0,120,0)));
 
 
 	vector<RenderStages> stages = { SHADOW_STAGE, PRESENT_STAGE, TEXT_STAGE };
@@ -363,7 +373,7 @@ Scene* SceneLoader::LoadScene3() {
 	scene->BuildNodeLists(scene->GetRoot());
 	scene->QuickSortNodeLists();
 
-	vector<RenderStages> stages = { DEFERRED_LIGHT_STAGE, BLOOM_STAGE, PRESENT_STAGE, TEXT_STAGE };
+	vector<RenderStages> stages = { DEFERRED_LIGHT_STAGE, COLOUR_CORRECTION_STAGE, PRESENT_STAGE, TEXT_STAGE };
 	scene->SetRenderStages(stages);
 	scenes[2] = scene;
 	return scene;

@@ -108,7 +108,7 @@ vec2    QuadMixVec2(vec2 a, vec2 b, vec2 c, vec2 d) {
 }
 
 void main() {
-    float scale = 0.03;
+    float scale = 0.003;
 
     mat3 normalMatrix = transpose(inverse(mat3(modelMatrix)));
 
@@ -150,7 +150,7 @@ void main() {
 
 
     vec4 worldPos = (modelMatrix * vec4(combinedPos, 1));
-    float height = sumOctave(16,worldPos.x,worldPos.z,0.5f, scale, 5, 20);
+    float height = sumOctave(16,worldPos.x,worldPos.z,0.5f, scale, 5, 200);
     worldPos.y += height;
     OUT.worldPos = worldPos.xyz;
 

@@ -97,6 +97,7 @@
     <ClCompile Include="ParticleEmitter.cpp">
       <Filter>Components</Filter>
     </ClCompile>
+    <ClCompile Include="ColourCorrectionStage.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common.h" />
@@ -211,6 +212,7 @@
     <ClInclude Include="ParticleEmitter.h">
       <Filter>Components</Filter>
     </ClInclude>
+    <ClInclude Include="ColourCorrectionStage.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Data Types">

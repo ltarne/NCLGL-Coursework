@@ -134,7 +134,8 @@ Particle* ParticleEmitter::GetFreeParticle()	{
 	//p->direction.z += ((RAND()-RAND()) * particleVariance);
 
 	p->direction.Normalise();	//Keep its direction normalised!
-	p->position = Vector3(-40 + RAND()*80,0, -40 + RAND() * 80);
+	//p->position = Vector3(-40 + RAND()*80,0, -40 + RAND() * 80);
+	p->position = Vector3(-40 + RAND() * 80, 0, -40 + RAND() * 80);
 
 	return p;	//return the new particle :-)
 }
@@ -218,6 +219,6 @@ void ParticleEmitter::Draw()	{
 	glBindTexture(GL_TEXTURE_2D, texture);
 	glDrawArrays(GL_POINTS,  0, particles.size());	// draw ordered list of vertices
 	glBindTexture(GL_TEXTURE_2D, 0);
-
+	glDisable(GL_BLEND);
 	glBindVertexArray(0); //Remember to turn off our VAO ;)
 };

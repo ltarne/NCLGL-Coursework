@@ -28,6 +28,7 @@ void Scene::Update(float msec) {
 	frameFrustrum.FromMatrix(projMatrix * viewMatrix);
 	//TODO: Sending of proj and view matrix
 	root->Update(msec);
+	((ParticleEmitter*)(particleEffects[0]->GetMesh()))->Update(msec);
 	ClearNodeList();
 	if (skybox) {
 		nodeList.push_back(skybox);

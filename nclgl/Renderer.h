@@ -77,6 +77,7 @@ protected:
 
 	GLuint bufferFBO;
 	GLuint colourBuffers[2];
+	GLuint bufferDepthTex;
 
 	Scene* activeScene;
 

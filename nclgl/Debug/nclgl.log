@@ -1,26 +1,9 @@
-﻿  ShadowStage.cpp
-c:\users\luke\documents\github\nclgl-coursework\nclgl\scene.h(27): warning C4018: '<': signed/unsigned mismatch
+﻿  OBJMesh.cpp
   Generating Code...
-  Compiling...
-  TextStage.cpp
-c:\users\luke\documents\github\nclgl-coursework\nclgl\scene.h(27): warning C4018: '<': signed/unsigned mismatch
-c:\users\luke\documents\github\nclgl-coursework\nclgl\textstage.cpp(32): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
-  Scene.cpp
-c:\users\luke\documents\github\nclgl-coursework\nclgl\scene.h(27): warning C4018: '<': signed/unsigned mismatch
-c:\users\luke\documents\github\nclgl-coursework\nclgl\scene.cpp(39): warning C4018: '<': signed/unsigned mismatch
-  RenderingManager.cpp
-c:\users\luke\documents\github\nclgl-coursework\nclgl\scene.h(27): warning C4018: '<': signed/unsigned mismatch
-c:\users\luke\documents\github\nclgl-coursework\nclgl\renderingmanager.cpp(33): warning C4018: '<': signed/unsigned mismatch
-  Renderer.cpp
-c:\users\luke\documents\github\nclgl-coursework\nclgl\scene.h(27): warning C4018: '<': signed/unsigned mismatch
-  RenderStage.cpp
-c:\users\luke\documents\github\nclgl-coursework\nclgl\scene.h(27): warning C4018: '<': signed/unsigned mismatch
-  PresentStage.cpp
-c:\users\luke\documents\github\nclgl-coursework\nclgl\scene.h(27): warning C4018: '<': signed/unsigned mismatch
-  DefereredLightsStage.cpp
-c:\users\luke\documents\github\nclgl-coursework\nclgl\scene.h(27): warning C4018: '<': signed/unsigned mismatch
-  BloomStage.cpp
-c:\users\luke\documents\github\nclgl-coursework\nclgl\scene.h(27): warning C4018: '<': signed/unsigned mismatch
-  Generating Code...
+  Skipping... (no relevant changes detected)
+  TextMesh.cpp
+  TessellatedHeightMapNode.cpp
+  LightNode.cpp
+  Light.cpp
 Light.obj : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
-  nclgl.vcxproj -> C:\Users\Luke\Documents\GitHub\NCLGL-Coursework\Graphics For Games\Debug\nclgl.lib
+  nclgl.vcxproj -> C:\Users\B4027488\GitHub\NCLGL Coursework\Graphics For Games\Debug\nclgl.lib

@@ -53,6 +53,7 @@ void ShadowStage::CreateShadowTextures(Scene * scene) {
 	glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
 
 	LightNode* light = (*scene->GetLightList())[0];
+	light->SetShader(stageShader);
 	
 
 	renderer->SetViewMatrix(Matrix4::BuildViewMatrix(light->GetPosition(), Vector3(0, 0, 0)));

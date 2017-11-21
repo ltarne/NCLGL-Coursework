@@ -13,6 +13,7 @@
   <ItemGroup>
     <ClCompile Include="BloomStage.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="ColourCorrectionStage.cpp" />
     <ClCompile Include="CubeMapTexture.cpp" />
     <ClCompile Include="DefereredLightsStage.cpp" />
     <ClCompile Include="Frustum.cpp" />
@@ -52,6 +53,7 @@
     <ClInclude Include="BloomStage.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="ChildMeshInterface.h" />
+    <ClInclude Include="ColourCorrectionStage.h" />
     <ClInclude Include="common.h" />
     <ClInclude Include="CubeMapTexture.h" />
     <ClInclude Include="DefereredLightsStage.h" />

@@ -11,6 +11,7 @@ RenderingManager::RenderingManager(Renderer* renderer) {
 	renderStages[SHADOW_STAGE] = new ShadowStage(renderer);
 	renderStages[DEFERRED_LIGHT_STAGE] = new DefereredLightsStage(renderer);
 	renderStages[BLOOM_STAGE] = new BloomStage(renderer);
+	renderStages[COLOUR_CORRECTION_STAGE] = new ColourCorrectionStage(renderer);
 	renderStages[PRESENT_STAGE] = new PresentStage(renderer);
 	renderStages[TEXT_STAGE] = new TextStage(renderer);
 

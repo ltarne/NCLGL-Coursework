@@ -2,10 +2,11 @@
 //#include "SceneNode.h"
 #include "LightNode.h"
 #include "Frustum.h"
+#include "ParticleEmitter.h"
 #include "Camera.h"
 #include <algorithm>
 
-enum RenderStages { BASIC_STAGE, SHADOW_STAGE, DEFERRED_LIGHT_STAGE, BLOOM_STAGE, PRESENT_STAGE, TEXT_STAGE, MAX_STAGE };
+enum RenderStages { BASIC_STAGE, SHADOW_STAGE, DEFERRED_LIGHT_STAGE, BLOOM_STAGE, COLOUR_CORRECTION_STAGE, PRESENT_STAGE, TEXT_STAGE, MAX_STAGE };
 
 class Scene
 {
