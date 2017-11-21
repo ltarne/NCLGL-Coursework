@@ -90,7 +90,7 @@ void ParticleEmitter::Update(float msec)	{
 			//Otherwise, this particle must be still 'alive'. Update its
 			//position by multiplying its normalised direction by the
 			//particle speed, and adding the result to the position. Easy!
-
+			//p->direction.x = sin(msec)*p->direction.x;
 			p->position += p->direction*(msec*particleSpeed);
 
 
@@ -130,11 +130,11 @@ Particle* ParticleEmitter::GetFreeParticle()	{
 	p->colour		= Vector4(RAND(),RAND(),RAND(),1.0);
 	p->direction	= initialDirection;
 	//p->direction.x += ((RAND()-RAND()) * particleVariance);
-	p->direction.y += ((-RAND()) * particleVariance);
+	p->direction.y += ((RAND()) * particleVariance);
 	//p->direction.z += ((RAND()-RAND()) * particleVariance);
 
 	p->direction.Normalise();	//Keep its direction normalised!
-	p->position = Vector3(-500 + RAND()*1000,0, -500 + RAND() * 1000);
+	p->position = Vector3(-40 + RAND()*80,0, -40 + RAND() * 80);
 
 	return p;	//return the new particle :-)
 }

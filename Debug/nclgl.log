@@ -1,12 +1,11 @@
-﻿  BloomStage.cpp
+﻿  ParticleEmitter.cpp
+  DefereredLightsStage.cpp
+c:\users\b4027488\github\nclgl coursework\nclgl\scene.h(27): warning C4018: '<': signed/unsigned mismatch
   Generating Code...
   Skipping... (no relevant changes detected)
-  TextStage.cpp
-  ShadowStage.cpp
-  RenderingManager.cpp
-  Renderer.cpp
-  RenderStage.cpp
-  PresentStage.cpp
-  DefereredLightsStage.cpp
+  TextMesh.cpp
+  TessellatedHeightMapNode.cpp
+  LightNode.cpp
+  Light.cpp
 Light.obj : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
   nclgl.vcxproj -> C:\Users\B4027488\GitHub\NCLGL Coursework\Graphics For Games\Debug\nclgl.lib

@@ -67,7 +67,10 @@ void SceneNode::Draw(const OGLRenderer &renderer, Shader* overrideShader) {
 	if (overrideShader != nullptr) {
 		LoadUniforms(overrideShader);
 	}
-	LoadUniforms(shader);
+	else {
+		LoadUniforms(shader);
+	}
+	
 
 	if (!depthTest) {
 		glDisable(GL_DEPTH_TEST);

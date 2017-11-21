@@ -124,6 +124,7 @@ void DefereredLightsStage::CombineBuffers(Scene* scene) {
 	glUniform1i(glGetUniformLocation(combineShader->GetProgram(), "diffuseTex"),2);
 	glUniform1i(glGetUniformLocation(combineShader->GetProgram(), "emissiveTex"), 3);
 	glUniform1i(glGetUniformLocation(combineShader->GetProgram(), "specularTex"), 4);
+	glUniform1i(glGetUniformLocation(combineShader->GetProgram(), "depthTex"), 5);
 
 	glActiveTexture(GL_TEXTURE2);
 	glBindTexture(GL_TEXTURE_2D, bufferColourTex);
@@ -133,6 +134,9 @@ void DefereredLightsStage::CombineBuffers(Scene* scene) {
 
 	glActiveTexture(GL_TEXTURE4);
 	glBindTexture(GL_TEXTURE_2D, bufferSpecularTex);
+
+	glActiveTexture(GL_TEXTURE5);
+	glBindTexture(GL_TEXTURE_2D, bufferDepthTex);
 
 	
 	quad->Draw();

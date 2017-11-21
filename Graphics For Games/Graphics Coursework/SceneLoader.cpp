@@ -34,6 +34,10 @@ Scene* SceneLoader::LoadScene1() {
 	}
 	shaders.push_back(shader);
 
+	Shader* pointLightShader = new Shader(SHADERDIR"pointLightVert.vert", SHADERDIR"pointLightFrag.frag");
+	pointLightShader->LinkProgram();
+	shaders.push_back(pointLightShader);
+
 	Shader* skyBoxShader = new Shader(SHADERDIR"skyboxVert.vert", SHADERDIR"skyboxFrag.frag");
 	skyBoxShader->LinkProgram();
 	shaders.push_back(skyBoxShader);
@@ -51,7 +55,7 @@ Scene* SceneLoader::LoadScene1() {
 	meshes.push_back(patch);
 
 	/* Textures */
-	string skyTextures[6] = { TEXTUREDIR "rusted_west.JPG",TEXTUREDIR "rusted_east.JPG",TEXTUREDIR "rusted_up.JPG",TEXTUREDIR "rusted_down.JPG",TEXTUREDIR "rusted_south.JPG",TEXTUREDIR "rusted_north.JPG" };
+	string skyTextures[6] = { TEXTUREDIR "desert_night_rt.tga",TEXTUREDIR "desert_night_lf.tga",TEXTUREDIR "desert_night_up.tga",TEXTUREDIR "desert_night_dn.tga",TEXTUREDIR "desert_night_bk.tga",TEXTUREDIR "desert_night_ft.tga" };
 	CubeMapTexture* skyCubeMap = new CubeMapTexture(skyTextures, "cubeTex");
 	textures.push_back(skyCubeMap);
 
@@ -83,48 +87,67 @@ Scene* SceneLoader::LoadScene1() {
 
 	water->SetBoundingRadius(100000000.0f);
 
+	float scale = 1000.0f;
+
 	SceneNode* heightMapRoot = new SceneNode();
 	heightMapRoot->SetBoundingRadius(1000000.0f);
 	heightMapRoot->SetTransform(Matrix4::Translation(Vector3(0, -10, 0)));
+	heightMapRoot->SetScale(Vector3(100, 100, 100));
 	SceneNode* node1 = new SceneNode(shader, patch, Vector4(1, 1, 1, 1));
 	node1->AddTexture(tex);
 	node1->AddTexture(bumpTex);
 	node1->SetBoundingRadius(300.0f);
 	node1->SetTransform(Matrix4::Translation(Vector3(0, 0, 0))); 
 	node1->SetRotation(Matrix4::Rotation(-90, Vector3(1, 0, 0)));
-	node1->SetScale(Vector3(10, 10, 10));
+	node1->SetScale(Vector3(scale, scale, scale));
 	heightMapRoot->AddChild(node1);
 	SceneNode* node2 = new SceneNode(shader, patch, Vector4(1, 1, 1, 1));
 	node2->AddTexture(tex);
 	node2->AddTexture(bumpTex);
 	node2->SetBoundingRadius(300.0f);
-	node2->SetTransform(Matrix4::Translation(Vector3(20, 0, 0)));
+	node2->SetTransform(Matrix4::Translation(Vector3(scale, 0, 0)));
 	node2->SetRotation(Matrix4::Rotation(-90, Vector3(1, 0, 0)));
-	node2->SetScale(Vector3(10, 10, 10));
+	node2->SetScale(Vector3(scale, scale, scale));
 	heightMapRoot->AddChild(node2);
 	SceneNode* node3 = new SceneNode(shader, patch, Vector4(1, 1, 1, 1));
 	node3->AddTexture(tex);
 	node3->AddTexture(bumpTex);
 	node3->SetBoundingRadius(300.0f);
-	node3->SetTransform(Matrix4::Translation(Vector3(20, 0, -20)));
+	node3->SetTransform(Matrix4::Translation(Vector3(20, 0, -scale)));
 	node3->SetRotation(Matrix4::Rotation(-90, Vector3(1, 0, 0)));
-	node3->SetScale(Vector3(10, 10, 10));
+	node3->SetScale(Vector3(scale, scale, scale));
 	heightMapRoot->AddChild(node3);
 	SceneNode* node4 = new SceneNode(shader, patch, Vector4(1, 1, 1, 1));
 	node4->AddTexture(tex);
 	node4->AddTexture(bumpTex);
 	node4->SetBoundingRadius(300.0f);
-	node4->SetTransform(Matrix4::Translation(Vector3(0, 0, -20)));
+	node4->SetTransform(Matrix4::Translation(Vector3(0, 0, -scale)));
 	node4->SetRotation(Matrix4::Rotation(-90, Vector3(1, 0, 0)));
-	node4->SetScale(Vector3(10, 10, 10));
+	node4->SetScale(Vector3(scale, scale, scale));
 	heightMapRoot->AddChild(node4);
 
 	scene->SetSkyBox(skybox);
 	scene->AddNode(heightMapRoot);
 	scene->AddNode(water);
 
-	scene->SetLight(new Light(Vector3(0, 30.0f, -400),
-		Vector4(1, 1.0, 1.0, 1), 100000.0f));
+	OBJMesh* sphere = new OBJMesh();
+	sphere->LoadOBJMesh(MESHDIR"sphere.obj");
+
+	Texture* colourTex = new Texture("depthTex");
+	Texture* normalTex = new Texture("normTex");
+
+	Vector3 pos = Vector3(0, 1000.0f, 0);
+
+	Vector4 colour = Vector4(0.5f + (float)(rand() % 129) / 128.0f,
+		0.5f + (float)(rand() % 129) / 128.0f,
+		0.5f + (float)(rand() % 129) / 128.0f,
+		1.0f);
+
+	float radius = (1000000);
+	LightNode* temp = new LightNode(pointLightShader, sphere, colour, radius, pos);
+	temp->AddTexture(colourTex);
+	temp->AddTexture(normalTex);
+	scene->AddLight(temp);
 
 
 	vector<RenderStages> stages = { DEFERRED_LIGHT_STAGE, PRESENT_STAGE, TEXT_STAGE };
@@ -147,6 +170,10 @@ Scene* SceneLoader::LoadScene2() {
 	//Shader* shader = new Shader(SHADERDIR"lightVert.vert", SHADERDIR"lightFrag.frag");
 	shader->LinkProgram();
 	shaders.push_back(shader);
+
+	Shader* particleShader = new Shader(SHADERDIR"particleVert.vert", SHADERDIR"particleFrag.frag", SHADERDIR"particleGeom.geom");
+	particleShader->LinkProgram();
+	shaders.push_back(particleShader);
 
 
 	/* Textures */
@@ -179,6 +206,11 @@ Scene* SceneLoader::LoadScene2() {
 	OBJMesh* fire = new OBJMesh(MESHDIR"fire-fix.obj");
 
 	ParticleEmitter* embers = new ParticleEmitter();
+	embers->SetParticleSize(2.0f);
+	embers->SetParticleVariance(1.0f);
+	embers->SetLaunchParticles(16.0f);
+	embers->SetParticleLifetime(20000.0f);
+	embers->SetParticleSpeed(0.1f);
 	meshes.push_back(embers);
 
 
@@ -218,16 +250,22 @@ Scene* SceneLoader::LoadScene2() {
 	firePlace->AddTexture(shadowMap);
 	firePlace->SetBoundingRadius(100000.0f);
 
+	SceneNode* emberEmitter = new SceneNode(particleShader, embers);
+	emberEmitter->SetTransform(Matrix4::Translation(Vector3(0, 0, 0)));
+	emberEmitter->SetBoundingRadius(100000.0f);
+
+	scene->AddEffect(emberEmitter);
 
 
 	//scene->AddNode(cube);
 	scene->AddNode(firePlace);
+	scene->AddNode(emberEmitter);
 	scene->AddNode(quad);
 
 	Shader* stageShader = new Shader(SHADERDIR"shadowVert.vert", SHADERDIR"shadowFrag.frag");
 	stageShader->LinkProgram();
 
-	scene->AddLight(new LightNode(stageShader, nullptr,Vector4(1.0, 1.0, 1.0, 1.0), 10000.0f, Vector3(0,200,-300)));
+	scene->AddLight(new LightNode(stageShader, nullptr,Vector4(1.0, 0.67, 0.0, 1.0), 1000.0f, Vector3(0,160,0)));
 
 
 	vector<RenderStages> stages = { SHADOW_STAGE, PRESENT_STAGE, TEXT_STAGE };
@@ -314,7 +352,7 @@ Scene* SceneLoader::LoadScene3() {
 				0.5f + (float)(rand() % 129) / 128.0f,
 				1.0f);
 
-			float radius = (RAW_WIDTH * HEIGHTMAP_X / LIGHTNUM);
+			float radius = (500);
 			LightNode* temp = new LightNode(pointLightShader, sphere, colour, radius, pos);
 			temp->AddTexture(colourTex);
 			temp->AddTexture(normalTex);
