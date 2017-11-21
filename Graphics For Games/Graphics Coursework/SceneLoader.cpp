@@ -46,6 +46,10 @@ Scene* SceneLoader::LoadScene1() {
 	reflectionShader->LinkProgram();
 	shaders.push_back(reflectionShader);
 
+	Shader* particleShader = new Shader(SHADERDIR"particleVert.vert", SHADERDIR"particleFrag.frag", SHADERDIR"particleGeom.geom");
+	particleShader->LinkProgram();
+	shaders.push_back(particleShader);
+
 	/* Meshes */
 	HeightMap* heightMap = new HeightMap(TEXTUREDIR "terrain.raw");
 	meshes.push_back(heightMap);
@@ -53,6 +57,14 @@ Scene* SceneLoader::LoadScene1() {
 	meshes.push_back(quad);
 	Mesh* patch = Mesh::GenerateQuadPatch();
 	meshes.push_back(patch);
+
+	ParticleEmitter* rain = new ParticleEmitter();
+	rain->SetParticleSize(1.0f);
+	rain->SetParticleVariance(1.0f);
+	rain->SetLaunchParticles(5.0f);
+	rain->SetParticleLifetime(20000.0f);
+	rain->SetParticleSpeed(0.1f);
+	meshes.push_back(rain);
 
 	/* Textures */
 	string skyTextures[6] = { TEXTUREDIR "desert_night_rt.tga",TEXTUREDIR "desert_night_lf.tga",TEXTUREDIR "desert_night_up.tga",TEXTUREDIR "desert_night_dn.tga",TEXTUREDIR "desert_night_bk.tga",TEXTUREDIR "desert_night_ft.tga" };
@@ -71,6 +83,9 @@ Scene* SceneLoader::LoadScene1() {
 	tex->ToggleRepeating();
 	textures.push_back(tex);
 
+	Texture* rainTex = new Texture(TEXTUREDIR"water.jpg", "diffuseTex");
+	textures.push_back(rainTex);
+
 	/* Scene Nodes */
 
 	SceneNode* skybox = new SceneNode(skyBoxShader, quad);
@@ -78,6 +93,13 @@ Scene* SceneLoader::LoadScene1() {
 	skybox->AddTexture(skyCubeMap);
 	skybox->SetBoundingRadius(1000000000.0f);
 	skybox->SetFaceCulling(false);
+
+	ParticleNode* rainEmitter = new ParticleNode(particleShader, rain);
+	rainEmitter->AddTexture(rainTex);
+	rainEmitter->SetTransform(Matrix4::Translation(Vector3(0, 0, 0)));
+	rainEmitter->SetBoundingRadius(200.0f);
+	rainEmitter->SetColour(Vector4(1.0, 1.0, 1.0, 0.5));
+
 
 	float scale = 1000.0f;
 
@@ -132,6 +154,9 @@ Scene* SceneLoader::LoadScene1() {
 	node4->SetBoundingRadius(1000000.0f);
 	heightMapRoot->AddChild(node4);
 
+	scene->AddEffect(rainEmitter);
+
+	scene->AddNode(rainEmitter);
 	scene->SetSkyBox(skybox);
 	scene->AddNode(heightMapRoot);
 	scene->AddNode(water);
@@ -207,6 +232,12 @@ Scene* SceneLoader::LoadScene2() {
 	//bumpTex->ToggleRepeating();
 	textures.push_back(fireTex);
 
+	Texture* emberTex = new Texture(TEXTUREDIR"firetrail.tga", "diffuseTex");
+	textures.push_back(emberTex);
+
+	Texture* smokeTex = new Texture(TEXTUREDIR"smoke.png", "diffuseTex");
+	textures.push_back(smokeTex);
+
 
 	Texture* shadowMap = new Texture("shadowTex");
 	textures.push_back(shadowMap);
@@ -215,12 +246,20 @@ Scene* SceneLoader::LoadScene2() {
 	OBJMesh* room = new OBJMesh(MESHDIR"cube.obj");
 	OBJMesh* fire = new OBJMesh(MESHDIR"fire-fix.obj");
 
+	ParticleEmitter* smoke = new ParticleEmitter();
+	smoke->SetParticleSize(2.0f);
+	smoke->SetParticleVariance(1.0f);
+	smoke->SetLaunchParticles(5.0f);
+	smoke->SetParticleLifetime(20000.0f);
+	smoke->SetParticleSpeed(0.08f);
+	meshes.push_back(smoke);
+
 	ParticleEmitter* embers = new ParticleEmitter();
-	embers->SetParticleSize(2.0f);
+	embers->SetParticleSize(1.0f);
 	embers->SetParticleVariance(1.0f);
-	embers->SetLaunchParticles(10.0f);
+	embers->SetLaunchParticles(5.0f);
 	embers->SetParticleLifetime(20000.0f);
-	embers->SetParticleSpeed(0.08f);
+	embers->SetParticleSpeed(0.1f);
 	meshes.push_back(embers);
 
 
@@ -260,13 +299,22 @@ Scene* SceneLoader::LoadScene2() {
 	firePlace->AddTexture(shadowMap);
 	firePlace->SetBoundingRadius(80.0f);
 
+	ParticleNode* smokeEmitter = new ParticleNode(particleShader, smoke);
+	smokeEmitter->AddTexture(smokeTex);
+	smokeEmitter->SetTransform(Matrix4::Translation(Vector3(0, 0, 0)));
+	smokeEmitter->SetBoundingRadius(200.0f);
+	smokeEmitter->SetColour(Vector4(1.0, 1.0, 1.0, 0.5));
+
 	ParticleNode* emberEmitter = new ParticleNode(particleShader, embers);
+	emberEmitter->AddTexture(emberTex);
 	emberEmitter->SetTransform(Matrix4::Translation(Vector3(0, 0, 0)));
 	emberEmitter->SetBoundingRadius(200.0f);
 	emberEmitter->SetColour(Vector4(1.0, 1.0, 1.0, 0.5));
 
+	firePlace->AddChild(smokeEmitter);
 	firePlace->AddChild(emberEmitter);
 
+	scene->AddEffect(smokeEmitter);
 	scene->AddEffect(emberEmitter);
 
 
