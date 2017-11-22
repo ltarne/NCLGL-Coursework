@@ -129,6 +129,15 @@ void Renderer::DrawNode(SceneNode* node, Shader* overrideShader) {
 			glUniform3fv(glGetUniformLocation(activeShader->GetProgram(), "lightPos"), 1, (float*)&light->GetPosition());
 			glUniform4fv(glGetUniformLocation(activeShader->GetProgram(), "lightColour"), 1, (float*)&light->GetColour());
 			glUniform1f(glGetUniformLocation(activeShader->GetProgram(), "lightRadius"), light->GetRadius());
+			glBindBuffer(GL_UNIFORM_BUFFER, *lightUBO);
+			glBufferData(GL_UNIFORM_BUFFER, sizeof(lightData), &lightData, GL_DYNAMIC_DRAW);
+			
+			GLuint index = glGetUniformBlockIndex(activeShader->GetProgram(), "lightUBO");
+			glUniformBlockBinding(activeShader->GetProgram(), index, 0);
+			glBindBufferBase(GL_UNIFORM_BUFFER, index, *lightUBO);
+			glBindBuffer(GL_UNIFORM_BUFFER, 0);
+			
+
 		}
 		glUniform3fv(glGetUniformLocation(activeShader->GetProgram(), "cameraPos"), 1, (float*)&activeScene->GetCamera()->GetPosition());
 		glUniform2f(glGetUniformLocation(activeShader->GetProgram(), "pixelSize"), 1.0f / width, 1.0f / height);

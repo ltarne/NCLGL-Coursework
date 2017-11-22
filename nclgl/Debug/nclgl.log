@@ -1,6 +1,5 @@
-﻿  ShadowStage.cpp
-c:\users\b4027488\github\nclgl coursework\nclgl\scene.h(28): warning C4018: '<': signed/unsigned mismatch
-c:\users\b4027488\github\nclgl coursework\nclgl\shadowstage.cpp(57): warning C4018: '<': signed/unsigned mismatch
+﻿  SceneNode.cpp
+c:\users\b4027488\github\nclgl coursework\nclgl\scenenode.cpp(45): warning C4018: '<': signed/unsigned mismatch
   Generating Code...
   Skipping... (no relevant changes detected)
   Light.cpp

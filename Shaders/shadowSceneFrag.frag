@@ -9,6 +9,17 @@ uniform vec3 lightPos;
 uniform vec3 cameraPos;
 uniform float lightRadius;
 
+// struct Light {
+//   vec3 lightPosition;
+// 	vec4 lightColour;
+// 	float lightRadius;
+// 	mat4 textureMatrix;
+// };
+//
+// layout(std140) uniform lightUBO {
+//   Light lights[10];
+// };
+
 in Vertex {
   vec4 colour;
   vec2 texCoord;

@@ -37,6 +37,7 @@ int main() {
 
 	RenderingManager manager(&renderer);
 
+	Scene* scenes[3] = { scene1, scene2, scene3 };
 
 	manager.SetActiveScene(scene1);
 
@@ -44,11 +45,15 @@ int main() {
 
 	int frameCount = 0;
 	float time = 0.0f;
+
+	float sceneTimer = 0;
+	bool pause = false;
 	
 
 	while (w.UpdateWindow() && !Window::GetKeyboard()->KeyDown(KEYBOARD_ESCAPE)) {
 		float msec = w.GetTimer()->GetTimedMS();
 		time += msec;
+		sceneTimer += msec;
 		frameCount += 1;
 		if ((time / 1000.0f) > 1) {
 			fps = round(frameCount);
@@ -56,16 +61,34 @@ int main() {
 			time = 0.0f;
 		}
 
+		if ((sceneTimer / 60000) > 1 && !pause) {
+			if (currentScene == 2) {
+				currentScene = 0;
+			}
+			else {
+				currentScene++;
+			}
+			manager.SetActiveScene(scenes[currentScene]);
+			sceneTimer = 0;
+		}
+
+
 		if (Window::GetKeyboard()->KeyDown(KEYBOARD_1)) {
 			manager.SetActiveScene(scene1);
+			currentScene = 0;
+			sceneTimer = 0;
 		}
 		else if (Window::GetKeyboard()->KeyDown(KEYBOARD_2)) {
 			manager.SetActiveScene(scene2);
+			currentScene = 1;
+			sceneTimer = 0;
 		}
 		else if (Window::GetKeyboard()->KeyDown(KEYBOARD_3)) {
 			manager.SetActiveScene(scene3);
+			currentScene = 2;
+			sceneTimer = 0;
 		}
-		else if (Window::GetKeyboard()->KeyDown(KEYBOARD_LEFT)) {
+		else if (Window::GetKeyboard()->KeyTriggered(KEYBOARD_LEFT)) {
 			//manager.SetActiveScene(scene3);
 			if (currentScene == 0) {
 				currentScene = 2;
@@ -73,8 +96,10 @@ int main() {
 			else {
 				currentScene--;
 			}
+			manager.SetActiveScene(scenes[currentScene]);
+			sceneTimer = 0;
 		}
-		else if (Window::GetKeyboard()->KeyDown(KEYBOARD_RIGHT)) {
+		else if (Window::GetKeyboard()->KeyTriggered(KEYBOARD_RIGHT)) {
 			//manager.SetActiveScene(scene3);
 			if (currentScene == 2) {
 				currentScene = 0;
@@ -82,10 +107,12 @@ int main() {
 			else {
 				currentScene++;
 			}
-			
+			manager.SetActiveScene(scenes[currentScene]);
+			sceneTimer = 0;
 		}
-		else if (Window::GetKeyboard()->KeyDown(KEYBOARD_PAUSE)) {
+		else if (Window::GetKeyboard()->KeyTriggered(KEYBOARD_PAUSE)) {
 			//manager.SetActiveScene(scene3);
+			pause = !pause;
 		}
 
 		manager.UpdateScene(msec);

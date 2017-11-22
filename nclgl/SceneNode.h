@@ -80,6 +80,8 @@ protected:
 	float distanceFromCamera;
 	float boundingRadius;
 
+	float time;
+
 	bool visible;
 	bool depthTest;
 	bool faceCulling;

@@ -7,6 +7,8 @@ ShadowStage::ShadowStage(Renderer* renderer)
 	stageShader = new Shader(SHADERDIR"shadowVert.vert", SHADERDIR"shadowFrag.frag");
 	stageShader->LinkProgram();
 
+	usedLights = 0;
+
 	glGenFramebuffers(1, &shadowFBO);
 
 	glGenTextures(1, &shadowTex);
@@ -23,11 +25,14 @@ ShadowStage::ShadowStage(Renderer* renderer)
 	glDrawBuffer(GL_NONE);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-	/*glGenBuffers(1, &lightsUBO);
+	glGenBuffers(1, &lightsUBO);
 	glBindBuffer(GL_UNIFORM_BUFFER, lightsUBO);
 	glBufferData(GL_UNIFORM_BUFFER, sizeof(lightData), &lightData, GL_DYNAMIC_DRAW);
-	glBindBuffer(GL_UNIFORM_BUFFER, 0);*/
-	//glBindBufferRange(GL_UNIFORM_BUFFER, , lightsUBO, 0, );
+	glBindBuffer(GL_UNIFORM_BUFFER, 0);
+
+	renderer->SetLightUBO(&lightsUBO);
+
+
 }
 
 
@@ -58,37 +63,41 @@ void ShadowStage::CreateShadowTextures(Scene * scene) {
 
 	glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
 
-	vector<LightNode*> lights = *scene->GetLightList();
+	//vector<LightNode*> lights = *scene->GetLightList();
 
-	for (int i = 0; i < lights.size(); ++i) {
-		
-		shadowTextures.push_back(GLuint());
-		
+	//for (int i = 0; i < lights.size() && i < maxLights; ++i) {
+	//	shadowTextures.push_back(GLuint());
+	//	
+	//	usedLights++;
 
-		glGenTextures(1, &shadowTextures.back());
-		glBindTexture(GL_TEXTURE_2D, shadowTextures.back());
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, SHADOWSIZE, SHADOWSIZE, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_R_TO_TEXTURE);
-		glBindTexture(GL_TEXTURE_2D, 0);
+	//	glGenTextures(1, &shadowTextures.back());
+	//	glBindTexture(GL_TEXTURE_2D, shadowTextures.back());
+	//	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	//	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	//	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	//	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, SHADOWSIZE, SHADOWSIZE, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+	//	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_R_TO_TEXTURE);
+	//	glBindTexture(GL_TEXTURE_2D, 0);
 
-		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, shadowTextures.back(), 0);
+	//	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, shadowTextures.back(), 0);
 
-		glClear(GL_DEPTH_BUFFER_BIT);
-		Vector3 point = lights[i]->GetDirection() * lights[i]->GetRadius();
+	//	glClear(GL_DEPTH_BUFFER_BIT);
+	//	Vector3 point = lights[i]->GetDirection() * lights[i]->GetRadius();
 
-		renderer->SetViewMatrix(Matrix4::BuildViewMatrix(lights[i]->GetPosition(), point));
+	//	renderer->SetViewMatrix(Matrix4::BuildViewMatrix(lights[i]->GetPosition(), point));
 
-		renderer->SetTextureMatrix(biasMatrix*(scene->GetProjMatrix() * Matrix4::BuildViewMatrix(lights[i]->GetPosition(), point)));
+	//	//renderer->SetTextureMatrix(biasMatrix*(scene->GetProjMatrix() * Matrix4::BuildViewMatrix(lights[i]->GetPosition(), point)));
+
+	//	lightData[i].textureMatrix = (biasMatrix*(scene->GetProjMatrix() * Matrix4::BuildViewMatrix(lights[i]->GetPosition(), point)));
+	//	lightData[i].lightColour = lights[i]->GetColour();
+	//	lightData[i].lightPosition = lights[i]->GetPosition();
+	//	lightData[i].lightRadius = lights[i]->GetRadius();
 
 
+	//	renderer->DrawNodes(stageShader);
+	//}
 
-		renderer->DrawNodes(stageShader);
-	}
-
-	/*LightNode* light = (*scene->GetLightList())[0];
+	LightNode* light = (*scene->GetLightList())[0];
 	light->SetShader(stageShader);
 	
 
@@ -98,7 +107,7 @@ void ShadowStage::CreateShadowTextures(Scene * scene) {
 
 	
 
-	renderer->DrawNodes(stageShader);*/
+	renderer->DrawNodes(stageShader);
 
 
 	glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
@@ -112,9 +121,9 @@ void ShadowStage::PresentScene(Scene * scene) {
 	glBindTexture(GL_TEXTURE_2D, shadowTex);
 	glBindFramebuffer(GL_FRAMEBUFFER, bufferFBO);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, bufferDepthTex, 0);
-
 	
-
+	
+	renderer->SetLightData(lightData);
 	
 	(*scene->GetRoot()->GetChildIteratorStart())->GetTextures()->back()->SetTexture(shadowTex);
 
@@ -123,4 +132,5 @@ void ShadowStage::PresentScene(Scene * scene) {
 	renderer->RenderScene();
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, 0, 0);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	usedLights = 0;
 }

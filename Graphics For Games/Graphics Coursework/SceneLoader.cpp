@@ -42,7 +42,7 @@ Scene* SceneLoader::LoadScene1() {
 	skyBoxShader->LinkProgram();
 	shaders.push_back(skyBoxShader);
 
-	Shader* reflectionShader = new Shader(SHADERDIR"lightVert.vert", SHADERDIR"reflectFrag.frag");
+	Shader* reflectionShader = new Shader(SHADERDIR"heightMapShadowVert.vert", SHADERDIR"reflectFrag.frag", "", SHADERDIR"heightMapTCS.tesc", SHADERDIR"waterTES.tese");
 	reflectionShader->LinkProgram();
 	shaders.push_back(reflectionShader);
 
@@ -126,9 +126,9 @@ Scene* SceneLoader::LoadScene1() {
 	heightMapRoot->AddTexture(bumpTex);
 	heightMapRoot->AddTexture(grass);
 
-	TessellatedHeightMapNode* water = new TessellatedHeightMapNode(16, scale, reflectionShader, quad);
-	water->SetTransform(Matrix4::Translation(Vector3(0, 700, (scale*2)*3)));
-	water->SetRotation(Matrix4::Rotation(180.0f, Vector3(1, 0, 0)));
+	TessellatedHeightMapNode* water = new TessellatedHeightMapNode(16, scale, reflectionShader, patch);
+	water->SetTransform(Matrix4::Translation(Vector3(0, 700, 0)));
+	//water->SetRotation(Matrix4::Rotation(180.0f, Vector3(1, 0, 0)));
 	water->AddTexture(waterTex);
 	water->AddTexture(skyCubeMap);
 
@@ -363,13 +363,17 @@ Scene* SceneLoader::LoadScene3() {
 	HeightMap* heightMap = new HeightMap(TEXTUREDIR"terrain.raw");
 	meshes.push_back(heightMap);
 
+	OBJMesh* planet = new OBJMesh(MESHDIR"asteroid OBJ-fix.obj");
+
 	Mesh* quadMesh = Mesh::GenerateQuad();
 
-	SceneNode* heightMapNode = new SceneNode(shader, heightMap);
+	SceneNode* heightMapNode = new SceneNode(shader, planet);
 	heightMapNode->AddTexture(tex);
 	heightMapNode->AddTexture(bumpTex);
 	heightMapNode->SetBoundingRadius(1000000.0f);
-	heightMapNode->SetTransform(Matrix4::Translation(Vector3(-(RAW_WIDTH * HEIGHTMAP_X) / 2, -350, -(RAW_HEIGHT * HEIGHTMAP_Z))));
+	//heightMapNode->SetTransform(Matrix4::Translation(Vector3(-(RAW_WIDTH * HEIGHTMAP_X) / 2, -350, -(RAW_HEIGHT * HEIGHTMAP_Z))));
+	heightMapNode->SetTransform(Matrix4::Translation(Vector3(0,-100,0)));
+	heightMapNode->SetScale(Vector3(100, 100, 100));
 
 
 	SceneNode* skybox = new SceneNode(skyBoxShader, quadMesh);
@@ -391,7 +395,7 @@ Scene* SceneLoader::LoadScene3() {
 	for (int x = 0; x < LIGHTNUM; ++x) {
 		for (int z = 0; z < LIGHTNUM; ++z) {
 			Vector3 pos = Vector3(((RAW_WIDTH * HEIGHTMAP_X / (LIGHTNUM - 1)) * x) - (RAW_WIDTH * HEIGHTMAP_X) / 2,
-				-100.0f,
+				1000.0f,
 				-(RAW_HEIGHT * HEIGHTMAP_Z / (LIGHTNUM - 1)) * z);
 
 			Vector4 colour = Vector4(0.5f + (float)(rand() % 129) / 128.0f,
@@ -413,7 +417,7 @@ Scene* SceneLoader::LoadScene3() {
 	vector<RenderStages> stages = { DEFERRED_LIGHT_STAGE, BLOOM_STAGE, PRESENT_STAGE, TEXT_STAGE };
 	scene->SetRenderStages(stages);
 
-	scene->GetCamera()->SetPosition(Vector3());
+	scene->GetCamera()->SetPosition(Vector3(0,1000,0));
 
 	scenes[2] = scene;
 	return scene;

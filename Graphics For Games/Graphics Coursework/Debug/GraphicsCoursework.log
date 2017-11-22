@@ -1,2 +1,13 @@
-﻿  GraphicsCoursework.vcxproj -> C:\Users\B4027488\GitHub\NCLGL Coursework\Graphics For Games\Debug\GraphicsCoursework.exe
+﻿  SceneLoader.cpp
+c:\users\b4027488\github\nclgl coursework\nclgl\scene.h(28): warning C4018: '<': signed/unsigned mismatch
+c:\users\b4027488\github\nclgl coursework\nclgl\tessellatedheightmapnode.h(12): warning C4018: '<': signed/unsigned mismatch
+c:\users\b4027488\github\nclgl coursework\graphics for games\graphics coursework\sceneloader.cpp(66): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\b4027488\github\nclgl coursework\graphics for games\graphics coursework\sceneloader.cpp(70): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+c:\users\b4027488\github\nclgl coursework\graphics for games\graphics coursework\sceneloader.cpp(129): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\b4027488\github\nclgl coursework\graphics for games\graphics coursework\sceneloader.cpp(150): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+c:\users\b4027488\github\nclgl coursework\graphics for games\graphics coursework\sceneloader.cpp(234): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\b4027488\github\nclgl coursework\graphics for games\graphics coursework\sceneloader.cpp(243): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\b4027488\github\nclgl coursework\graphics for games\graphics coursework\sceneloader.cpp(313): warning C4305: 'argument': truncation from 'double' to 'float'
+glew32.lib(glew.obj) : warning LNK4099: PDB 'vc120.pdb' was not found with 'glew32.lib(glew.obj)' or at 'C:\Users\B4027488\GitHub\NCLGL Coursework\Graphics For Games\Debug\vc120.pdb'; linking object as if no debug info
+  GraphicsCoursework.vcxproj -> C:\Users\B4027488\GitHub\NCLGL Coursework\Graphics For Games\Debug\GraphicsCoursework.exe
   GraphicsCoursework.vcxproj -> C:\Users\B4027488\GitHub\NCLGL Coursework\Graphics For Games\Debug\GraphicsCoursework.pdb (Partial PDB)

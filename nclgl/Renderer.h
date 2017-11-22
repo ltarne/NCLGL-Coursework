@@ -10,24 +10,32 @@
 #include "TextMesh.h"
 #include <algorithm>
 
+struct LightData {
+	Vector4 lightColour;
+	Vector3 lightPosition;
+	float lightRadius;
+	//GLuint shadowTexture;
+	Matrix4 textureMatrix;
+};
+
 #define SHADOWSIZE 2048
 
-struct FrameBufferInfo {
-	FrameBufferInfo() {
-		bufferFBO = 0;
-		processFBO = 0;
-		shadowTex = 0;
-		bufferColourTex[0] = 0;
-		bufferColourTex[1] = 0;
-		bufferDepthTex = 0;
-	}
-
-	GLuint bufferFBO;
-	GLuint processFBO;
-	GLuint shadowTex;
-	GLuint bufferColourTex[2];
-	GLuint bufferDepthTex;
-};
+//struct FrameBufferInfo {
+//	FrameBufferInfo() {
+//		bufferFBO = 0;
+//		processFBO = 0;
+//		shadowTex = 0;
+//		bufferColourTex[0] = 0;
+//		bufferColourTex[1] = 0;
+//		bufferDepthTex = 0;
+//	}
+//
+//	GLuint bufferFBO;
+//	GLuint processFBO;
+//	GLuint shadowTex;
+//	GLuint bufferColourTex[2];
+//	GLuint bufferDepthTex;
+//};
 
 class Renderer : public OGLRenderer	{
 public:
@@ -54,6 +62,8 @@ public:
 	inline void SetViewMatrix(Matrix4 viewMatrix) { this->viewMatrix = viewMatrix; }
 	inline void SetProjMatrix(Matrix4 projMatrix) { this->projMatrix = projMatrix; }
 	inline void SetTextureMatrix(Matrix4 textureMatrix) { this->textureMatrix = textureMatrix; }
+	inline void SetLightData(LightData* lightData) { this->lightData = lightData; }
+	inline void SetLightUBO(GLuint* lightUBO) { this->lightUBO = lightUBO; }
 
 	inline void SetActiveScene(Scene* activeScene) { this->activeScene = activeScene; }
 
@@ -80,6 +90,9 @@ protected:
 	GLuint bufferFBO;
 	GLuint colourBuffers[2];
 	GLuint bufferDepthTex;
+
+	LightData* lightData;
+	GLuint* lightUBO;
 
 	Scene* activeScene;
 

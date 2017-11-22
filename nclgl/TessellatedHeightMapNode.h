@@ -13,5 +13,13 @@ public:
 			children[i]->AddTexture(texture);
 		}
 	}
+
+	virtual void Update(float msec);
+
+	virtual void LoadUniforms(Shader* shader);
+	
+protected:
+
+	float time;
 };
 
