@@ -1,5 +1,11 @@
 #pragma once
 #include "RenderStage.h"
+struct LightData {
+	Vector3 lightPosition;
+	Vector3 lightColour;
+	Vector3 lightRadius;
+};
+
 class ShadowStage :
 	public RenderStage
 {
@@ -14,6 +20,10 @@ protected:
 	void PresentScene(Scene * scene);
 
 	GLuint shadowFBO;
+
+	GLuint  lightsUBO;
+	vector<GLuint> shadowTextures;
+	LightData lightData[10];
 
 	GLuint shadowTex;
 };

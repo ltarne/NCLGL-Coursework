@@ -1,8 +1,2 @@
-﻿  SceneLoader.cpp
-c:\users\luke\documents\github\nclgl-coursework\nclgl\scene.h(28): warning C4018: '<': signed/unsigned mismatch
-c:\users\luke\documents\github\nclgl-coursework\graphics for games\graphics coursework\sceneloader.cpp(64): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\luke\documents\github\nclgl-coursework\graphics for games\graphics coursework\sceneloader.cpp(171): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
-c:\users\luke\documents\github\nclgl-coursework\graphics for games\graphics coursework\sceneloader.cpp(252): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\luke\documents\github\nclgl-coursework\graphics for games\graphics coursework\sceneloader.cpp(260): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\luke\documents\github\nclgl-coursework\graphics for games\graphics coursework\sceneloader.cpp(329): warning C4305: 'argument': truncation from 'double' to 'float'
-  GraphicsCoursework.vcxproj -> C:\Users\Luke\Documents\GitHub\NCLGL-Coursework\Graphics For Games\Debug\GraphicsCoursework.exe
+﻿  GraphicsCoursework.vcxproj -> C:\Users\B4027488\GitHub\NCLGL Coursework\Graphics For Games\Debug\GraphicsCoursework.exe
+  GraphicsCoursework.vcxproj -> C:\Users\B4027488\GitHub\NCLGL Coursework\Graphics For Games\Debug\GraphicsCoursework.pdb (Partial PDB)

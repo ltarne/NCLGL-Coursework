@@ -1,7 +1,8 @@
-﻿  Skipping... (no relevant changes detected)
-  TextMesh.cpp
-  TessellatedHeightMapNode.cpp
-  LightNode.cpp
+﻿  ShadowStage.cpp
+c:\users\b4027488\github\nclgl coursework\nclgl\scene.h(28): warning C4018: '<': signed/unsigned mismatch
+c:\users\b4027488\github\nclgl coursework\nclgl\shadowstage.cpp(57): warning C4018: '<': signed/unsigned mismatch
+  Generating Code...
+  Skipping... (no relevant changes detected)
   Light.cpp
 Light.obj : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
-  nclgl.vcxproj -> C:\Users\Luke\Documents\GitHub\NCLGL-Coursework\Graphics For Games\Debug\nclgl.lib
+  nclgl.vcxproj -> C:\Users\B4027488\GitHub\NCLGL Coursework\Graphics For Games\Debug\nclgl.lib

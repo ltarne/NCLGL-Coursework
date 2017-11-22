@@ -38,7 +38,9 @@ int main() {
 	RenderingManager manager(&renderer);
 
 
-	manager.SetActiveScene(scene3);
+	manager.SetActiveScene(scene1);
+
+	int currentScene = 0;
 
 	int frameCount = 0;
 	float time = 0.0f;
@@ -65,9 +67,22 @@ int main() {
 		}
 		else if (Window::GetKeyboard()->KeyDown(KEYBOARD_LEFT)) {
 			//manager.SetActiveScene(scene3);
+			if (currentScene == 0) {
+				currentScene = 2;
+			}
+			else {
+				currentScene--;
+			}
 		}
 		else if (Window::GetKeyboard()->KeyDown(KEYBOARD_RIGHT)) {
 			//manager.SetActiveScene(scene3);
+			if (currentScene == 2) {
+				currentScene = 0;
+			}
+			else {
+				currentScene++;
+			}
+			
 		}
 		else if (Window::GetKeyboard()->KeyDown(KEYBOARD_PAUSE)) {
 			//manager.SetActiveScene(scene3);

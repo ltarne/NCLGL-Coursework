@@ -1,7 +1,7 @@
 #pragma once
 #include "RenderStage.h"
 
-#define POST_PASSES 10
+#define POST_PASSES 20
 
 class BloomStage :
 	public RenderStage

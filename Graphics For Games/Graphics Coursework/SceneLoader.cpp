@@ -28,7 +28,7 @@ Scene* SceneLoader::LoadScene1() {
 	/*Shader* shader = new Shader(SHADERDIR"shadowSceneVert.vert", SHADERDIR"shadowSceneFrag.frag");
 	shader->LinkProgram();*/
 
-	Shader* shader = new Shader(SHADERDIR"heightMapShadowVert.vert", SHADERDIR"bufferFrag.frag", "", SHADERDIR"heightMapTCS.tesc", SHADERDIR"heightMapTES.tese");
+	Shader* shader = new Shader(SHADERDIR"heightMapShadowVert.vert", SHADERDIR"heightMapMultiFrag.frag", "", SHADERDIR"heightMapTCS.tesc", SHADERDIR"heightMapTES.tese");
 	if (!shader->LinkProgram()) {
 		return NULL;
 	}
@@ -42,13 +42,15 @@ Scene* SceneLoader::LoadScene1() {
 	skyBoxShader->LinkProgram();
 	shaders.push_back(skyBoxShader);
 
-	Shader* reflectionShader = new Shader(SHADERDIR"lightVert.vert", SHADERDIR"bufferFrag.frag");
+	Shader* reflectionShader = new Shader(SHADERDIR"lightVert.vert", SHADERDIR"reflectFrag.frag");
 	reflectionShader->LinkProgram();
 	shaders.push_back(reflectionShader);
 
 	Shader* particleShader = new Shader(SHADERDIR"particleVert.vert", SHADERDIR"particleFrag.frag", SHADERDIR"particleGeom.geom");
 	particleShader->LinkProgram();
 	shaders.push_back(particleShader);
+
+	float scale = 1000.0f;
 
 	/* Meshes */
 	HeightMap* heightMap = new HeightMap(TEXTUREDIR "terrain.raw");
@@ -61,19 +63,26 @@ Scene* SceneLoader::LoadScene1() {
 	ParticleEmitter* rain = new ParticleEmitter();
 	rain->SetParticleSize(1.0f);
 	rain->SetParticleVariance(1.0f);
-	rain->SetLaunchParticles(5.0f);
-	rain->SetParticleLifetime(20000.0f);
-	rain->SetParticleSpeed(0.1f);
+	rain->SetLaunchParticles(100.0f);
+	rain->SetParticleLifetime(3000.0f);
+	rain->SetParticleSpeed(0.7f);
+	rain->SetDirection(Vector3(0, -1, 0));
+	rain->SetOrigin(Vector3((scale * 2) * 2.0, 2500, (scale * 2) * 2.0));
+	rain->SetSpawnWidth((scale*2) * 4);
 	meshes.push_back(rain);
 
 	/* Textures */
-	string skyTextures[6] = { TEXTUREDIR "desert_night_rt.tga",TEXTUREDIR "desert_night_lf.tga",TEXTUREDIR "desert_night_up.tga",TEXTUREDIR "desert_night_dn.tga",TEXTUREDIR "desert_night_bk.tga",TEXTUREDIR "desert_night_ft.tga" };
+	string skyTextures[6] = { TEXTUREDIR "rusted_west.JPG",TEXTUREDIR "rusted_east.JPG",TEXTUREDIR "rusted_up.JPG",TEXTUREDIR "rusted_down.JPG",TEXTUREDIR "rusted_south.JPG",TEXTUREDIR "rusted_north.JPG" };
 	CubeMapTexture* skyCubeMap = new CubeMapTexture(skyTextures, "cubeTex");
 	textures.push_back(skyCubeMap);
 
 	Texture* bumpTex = new Texture(TEXTUREDIR"Barren RedsDOT3.JPG", "bumpTex");
 	bumpTex->ToggleRepeating();
 	textures.push_back(bumpTex);
+
+	Texture* grass = new Texture(TEXTUREDIR"grass.png", "grassTex");
+	grass->ToggleRepeating();
+	textures.push_back(grass);
 
 	Texture* waterTex = new Texture(TEXTUREDIR"water.png", "waterTex");
 	waterTex->ToggleRepeating();
@@ -83,7 +92,7 @@ Scene* SceneLoader::LoadScene1() {
 	tex->ToggleRepeating();
 	textures.push_back(tex);
 
-	Texture* rainTex = new Texture(TEXTUREDIR"water.jpg", "diffuseTex");
+	Texture* rainTex = new Texture(TEXTUREDIR"rain.png", "diffuseTex");
 	textures.push_back(rainTex);
 
 	/* Scene Nodes */
@@ -97,62 +106,32 @@ Scene* SceneLoader::LoadScene1() {
 	ParticleNode* rainEmitter = new ParticleNode(particleShader, rain);
 	rainEmitter->AddTexture(rainTex);
 	rainEmitter->SetTransform(Matrix4::Translation(Vector3(0, 0, 0)));
-	rainEmitter->SetBoundingRadius(200.0f);
+	rainEmitter->SetBoundingRadius(100000000.0f);
 	rainEmitter->SetColour(Vector4(1.0, 1.0, 1.0, 0.5));
 
 
-	float scale = 1000.0f;
+	
 
-	SceneNode* water = new SceneNode(reflectionShader, quad);
+	/*SceneNode* water = new SceneNode(reflectionShader, quad);
 	water->AddTexture(waterTex);
 	water->AddTexture(skyCubeMap);
 	water->SetTransform(Matrix4::Translation(Vector3(0, 700, 0)));
 	water->SetRotation(Matrix4::Rotation(90.0f, Vector3(1, 0, 0)));
-	water->SetScale(Vector3(scale, scale, scale));
+	water->SetScale(Vector3(scale, scale, scale));*/
 
-	water->SetBoundingRadius(100000000.0f);
+	//water->SetBoundingRadius(100000000.0f);
 
-	SceneNode* heightMapRoot = new SceneNode();
-	heightMapRoot->SetVisible(false);
-	heightMapRoot->SetBoundingRadius(1000000.0f);
-	heightMapRoot->SetTransform(Matrix4::Translation(Vector3(0, -10, 0)));
-	heightMapRoot->SetScale(Vector3(100, 100, 100));
-	SceneNode* node1 = new SceneNode(shader, patch, Vector4(1, 1, 1, 1));
-	node1->AddTexture(tex);
-	node1->AddTexture(bumpTex);
-	node1->SetBoundingRadius(300.0f);
-	node1->SetTransform(Matrix4::Translation(Vector3(0, 0, 0))); 
-	node1->SetRotation(Matrix4::Rotation(-90, Vector3(1, 0, 0)));
-	node1->SetScale(Vector3(scale, scale, scale));
-	node1->SetBoundingRadius(1000000.0f);
-	heightMapRoot->AddChild(node1);
-	SceneNode* node2 = new SceneNode(shader, patch, Vector4(1, 1, 1, 1));
-	node2->AddTexture(tex);
-	node2->AddTexture(bumpTex);
-	node2->SetBoundingRadius(300.0f);
-	node2->SetTransform(Matrix4::Translation(Vector3(scale, 0, 0)));
-	node2->SetRotation(Matrix4::Rotation(-90, Vector3(1, 0, 0)));
-	node2->SetScale(Vector3(scale, scale, scale));
-	node2->SetBoundingRadius(1000000.0f);
-	heightMapRoot->AddChild(node2);
-	SceneNode* node3 = new SceneNode(shader, patch, Vector4(1, 1, 1, 1));
-	node3->AddTexture(tex);
-	node3->AddTexture(bumpTex);
-	node3->SetBoundingRadius(300.0f);
-	node3->SetTransform(Matrix4::Translation(Vector3(scale, 0, -scale)));
-	node3->SetRotation(Matrix4::Rotation(-90, Vector3(1, 0, 0)));
-	node3->SetScale(Vector3(scale, scale, scale));
-	node3->SetBoundingRadius(1000000.0f);
-	heightMapRoot->AddChild(node3);
-	SceneNode* node4 = new SceneNode(shader, patch, Vector4(1, 1, 1, 1));
-	node4->AddTexture(tex);
-	node4->AddTexture(bumpTex);
-	node4->SetBoundingRadius(300.0f);
-	node4->SetTransform(Matrix4::Translation(Vector3(0, 0, -scale)));
-	node4->SetRotation(Matrix4::Rotation(-90, Vector3(1, 0, 0)));
-	node4->SetScale(Vector3(scale, scale, scale));
-	node4->SetBoundingRadius(1000000.0f);
-	heightMapRoot->AddChild(node4);
+	TessellatedHeightMapNode* heightMapRoot = new TessellatedHeightMapNode(16, 1000, shader, patch);
+	heightMapRoot->AddTexture(tex);
+	heightMapRoot->AddTexture(bumpTex);
+	heightMapRoot->AddTexture(grass);
+
+	TessellatedHeightMapNode* water = new TessellatedHeightMapNode(16, scale, reflectionShader, quad);
+	water->SetTransform(Matrix4::Translation(Vector3(0, 700, (scale*2)*3)));
+	water->SetRotation(Matrix4::Rotation(180.0f, Vector3(1, 0, 0)));
+	water->AddTexture(waterTex);
+	water->AddTexture(skyCubeMap);
+
 
 	scene->AddEffect(rainEmitter);
 
@@ -168,7 +147,7 @@ Scene* SceneLoader::LoadScene1() {
 	Texture* normalTex = new Texture("normTex");
 
 	for (int i = 0; i < 10; ++i) {
-		Vector3 pos = Vector3(0, 100.0f, -i * 500);
+		Vector3 pos = Vector3(0, 1000.0f, -i * 500);
 
 		Vector4 colour = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
 
@@ -181,11 +160,14 @@ Scene* SceneLoader::LoadScene1() {
 	
 
 
-	vector<RenderStages> stages = { DEFERRED_LIGHT_STAGE, COLOUR_CORRECTION_STAGE, PRESENT_STAGE, TEXT_STAGE };
+	vector<RenderStages> stages = { BASIC_STAGE, /*COLOUR_CORRECTION_STAGE,*/ PRESENT_STAGE, TEXT_STAGE };
 	scene->SetRenderStages(stages);
 
 	scene->BuildNodeLists(scene->GetRoot());
 	scene->QuickSortNodeLists();
+
+	scene->GetCamera()->SetPosition(Vector3(scale*2, 1500, scale * 2));
+
 
 	scenes[0];
 
@@ -252,14 +234,16 @@ Scene* SceneLoader::LoadScene2() {
 	smoke->SetLaunchParticles(5.0f);
 	smoke->SetParticleLifetime(20000.0f);
 	smoke->SetParticleSpeed(0.08f);
+	smoke->SetSpawnWidth(80.0f);
 	meshes.push_back(smoke);
 
 	ParticleEmitter* embers = new ParticleEmitter();
 	embers->SetParticleSize(1.0f);
 	embers->SetParticleVariance(1.0f);
-	embers->SetLaunchParticles(5.0f);
+	embers->SetLaunchParticles(2.0f);
 	embers->SetParticleLifetime(20000.0f);
-	embers->SetParticleSpeed(0.1f);
+	embers->SetParticleSpeed(0.5f);
+	embers->SetSpawnWidth(80.0f);
 	meshes.push_back(embers);
 
 
@@ -335,6 +319,8 @@ Scene* SceneLoader::LoadScene2() {
 	scene->BuildNodeLists(scene->GetRoot());
 	scene->QuickSortNodeLists();
 
+	scene->GetCamera()->SetPosition(Vector3(0,400,0));
+
 	scenes[1] = scene;
 
 	return scene;
@@ -367,7 +353,9 @@ Scene* SceneLoader::LoadScene3() {
 	bumpTex->ToggleRepeating();
 	textures.push_back(bumpTex);
 
-	string skyTextures[6] = { TEXTUREDIR "rusted_west.JPG",TEXTUREDIR "rusted_east.JPG",TEXTUREDIR "rusted_up.JPG",TEXTUREDIR "rusted_down.JPG",TEXTUREDIR "rusted_south.JPG",TEXTUREDIR "rusted_north.JPG" };
+	
+
+	string skyTextures[6] = { TEXTUREDIR "desert_night_rt.tga",TEXTUREDIR "desert_night_lf.tga",TEXTUREDIR "desert_night_up.tga",TEXTUREDIR "desert_night_dn.tga",TEXTUREDIR "desert_night_bk.tga",TEXTUREDIR "desert_night_ft.tga" };
 	CubeMapTexture* skyCubeMap = new CubeMapTexture(skyTextures, "cubeTex");
 	textures.push_back(skyCubeMap);
 
@@ -424,6 +412,9 @@ Scene* SceneLoader::LoadScene3() {
 
 	vector<RenderStages> stages = { DEFERRED_LIGHT_STAGE, BLOOM_STAGE, PRESENT_STAGE, TEXT_STAGE };
 	scene->SetRenderStages(stages);
+
+	scene->GetCamera()->SetPosition(Vector3());
+
 	scenes[2] = scene;
 	return scene;
 }

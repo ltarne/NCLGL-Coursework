@@ -4,6 +4,7 @@
 #include "../../nclgl/MD5Node.h"
 #include "../../nclgl/OBJMesh.h"
 #include "../../nclgl/ParticleNode.h"
+#include "../../nclgl/TessellatedHeightMapNode.h"
 
 #define LIGHTNUM 8
 

@@ -22,6 +22,12 @@ ShadowStage::ShadowStage(Renderer* renderer)
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, shadowTex, 0);
 	glDrawBuffer(GL_NONE);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+	/*glGenBuffers(1, &lightsUBO);
+	glBindBuffer(GL_UNIFORM_BUFFER, lightsUBO);
+	glBufferData(GL_UNIFORM_BUFFER, sizeof(lightData), &lightData, GL_DYNAMIC_DRAW);
+	glBindBuffer(GL_UNIFORM_BUFFER, 0);*/
+	//glBindBufferRange(GL_UNIFORM_BUFFER, , lightsUBO, 0, );
 }
 
 
@@ -52,17 +58,47 @@ void ShadowStage::CreateShadowTextures(Scene * scene) {
 
 	glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
 
-	LightNode* light = (*scene->GetLightList())[0];
+	vector<LightNode*> lights = *scene->GetLightList();
+
+	for (int i = 0; i < lights.size(); ++i) {
+		
+		shadowTextures.push_back(GLuint());
+		
+
+		glGenTextures(1, &shadowTextures.back());
+		glBindTexture(GL_TEXTURE_2D, shadowTextures.back());
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, SHADOWSIZE, SHADOWSIZE, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_R_TO_TEXTURE);
+		glBindTexture(GL_TEXTURE_2D, 0);
+
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, shadowTextures.back(), 0);
+
+		glClear(GL_DEPTH_BUFFER_BIT);
+		Vector3 point = lights[i]->GetDirection() * lights[i]->GetRadius();
+
+		renderer->SetViewMatrix(Matrix4::BuildViewMatrix(lights[i]->GetPosition(), point));
+
+		renderer->SetTextureMatrix(biasMatrix*(scene->GetProjMatrix() * Matrix4::BuildViewMatrix(lights[i]->GetPosition(), point)));
+
+
+
+		renderer->DrawNodes(stageShader);
+	}
+
+	/*LightNode* light = (*scene->GetLightList())[0];
 	light->SetShader(stageShader);
 	
 
-	renderer->SetViewMatrix(Matrix4::BuildViewMatrix(light->GetPosition(), Vector3(0, 0, 0)));
+	renderer->SetViewMatrix(Matrix4::BuildViewMatrix(light->GetPosition(), Vector3(0, 0, -1000)));
 	
-	renderer->SetTextureMatrix(biasMatrix*(scene->GetProjMatrix() * Matrix4::BuildViewMatrix(light->GetPosition(), Vector3(0, 0, 0))));
+	renderer->SetTextureMatrix(biasMatrix*(scene->GetProjMatrix() * Matrix4::BuildViewMatrix(light->GetPosition(), Vector3(0, 0, -1000))));
 
 	
 
-	renderer->DrawNodes(stageShader);
+	renderer->DrawNodes(stageShader);*/
 
 
 	glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
@@ -76,6 +112,9 @@ void ShadowStage::PresentScene(Scene * scene) {
 	glBindTexture(GL_TEXTURE_2D, shadowTex);
 	glBindFramebuffer(GL_FRAMEBUFFER, bufferFBO);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, bufferDepthTex, 0);
+
+	
+
 	
 	(*scene->GetRoot()->GetChildIteratorStart())->GetTextures()->back()->SetTexture(shadowTex);
 

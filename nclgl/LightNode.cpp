@@ -7,6 +7,7 @@ LightNode::LightNode(Shader * shader, Mesh * mesh, Vector4 colour, float radius,
 	this->position = pos;
 	transform = Matrix4::Translation(pos);
 	scale = Matrix4::Scale(Vector3(radius, radius, radius));
+	direction = Vector3(0, 0, 0);
 }
 
 LightNode::~LightNode() {

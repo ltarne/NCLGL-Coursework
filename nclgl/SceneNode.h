@@ -6,7 +6,7 @@ class SceneNode
 {
 public:
 	SceneNode(Shader* shader = nullptr, Mesh* mesh = nullptr, Vector4 colour = Vector4(1,1,1,1));
-	~SceneNode();
+	virtual ~SceneNode();
 
 	inline void				SetTransform(const Matrix4 &transform)	{ this->transform = transform; }
 	inline const Matrix4&	GetTransform()					const	{ return transform; }
@@ -29,7 +29,7 @@ public:
 	inline Shader*	GetShader() const { return shader; }
 
 
-	inline void				AddTexture(Texture* texture) { this->textures.push_back(texture); }
+	inline virtual void				AddTexture(Texture* texture) { this->textures.push_back(texture); }
 	inline vector<Texture*>* GetTextures() { return &textures; }
 
 	inline void SetVisible(bool visible) { this->visible = visible; }

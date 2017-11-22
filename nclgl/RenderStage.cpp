@@ -22,13 +22,16 @@ void RenderStage::DrawStage(Scene * scene) {
 	renderer->SetViewMatrix(scene->GetViewMatrix());
 	renderer->SetProjMatrix(scene->GetProjMatrix());
 	glBindFramebuffer(GL_FRAMEBUFFER, bufferFBO);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, bufferDepthTex, 0);
 	renderer->RenderScene();
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, 0, 0);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 }
 
 void RenderStage::DrawCombineQuad() {
 	glBindFramebuffer(GL_FRAMEBUFFER, bufferFBO);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, bufferDepthTex, 0);
 
 	glUniformMatrix4fv(glGetUniformLocation(stageShader->GetProgram(), "projMatrix"), 1, false, (float*)&projMatrix);
 
@@ -44,6 +47,8 @@ void RenderStage::DrawCombineQuad() {
 	quad->Draw();
 
 	glUseProgram(0);
+
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, 0, 0);
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }

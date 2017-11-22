@@ -56,10 +56,14 @@ void ParticleNode::Draw(const OGLRenderer & renderer, Shader * overrideShader) {
 		glDisable(GL_CULL_FACE);
 	}
 
+	glDepthMask(GL_FALSE);
+
 
 	if (emitter != nullptr) {
 		emitter->Draw();
 	}
+
+	glDepthMask(GL_TRUE);
 
 	if (!depthTest) {
 		glEnable(GL_DEPTH_TEST);

@@ -109,6 +109,12 @@ public:
 	void	SetDirection(const Vector3 dir) {initialDirection = dir;}
 	Vector3 GetDirection()					{return initialDirection;}
 
+	inline void		SetOrigin(Vector3 origin) { this->origin = origin; }
+	inline Vector3	GetOrigin() { return origin; }
+
+	inline void		SetSpawnWidth(float spawnWidth) { this->spawnWidth = spawnWidth; }
+	inline float	GetSpawnWidth() { return spawnWidth; }
+
 protected:
 	/*
 	This is the magic of our free list. If there's a particle 'spare',
@@ -127,6 +133,9 @@ protected:
 	float particleVariance;
 	float particleSpeed;
 	int	  numLaunchParticles;
+
+	Vector3 origin;
+	float spawnWidth;
 
 	Vector3 initialDirection;
 

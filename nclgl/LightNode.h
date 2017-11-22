@@ -26,9 +26,13 @@ public:
 
 	inline float GetRadius() const { return radius; }
 
+	inline void SetDirection(Vector3 direction) { this->direction = direction; }
+	inline Vector3 GetDirection() { return direction; }
+
 protected:
 	Vector3 position;
 	float radius;
+	Vector3 direction;
 
 	GLuint depthTex;
 	GLuint normTex;
