@@ -24,6 +24,8 @@ ParticleEmitter::ParticleEmitter(void)	{
 
 	initialDirection = Vector3(0, 1, 0);
 
+	colourShift = Vector4(1.0, 1.0, 1.0, 1.0);
+
 	/*
 	Each particle is a white dot, which has an alpha fade on it,
 	so the edges fade to 0.0 alpha.
@@ -132,7 +134,7 @@ Particle* ParticleEmitter::GetFreeParticle()	{
 	//Now we have to reset its values - if it was popped off the
 	//free list, it'll still have the values of its 'previous life'
 
-	p->colour		= Vector4(1.0f,1.0f,1.0f,1.0);
+	p->colour		= colourShift;
 	p->direction	= initialDirection;
 	//p->direction.x += ((RAND()-RAND()) * particleVariance);
 	//p->direction.y += ((RAND()) * particleVariance);

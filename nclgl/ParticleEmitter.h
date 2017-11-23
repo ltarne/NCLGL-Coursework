@@ -115,6 +115,9 @@ public:
 	inline void		SetSpawnWidth(float spawnWidth) { this->spawnWidth = spawnWidth; }
 	inline float	GetSpawnWidth() { return spawnWidth; }
 
+	inline void		SetColourShift(Vector4 colourShift) { this->colourShift = colourShift; }
+	inline Vector4	GetColourShift() { return colourShift; }
+
 protected:
 	/*
 	This is the magic of our free list. If there's a particle 'spare',
@@ -136,6 +139,8 @@ protected:
 
 	Vector3 origin;
 	float spawnWidth;
+
+	Vector4 colourShift;
 
 	Vector3 initialDirection;
 

@@ -23,7 +23,8 @@ on screen. Neat!
 
 //This is set by the Renderer SetShaderParticleSize
 //function!
-//uniform float particleSize;
+uniform float particleSize;
+uniform float msec;
 
 //This is how we tell the geometry shader what type
 //of primitive we're taking in, and spitting out.
@@ -51,7 +52,7 @@ out Vertex {
 } OUT;
 
 void main() {
-  float particleSize = 50.0f;
+  //float particleSize = 50.0f;
 //gl_in is another GLSL keyword. It'll give us
 //how many primitives we're accepting from
 //the vertex shader. as we're taking in points
@@ -82,8 +83,12 @@ void main() {
 		//want sent to the fragment shader gets put in the OUT
 		//struct...
 
+        vec4 pos = gl_in[ i ].gl_Position;
+        //pos.x *= (sin(msec) +1);
+        //pos.z *= (sin(msec) +1);
+
 		//top right
-		gl_Position = gl_in[ i ].gl_Position;
+		gl_Position = pos;
 		gl_Position.x += particleSize;
 		gl_Position.y += particleSize;
 		OUT.texCoord = vec2(1,0);
@@ -95,21 +100,21 @@ void main() {
 
 		//Then we do the other vertices of the quad...
 		//Top Left
-		gl_Position = gl_in[ i ].gl_Position;
+		gl_Position = pos;
 		gl_Position.x -= particleSize;
 		gl_Position.y += particleSize;
 		OUT.texCoord = vec2(0,0);
 		EmitVertex();
 
 		//bottom right
-		gl_Position = gl_in[ i ].gl_Position;
+		gl_Position = pos;
 		gl_Position.x += particleSize;
 		gl_Position.y -= particleSize;
 		OUT.texCoord = vec2(1,1);
 		EmitVertex();
 
 		//bottom Left
-		gl_Position = gl_in[ i ].gl_Position;
+		gl_Position = pos;
 		gl_Position.x -= particleSize;
 		gl_Position.y -= particleSize;
 		OUT.texCoord = vec2(0,1);

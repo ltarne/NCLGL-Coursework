@@ -61,14 +61,15 @@ Scene* SceneLoader::LoadScene1() {
 	meshes.push_back(patch);
 
 	ParticleEmitter* rain = new ParticleEmitter();
-	rain->SetParticleSize(1.0f);
+	rain->SetParticleSize(20.0f);
 	rain->SetParticleVariance(1.0f);
-	rain->SetLaunchParticles(100.0f);
-	rain->SetParticleLifetime(3000.0f);
+	rain->SetLaunchParticles(150.0f);
+	rain->SetParticleLifetime(3500.0f);
 	rain->SetParticleSpeed(0.7f);
 	rain->SetDirection(Vector3(0, -1, 0));
 	rain->SetOrigin(Vector3((scale * 2) * 2.0, 2500, (scale * 2) * 2.0));
 	rain->SetSpawnWidth((scale*2) * 4);
+	rain->SetColourShift(Vector4(0.0, 0.4, 0.5, 1.0));
 	meshes.push_back(rain);
 
 	/* Textures */
@@ -229,32 +230,34 @@ Scene* SceneLoader::LoadScene2() {
 	OBJMesh* fire = new OBJMesh(MESHDIR"fire-fix.obj");
 
 	ParticleEmitter* smoke = new ParticleEmitter();
-	smoke->SetParticleSize(2.0f);
+	smoke->SetParticleSize(40.0f);
 	smoke->SetParticleVariance(1.0f);
 	smoke->SetLaunchParticles(5.0f);
-	smoke->SetParticleLifetime(20000.0f);
-	smoke->SetParticleSpeed(0.08f);
+	smoke->SetParticleLifetime(10000.0f);
+	smoke->SetParticleSpeed(0.1f);
 	smoke->SetSpawnWidth(80.0f);
 	meshes.push_back(smoke);
 
 	ParticleEmitter* embers = new ParticleEmitter();
-	embers->SetParticleSize(1.0f);
+	embers->SetParticleSize(15.0f);
 	embers->SetParticleVariance(1.0f);
 	embers->SetLaunchParticles(2.0f);
-	embers->SetParticleLifetime(20000.0f);
+	embers->SetParticleLifetime(1500.0f);
 	embers->SetParticleSpeed(0.5f);
 	embers->SetSpawnWidth(80.0f);
 	meshes.push_back(embers);
 
 
-	/*MD5FileData*	hellData = new MD5FileData(MESHDIR"hellknight.md5mesh");
+	MD5FileData*	hellData = new MD5FileData(MESHDIR"hellknight.md5mesh");
 	MD5Node*		hellNode = new MD5Node(*hellData);
 	hellNode->SetShader(shader);
 	hellNode->SetBoundingRadius(1000.0f);
 	hellNode->AddTexture(shadowMap);
+	hellNode->SetTransform(Matrix4::Translation(Vector3(0, 0, -500)));
+	hellNode->SetRotation(Matrix4::Rotation(180.0f, Vector3(0, 1, 0)));
 
 	hellData->AddAnim(MESHDIR"idle2.md5anim");
-	hellNode->PlayAnim(MESHDIR"idle2.md5anim");*/
+	hellNode->PlayAnim(MESHDIR"idle2.md5anim");
 
 	SceneNode* cube = new SceneNode(shaderNoBump, room);
 	cube->SetFaceCulling(false);
@@ -267,26 +270,80 @@ Scene* SceneLoader::LoadScene2() {
 
 
 	Mesh* quadMesh = Mesh::GenerateQuad();
-	SceneNode* quad = new SceneNode(shader, quadMesh);
-	quad->AddTexture(tex);
-	quad->AddTexture(bumpTex);
-	quad->AddTexture(shadowMap);
-	quad->SetScale(Vector3(1000, 1000, 1000));
-	quad->SetRotation(Matrix4::Rotation(90.0f, Vector3(1,0,0)));
-	quad->SetBoundingRadius(1300.0f);
-	meshes.push_back(quadMesh);
+	SceneNode* roomNode = new SceneNode();
+
+	SceneNode* floor = new SceneNode(shader, quadMesh);
+	floor->AddTexture(tex);
+	floor->AddTexture(bumpTex);
+	floor->AddTexture(shadowMap);
+	floor->SetScale(Vector3(1000, 1000, 1000));
+	floor->SetRotation(Matrix4::Rotation(90.0f, Vector3(1,0,0)));
+	floor->SetBoundingRadius(1300.0f);
+	roomNode->AddChild(floor);
+
+	SceneNode* wall1 = new SceneNode(shader, quadMesh);
+	wall1->AddTexture(bricks);
+	wall1->AddTexture(brickBump);
+	wall1->AddTexture(shadowMap);
+	wall1->SetTransform(Matrix4::Translation(Vector3(0, 1000, 1000)));
+	wall1->SetScale(Vector3(1000, 1000, 1000));
+	wall1->SetRotation(Matrix4::Rotation(0.0f, Vector3(0, 1, 0)));
+	wall1->SetBoundingRadius(1300.0f);
+	roomNode->AddChild(wall1);
+
+	SceneNode* wall2 = new SceneNode(shader, quadMesh);
+	wall2->AddTexture(bricks);
+	wall2->AddTexture(brickBump);
+	wall2->AddTexture(shadowMap);
+	wall2->SetTransform(Matrix4::Translation(Vector3(1000, 1000, 0)));
+	wall2->SetScale(Vector3(1000, 1000, 1000));
+	wall2->SetRotation(Matrix4::Rotation(90.0f, Vector3(0, 1, 0)));
+	wall2->SetBoundingRadius(1300.0f);
+	roomNode->AddChild(wall2);
+
+	SceneNode* wall3 = new SceneNode(shader, quadMesh);
+	wall3->AddTexture(bricks);
+	wall3->AddTexture(brickBump);
+	wall3->AddTexture(shadowMap);
+	wall3->SetTransform(Matrix4::Translation(Vector3(-1000, 0, 0)));
+	wall3->SetScale(Vector3(1000, 1000, 1000));
+	wall3->SetRotation(Matrix4::Rotation(-90.0f, Vector3(0, 1, 0)));
+	wall3->SetBoundingRadius(1300.0f);
+	roomNode->AddChild(wall3);
+
+	SceneNode* wall4 = new SceneNode(shader, quadMesh);
+	wall4->AddTexture(bricks);
+	wall4->AddTexture(brickBump);
+	wall4->AddTexture(shadowMap);
+	wall4->SetTransform(Matrix4::Translation(Vector3(0, 1000, -1000)));
+	wall4->SetScale(Vector3(1000, 1000, 1000));
+	wall4->SetRotation(Matrix4::Rotation(-180.0f, Vector3(0, 1, 0)));
+	wall4->SetBoundingRadius(1300.0f);
+	roomNode->AddChild(wall4);
+
+	SceneNode* roof = new SceneNode(shader, quadMesh);
+	roof->AddTexture(tex);
+	roof->AddTexture(bumpTex);
+	roof->AddTexture(shadowMap);
+	roof->SetTransform(Matrix4::Translation(Vector3(0, 1000, 0)));
+	roof->SetScale(Vector3(1000, 1000, 1000));
+	roof->SetRotation(Matrix4::Rotation(-90.0f, Vector3(1, 0, 0)));
+	roof->SetBoundingRadius(1300.0f);
+	roomNode->AddChild(roof);
+
+
 
 	SceneNode* firePlace = new SceneNode(shaderNoBump, fire);
 	firePlace->SetTransform(Matrix4::Translation(Vector3(0, 40, 0)));
 	firePlace->SetScale(Vector3(80, 80, 80));
 	firePlace->AddTexture(fireTex);
 	firePlace->AddTexture(shadowMap);
-	firePlace->SetBoundingRadius(80.0f);
+	firePlace->SetBoundingRadius(1000.0f);
 
 	ParticleNode* smokeEmitter = new ParticleNode(particleShader, smoke);
 	smokeEmitter->AddTexture(smokeTex);
 	smokeEmitter->SetTransform(Matrix4::Translation(Vector3(0, 0, 0)));
-	smokeEmitter->SetBoundingRadius(200.0f);
+	smokeEmitter->SetBoundingRadius(1000.0f);
 	smokeEmitter->SetColour(Vector4(1.0, 1.0, 1.0, 0.5));
 
 	ParticleNode* emberEmitter = new ParticleNode(particleShader, embers);
@@ -302,10 +359,10 @@ Scene* SceneLoader::LoadScene2() {
 	scene->AddEffect(emberEmitter);
 
 
-	scene->AddNode(cube);
+	scene->AddNode(hellNode);
 	scene->AddNode(firePlace);
 	//scene->AddNode(emberEmitter);
-	scene->AddNode(quad);
+	scene->AddNode(roomNode);
 
 	Shader* stageShader = new Shader(SHADERDIR"shadowVert.vert", SHADERDIR"shadowFrag.frag");
 	stageShader->LinkProgram();

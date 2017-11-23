@@ -132,10 +132,10 @@ void Renderer::DrawNode(SceneNode* node, Shader* overrideShader) {
 			glBindBuffer(GL_UNIFORM_BUFFER, *lightUBO);
 			glBufferData(GL_UNIFORM_BUFFER, sizeof(lightData), &lightData, GL_DYNAMIC_DRAW);
 			
-			GLuint index = glGetUniformBlockIndex(activeShader->GetProgram(), "lightUBO");
+			/*GLuint index = glGetUniformBlockIndex(activeShader->GetProgram(), "lightUBO");
 			glUniformBlockBinding(activeShader->GetProgram(), index, 0);
 			glBindBufferBase(GL_UNIFORM_BUFFER, index, *lightUBO);
-			glBindBuffer(GL_UNIFORM_BUFFER, 0);
+			glBindBuffer(GL_UNIFORM_BUFFER, 0);*/
 			
 
 		}

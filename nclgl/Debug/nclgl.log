@@ -1,7 +1,4 @@
-﻿  SceneNode.cpp
-c:\users\b4027488\github\nclgl coursework\nclgl\scenenode.cpp(45): warning C4018: '<': signed/unsigned mismatch
-  Generating Code...
-  Skipping... (no relevant changes detected)
-  Light.cpp
+﻿  ParticleNode.cpp
+c:\users\luke\documents\github\nclgl-coursework\nclgl\particlenode.cpp(27): warning C4018: '<': signed/unsigned mismatch
 Light.obj : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
-  nclgl.vcxproj -> C:\Users\B4027488\GitHub\NCLGL Coursework\Graphics For Games\Debug\nclgl.lib
+  nclgl.vcxproj -> C:\Users\Luke\Documents\GitHub\NCLGL-Coursework\Graphics For Games\Debug\nclgl.lib
