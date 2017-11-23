@@ -2,6 +2,8 @@
 #include "RenderStage.h"
 
 
+
+
 class ShadowStage :
 	public RenderStage
 {
@@ -17,11 +19,20 @@ protected:
 
 	GLuint shadowFBO;
 
-	GLuint  lightsUBO;
-	vector<GLuint> shadowTextures;
-	static const int maxLights = 10;
+	//GLuint  lightsUBO;
+	
+	/*static const int maxLights = 10;
+	
+	LightData lightData[maxLights];*/
+
 	int usedLights;
-	LightData lightData[maxLights];
+
+	GLuint shadowTextures[MAX_LIGHTS] = { 0 };
+	Vector4 lightColours[MAX_LIGHTS] = { Vector4() };
+	Vector3 lightPositions[MAX_LIGHTS] = { Vector3() };
+	float lightRadius[MAX_LIGHTS] = { 0.0f };
+	Matrix4 lightTextureMatrix[MAX_LIGHTS] = { Matrix4() };
+	
 	
 
 	GLuint shadowTex;

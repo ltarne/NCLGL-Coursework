@@ -58,7 +58,7 @@ We want to reset all of the animation details
 	currentAnim			= sourceData.GetAnim(name);
 }
 
-void	MD5Node::Draw(const OGLRenderer &r) {
+void	MD5Node::Draw(const OGLRenderer &renderer, Shader* overrideShader) {
 	MD5Mesh*m = (MD5Mesh*)mesh;
 
 	/*
@@ -95,7 +95,12 @@ void	MD5Node::Draw(const OGLRenderer &r) {
 	m->SkinVertices(currentSkeleton);
 #endif
 	//Finally, we draw the mesh, just like the base class Draw function...
-	SceneNode::LoadUniforms(shader);
+	if (overrideShader != nullptr) {
+		LoadUniforms(overrideShader);
+	}
+	else {
+		LoadUniforms(shader);
+	}
 	glUniform1i(glGetUniformLocation(shader->GetProgram(), "diffuseTex"), 12);
 	glActiveTexture(GL_TEXTURE12);
 	glBindTexture(GL_TEXTURE_2D, m->GetTexture());

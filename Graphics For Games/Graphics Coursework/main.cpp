@@ -49,7 +49,7 @@ int main() {
 	float sceneTimer = 0;
 	bool pause = false;
 	
-
+	w.GetTimer()->GetTimedMS();
 	while (w.UpdateWindow() && !Window::GetKeyboard()->KeyDown(KEYBOARD_ESCAPE)) {
 		float msec = w.GetTimer()->GetTimedMS();
 		time += msec;

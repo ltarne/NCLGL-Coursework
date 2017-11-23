@@ -44,7 +44,7 @@ public:
 	applied MD5Anim.
 	*/
 	virtual void	Update(float msec);
-	virtual void	Draw(const OGLRenderer &r);
+	virtual void	Draw(const OGLRenderer &renderer, Shader* overrideShader = nullptr) override;
 
 	/*
 	Searches the map of animations for an MD5Anim with the passed in name, and
