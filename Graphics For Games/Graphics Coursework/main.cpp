@@ -6,9 +6,9 @@
 #include <time.h>
 
 int main() {
-	int width = 800;
-	int height = 600;
-	Window w("Graphics Coursework", width, height, false);
+	int width = 1920;
+	int height = 1080;
+	Window w("Graphics Coursework", width, height, true);
 	if (!w.HasInitialised()) {
 		return -1;
 	}
@@ -52,6 +52,8 @@ int main() {
 	w.GetTimer()->GetTimedMS();
 	while (w.UpdateWindow() && !Window::GetKeyboard()->KeyDown(KEYBOARD_ESCAPE)) {
 		float msec = w.GetTimer()->GetTimedMS();
+
+		//FPS Timer
 		time += msec;
 		sceneTimer += msec;
 		frameCount += 1;
@@ -61,6 +63,7 @@ int main() {
 			time = 0.0f;
 		}
 
+		//Auto Transition
 		if ((sceneTimer / 60000) > 1 && !pause) {
 			if (currentScene == 2) {
 				currentScene = 0;
@@ -72,24 +75,19 @@ int main() {
 			sceneTimer = 0;
 		}
 
+		//Post Processing Settings
+		if (Window::GetKeyboard()->KeyTriggered(KEYBOARD_1)) {
 
-		if (Window::GetKeyboard()->KeyDown(KEYBOARD_1)) {
-			manager.SetActiveScene(scene1);
-			currentScene = 0;
-			sceneTimer = 0;
+			manager.TogglePostProcessingEffect(BLOOM_STAGE);
 		}
-		else if (Window::GetKeyboard()->KeyDown(KEYBOARD_2)) {
-			manager.SetActiveScene(scene2);
-			currentScene = 1;
-			sceneTimer = 0;
+		else if (Window::GetKeyboard()->KeyTriggered(KEYBOARD_2)) {
+
+			manager.TogglePostProcessingEffect(COLOUR_CORRECTION_STAGE);
 		}
-		else if (Window::GetKeyboard()->KeyDown(KEYBOARD_3)) {
-			manager.SetActiveScene(scene3);
-			currentScene = 2;
-			sceneTimer = 0;
-		}
+
+		//Manual Scene Transition
 		else if (Window::GetKeyboard()->KeyTriggered(KEYBOARD_LEFT)) {
-			//manager.SetActiveScene(scene3);
+
 			if (currentScene == 0) {
 				currentScene = 2;
 			}
@@ -100,7 +98,6 @@ int main() {
 			sceneTimer = 0;
 		}
 		else if (Window::GetKeyboard()->KeyTriggered(KEYBOARD_RIGHT)) {
-			//manager.SetActiveScene(scene3);
 			if (currentScene == 2) {
 				currentScene = 0;
 			}
@@ -111,10 +108,16 @@ int main() {
 			sceneTimer = 0;
 		}
 		else if (Window::GetKeyboard()->KeyTriggered(KEYBOARD_PAUSE)) {
-			//manager.SetActiveScene(scene3);
 			pause = !pause;
+			manager.TogglePause();
 		}
 
+		if (!pause) {
+			scenes[currentScene]->GetCamera()->SetYaw(abs(sin(sceneTimer*0.00007)) * 300);
+		}
+		
+
+		//Update and Draw
 		manager.UpdateScene(msec);
 		manager.DrawScene();
 	}
@@ -122,7 +125,6 @@ int main() {
 	delete scene1;
 	delete scene2;
 	delete scene3;
-	//Delete all textures, shaders etc
 
 	return 0;
 }

@@ -62,7 +62,6 @@
     <ClCompile Include="MD5Anim.cpp">
       <Filter>Components</Filter>
     </ClCompile>
-    <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="BloomStage.cpp">
       <Filter>Renderering\Stages</Filter>
@@ -97,8 +96,15 @@
     <ClCompile Include="ParticleEmitter.cpp">
       <Filter>Components</Filter>
     </ClCompile>
-    <ClCompile Include="ColourCorrectionStage.cpp" />
-    <ClCompile Include="ParticleNode.cpp" />
+    <ClCompile Include="ParticleNode.cpp">
+      <Filter>SceneNodes</Filter>
+    </ClCompile>
+    <ClCompile Include="ColourCorrectionStage.cpp">
+      <Filter>Renderering\Stages</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>SceneNodes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common.h" />
@@ -178,7 +184,6 @@
     <ClInclude Include="MD5Anim.h">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="Scene.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="BloomStage.h">
       <Filter>Renderering\Stages</Filter>
@@ -213,8 +218,15 @@
     <ClInclude Include="ParticleEmitter.h">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="ColourCorrectionStage.h" />
-    <ClInclude Include="ParticleNode.h" />
+    <ClInclude Include="ParticleNode.h">
+      <Filter>SceneNodes</Filter>
+    </ClInclude>
+    <ClInclude Include="ColourCorrectionStage.h">
+      <Filter>Renderering\Stages</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>SceneNodes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Data Types">

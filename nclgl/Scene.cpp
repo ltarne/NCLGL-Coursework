@@ -25,6 +25,7 @@ void Scene::Update(float msec) {
 	
 	
 	camera->UpdateCamera(msec);
+
 	viewMatrix = camera->BuildViewMatrix();
 	frameFrustrum.FromMatrix(projMatrix * viewMatrix);
 	//TODO: Sending of proj and view matrix

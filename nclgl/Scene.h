@@ -16,7 +16,7 @@ public:
 
 	inline void AddNode(SceneNode* node) { this->root->AddChild(node); }
 	inline void AddLight(LightNode* light) { lightList.push_back(light); }
-	inline void AddEffect(SceneNode* effect) { nonShadowCastingNodes.push_back(effect); }
+	inline void AddNonShadowCastingNode(SceneNode* effect) { nonShadowCastingNodes.push_back(effect); }
 
 	inline SceneNode* GetRoot() { return root; }
 
@@ -35,6 +35,7 @@ public:
 	inline void SetProjMatrix(Matrix4 projMatrix) { this->projMatrix = projMatrix; }
 
 	inline void SetSkyBox(SceneNode* skybox) { this->skybox = skybox; }
+
 
 	inline Matrix4 GetProjMatrix() { return projMatrix; }
 	inline Matrix4 GetViewMatrix() { return viewMatrix; }

@@ -1,4 +1,72 @@
-﻿  ParticleNode.cpp
-c:\users\luke\documents\github\nclgl-coursework\nclgl\particlenode.cpp(27): warning C4018: '<': signed/unsigned mismatch
+﻿  Window.cpp
+  Texture.cpp
+  TextStage.cpp
+c:\users\b4027488\github\nclgl coursework\nclgl\scene.h(28): warning C4018: '<': signed/unsigned mismatch
+c:\users\b4027488\github\nclgl coursework\nclgl\textstage.cpp(37): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+c:\users\b4027488\github\nclgl coursework\nclgl\textstage.cpp(38): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+c:\users\b4027488\github\nclgl coursework\nclgl\textstage.cpp(39): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+c:\users\b4027488\github\nclgl coursework\nclgl\textstage.cpp(49): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+  TextMesh.cpp
+  TessellatedHeightMapNode.cpp
+c:\users\b4027488\github\nclgl coursework\nclgl\tessellatedheightmapnode.h(12): warning C4018: '<': signed/unsigned mismatch
+c:\users\b4027488\github\nclgl coursework\nclgl\tessellatedheightmapnode.cpp(5): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+c:\users\b4027488\github\nclgl coursework\nclgl\tessellatedheightmapnode.cpp(9): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+c:\users\b4027488\github\nclgl coursework\nclgl\tessellatedheightmapnode.cpp(11): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+c:\users\b4027488\github\nclgl coursework\nclgl\tessellatedheightmapnode.cpp(12): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\b4027488\github\nclgl coursework\nclgl\tessellatedheightmapnode.cpp(52): warning C4018: '<': signed/unsigned mismatch
+  StencilNode.cpp
+  ShadowStage.cpp
+c:\users\b4027488\github\nclgl coursework\nclgl\scene.h(28): warning C4018: '<': signed/unsigned mismatch
+c:\users\b4027488\github\nclgl coursework\nclgl\shadowstage.cpp(81): warning C4018: '<': signed/unsigned mismatch
+  Shader.cpp
+  SceneNode.cpp
+c:\users\b4027488\github\nclgl coursework\nclgl\scenenode.cpp(47): warning C4018: '<': signed/unsigned mismatch
+  Scene.cpp
+c:\users\b4027488\github\nclgl coursework\nclgl\scene.h(28): warning C4018: '<': signed/unsigned mismatch
+c:\users\b4027488\github\nclgl coursework\nclgl\scene.cpp(42): warning C4018: '<': signed/unsigned mismatch
+  RenderStage.cpp
+c:\users\b4027488\github\nclgl coursework\nclgl\scene.h(28): warning C4018: '<': signed/unsigned mismatch
+  RenderingManager.cpp
+c:\users\b4027488\github\nclgl coursework\nclgl\scene.h(28): warning C4018: '<': signed/unsigned mismatch
+c:\users\b4027488\github\nclgl coursework\nclgl\renderingmanager.cpp(42): warning C4018: '<': signed/unsigned mismatch
+  Renderer.cpp
+c:\users\b4027488\github\nclgl coursework\nclgl\scene.h(28): warning C4018: '<': signed/unsigned mismatch
+  Quaternion.cpp
+  PresentStage.cpp
+c:\users\b4027488\github\nclgl coursework\nclgl\scene.h(28): warning C4018: '<': signed/unsigned mismatch
+  Plane.cpp
+  ParticleNode.cpp
+c:\users\b4027488\github\nclgl coursework\nclgl\particlenode.cpp(27): warning C4018: '<': signed/unsigned mismatch
+  ParticleEmitter.cpp
+  OGLRenderer.cpp
+  OBJMesh.cpp
+  Generating Code...
+  Compiling...
+  Mouse.cpp
+  Mesh.cpp
+c:\users\b4027488\github\nclgl coursework\nclgl\mesh.cpp(114): warning C4018: '<': signed/unsigned mismatch
+c:\users\b4027488\github\nclgl coursework\nclgl\mesh.cpp(145): warning C4018: '<': signed/unsigned mismatch
+  MD5Node.cpp
+c:\users\b4027488\github\nclgl coursework\nclgl\md5node.cpp(76): warning C4018: '<': signed/unsigned mismatch
+  MD5Mesh.cpp
+  MD5FileData.cpp
+  MD5Anim.cpp
+  Matrix4.cpp
+  LightNode.cpp
+c:\users\b4027488\github\nclgl coursework\nclgl\lightnode.cpp(26): warning C4018: '<': signed/unsigned mismatch
+  Light.cpp
+  Keyboard.cpp
+  HeightMap.cpp
+  GameTimer.cpp
+  Frustum.cpp
+  DefereredLightsStage.cpp
+c:\users\b4027488\github\nclgl coursework\nclgl\scene.h(28): warning C4018: '<': signed/unsigned mismatch
+  CubeMapTexture.cpp
+  ColourCorrectionStage.cpp
+c:\users\b4027488\github\nclgl coursework\nclgl\scene.h(28): warning C4018: '<': signed/unsigned mismatch
+  Camera.cpp
+  BloomStage.cpp
+c:\users\b4027488\github\nclgl coursework\nclgl\scene.h(28): warning C4018: '<': signed/unsigned mismatch
+  Generating Code...
 Light.obj : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
-  nclgl.vcxproj -> C:\Users\Luke\Documents\GitHub\NCLGL-Coursework\Graphics For Games\Debug\nclgl.lib
+  nclgl.vcxproj -> C:\Users\B4027488\GitHub\NCLGL Coursework\Graphics For Games\Debug\nclgl.lib
