@@ -1,15 +1,2 @@
-﻿  SceneLoader.cpp
-c:\users\b4027488\github\nclgl coursework\nclgl\scene.h(28): warning C4018: '<': signed/unsigned mismatch
-c:\users\b4027488\github\nclgl coursework\nclgl\tessellatedheightmapnode.h(12): warning C4018: '<': signed/unsigned mismatch
-c:\users\b4027488\github\nclgl coursework\graphics for games\graphics coursework\sceneloader.cpp(66): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\b4027488\github\nclgl coursework\graphics for games\graphics coursework\sceneloader.cpp(70): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
-c:\users\b4027488\github\nclgl coursework\graphics for games\graphics coursework\sceneloader.cpp(72): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\users\b4027488\github\nclgl coursework\graphics for games\graphics coursework\sceneloader.cpp(130): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\b4027488\github\nclgl coursework\graphics for games\graphics coursework\sceneloader.cpp(151): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
-c:\users\b4027488\github\nclgl coursework\graphics for games\graphics coursework\sceneloader.cpp(235): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\b4027488\github\nclgl coursework\graphics for games\graphics coursework\sceneloader.cpp(244): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\b4027488\github\nclgl coursework\graphics for games\graphics coursework\sceneloader.cpp(272): error C2374: 'hellNode': redefinition; multiple initialization
-  c:\users\b4027488\github\nclgl coursework\graphics for games\graphics coursework\sceneloader.cpp(258): note: see declaration of 'hellNode'
-c:\users\b4027488\github\nclgl coursework\graphics for games\graphics coursework\sceneloader.cpp(390): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\users\b4027488\github\nclgl coursework\graphics for games\graphics coursework\sceneloader.cpp(394): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\users\b4027488\github\nclgl coursework\graphics for games\graphics coursework\sceneloader.cpp(406): warning C4305: 'argument': truncation from 'double' to 'float'
+﻿  GraphicsCoursework.vcxproj -> C:\Users\B4027488\GitHub\NCLGL Coursework\Graphics For Games\Debug\GraphicsCoursework.exe
+  GraphicsCoursework.vcxproj -> C:\Users\B4027488\GitHub\NCLGL Coursework\Graphics For Games\Debug\GraphicsCoursework.pdb (Partial PDB)

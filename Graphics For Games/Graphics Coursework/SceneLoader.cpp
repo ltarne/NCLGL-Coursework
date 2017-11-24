@@ -179,11 +179,16 @@ Scene* SceneLoader::LoadScene1() {
 Scene* SceneLoader::LoadScene2() {
 	Scene* scene = new Scene();
 
-	//Shader* basicShader = new Shader(SHADERDIR"texturedVertex.glsl", SHADERDIR"texturedFragment.glsl");
+	Shader* basicShader = new Shader(SHADERDIR"texturedVertex.glsl", SHADERDIR"texturedFragment.glsl");
+	basicShader->LinkProgram();
 	/* Shaders */
 	Shader* shader = new Shader(SHADERDIR"shadowSceneVert.vert", SHADERDIR"shadowSceneFrag.frag");
 	shader->LinkProgram();
 	shaders.push_back(shader);
+
+	Shader* hellKnightShader = new Shader(SHADERDIR"skeletonShadowVert.vert", SHADERDIR"shadowSceneFrag.frag");
+	hellKnightShader->LinkProgram();
+	shaders.push_back(hellKnightShader);
 
 	Shader* shaderNoBump = new Shader(SHADERDIR"shadowSceneVert.vert", SHADERDIR"shadowSceneFragNoBump.frag");
 	shaderNoBump->LinkProgram();
@@ -212,7 +217,6 @@ Scene* SceneLoader::LoadScene2() {
 	textures.push_back(bumpTex);
 
 	Texture* fireTex = new Texture(TEXTUREDIR"fire.png", "tex");
-	//bumpTex->ToggleRepeating();
 	textures.push_back(fireTex);
 
 	Texture* emberTex = new Texture(TEXTUREDIR"firetrail.tga", "diffuseTex");
@@ -221,9 +225,6 @@ Scene* SceneLoader::LoadScene2() {
 	Texture* smokeTex = new Texture(TEXTUREDIR"smoke.png", "diffuseTex");
 	textures.push_back(smokeTex);
 
-
-	/*Texture* shadowMap = new Texture("shadowTex");
-	textures.push_back(shadowMap);*/
 
 	/* Meshes */
 	OBJMesh* room = new OBJMesh(MESHDIR"cube.obj");
@@ -256,7 +257,7 @@ Scene* SceneLoader::LoadScene2() {
 
 	MD5FileData*	hellData = new MD5FileData(MESHDIR"hellknight.md5mesh");
 	MD5Node*		hellNode = new MD5Node(*hellData);
-	hellNode->SetShader(shader);
+	hellNode->SetShader(hellKnightShader);
 	hellNode->SetBoundingRadius(1000.0f);
 	//hellNode->AddTexture(shadowMap);
 	hellNode->SetTransform(Matrix4::Translation(Vector3(0, 0, -700)));
@@ -269,23 +270,17 @@ Scene* SceneLoader::LoadScene2() {
 	hellNode->AddTexture(hellTex);
 	hellNode->AddTexture(hellBumpTex);
 
-	MD5Node*		hellNode = new MD5Node(*hellData);
-	hellNode->SetShader(shader);
-	hellNode->SetBoundingRadius(1000.0f);
-	//hellNode->AddTexture(shadowMap);
-	hellNode->SetTransform(Matrix4::Translation(Vector3(0, 0, -700)));
-	hellNode->SetRotation(Matrix4::Rotation(90.0f, Vector3(0, 1, 0)));
-	hellNode->SetScale(Vector3(4, 4, 4));
-	
+	MD5Node*		hellNode2 = new MD5Node(*hellData);
+	hellNode2->SetShader(hellKnightShader);
+	hellNode2->SetBoundingRadius(1000.0f);
+	hellNode2->SetTransform(Matrix4::Translation(Vector3(0, 0, 700)));
+	hellNode2->SetRotation(Matrix4::Rotation(-90.0f, Vector3(0, 1, 0)));
+	hellNode2->SetScale(Vector3(4, 4, 4));
+	hellNode2->PlayAnim(MESHDIR"idle2.md5anim");
 
-	SceneNode* cube = new SceneNode(shaderNoBump, room);
-	cube->SetFaceCulling(false);
-	cube->AddTexture(bricks);
-	cube->AddTexture(brickBump);
-	//cube->AddTexture(shadowMap);
-	cube->SetTransform(Matrix4::Translation(Vector3(0, 10, -400)));
-	cube->SetScale(Vector3(100, 100, 100));
-	cube->SetBoundingRadius(180.0f);
+	hellNode2->AddTexture(hellTex);
+	hellNode2->AddTexture(hellBumpTex);
+	
 
 
 	Mesh* quadMesh = Mesh::GenerateQuad();
@@ -352,7 +347,7 @@ Scene* SceneLoader::LoadScene2() {
 
 
 
-	SceneNode* firePlace = new SceneNode(shaderNoBump, fire);
+	SceneNode* firePlace = new SceneNode(basicShader, fire);
 	firePlace->SetTransform(Matrix4::Translation(Vector3(0, 40, 0)));
 	firePlace->SetScale(Vector3(80, 80, 80));
 	firePlace->AddTexture(fireTex);
@@ -380,32 +375,24 @@ Scene* SceneLoader::LoadScene2() {
 
 
 	scene->AddNode(hellNode);
+	scene->AddNode(hellNode2);
 	scene->AddNode(firePlace);
-	//scene->AddNode(emberEmitter);
 	scene->AddNode(roomNode);
 
 	Shader* stageShader = new Shader(SHADERDIR"shadowVert.vert", SHADERDIR"shadowFrag.frag");
 	stageShader->LinkProgram();
 
-	LightNode* light1 = new LightNode(stageShader, nullptr, Vector4(1.0, 0.67, 0.0, 1.0), 10000.0f, Vector3(0, 10, 0));
+	LightNode* light1 = new LightNode(stageShader, nullptr, Vector4(1.0, 0.67, 0.0, 1.0), 5000.0f, Vector3(0, 10, 0));
 	light1->SetDirection(Vector3(0, 300, -1000));
 	scene->AddLight(light1);
 
-	LightNode* light2 = new LightNode(stageShader, nullptr, Vector4(1.0, 0.67, 0.0, 1.0), 1000.0f, Vector3(0, 10, -200));
-	light2->SetDirection(Vector3(0, 0, 1000));
+	LightNode* light2 = new LightNode(stageShader, nullptr, Vector4(1.0, 0.67, 0.0, 1.0), 5000.0f, Vector3(0, 10, 0));
+	light2->SetDirection(Vector3(0, 300, 1000));
 	scene->AddLight(light2);
 
-	//LightNode* light3 = new LightNode(stageShader, nullptr, Vector4(1.0, 0.67, 0.0, 1.0), 1000.0f, Vector3(0, 200, 0));
-	//light3->SetDirection(Vector3(1000, 0, 0));
-	//scene->AddLight(light3);
-
-	//LightNode* light4 = new LightNode(stageShader, nullptr, Vector4(1.0, 0.67, 0.0, 1.0), 1000.0f, Vector3(0, 200, 0));
-	//light4->SetDirection(Vector3(-1000, 0, 0));
-	//scene->AddLight(light4);
-
-	LightNode* light5 = new LightNode(stageShader, nullptr, Vector4(1.0, 0.67, 0.0, 1.0), 1000.0f, Vector3(0,0, 0));
-	light5->SetDirection(Vector3(0, 1000, 0));
-	scene->AddLight(light5);
+	LightNode* light3 = new LightNode(stageShader, nullptr, Vector4(1.0, 0.67, 0.0, 1.0), 1000.0f, Vector3(0,0, 0));
+	light3->SetDirection(Vector3(0, 1000, 0));
+	scene->AddLight(light3);
 
 
 	vector<RenderStages> stages = { SHADOW_STAGE, PRESENT_STAGE, TEXT_STAGE };
@@ -425,9 +412,8 @@ Scene* SceneLoader::LoadScene2() {
 Scene* SceneLoader::LoadScene3() {
 	Scene* scene = new Scene();
 
-	/* Shader */
+	/* Shaders */
 	Shader* shader = new Shader(SHADERDIR"lightVert.vert", SHADERDIR"bufferNoBumpFrag.frag");
-	//Shader* shader = new Shader(SHADERDIR"lightVert.vert", SHADERDIR"lightFrag.frag");
 	shader->LinkProgram();
 	shaders.push_back(shader);
 
@@ -444,38 +430,33 @@ Scene* SceneLoader::LoadScene3() {
 	tex->ToggleRepeating();
 	textures.push_back(tex);
 
-	Texture* bumpTex = new Texture(TEXTUREDIR"rockBump.png", "bumpTex");
-	bumpTex->ToggleRepeating();
-	textures.push_back(bumpTex);
 
-	
+	Texture* colourTex = new Texture("depthTex");
+	textures.push_back(colourTex);
+
+	Texture* normalTex = new Texture("normTex");
+	textures.push_back(normalTex);
 
 	string skyTextures[6] = { TEXTUREDIR "desert_night_rt.tga",TEXTUREDIR "desert_night_lf.tga",TEXTUREDIR "desert_night_up.tga",TEXTUREDIR "desert_night_dn.tga",TEXTUREDIR "desert_night_bk.tga",TEXTUREDIR "desert_night_ft.tga" };
 	CubeMapTexture* skyCubeMap = new CubeMapTexture(skyTextures, "cubeTex");
 	textures.push_back(skyCubeMap);
 
 	/* Meshes */
-	HeightMap* heightMap = new HeightMap(TEXTUREDIR"terrain.raw");
-	meshes.push_back(heightMap);
+	OBJMesh* sphere = new OBJMesh();
+	sphere->LoadOBJMesh(MESHDIR"sphere.obj");
+	meshes.push_back(sphere);
 
-	//OBJMesh* planet = new OBJMesh(MESHDIR"ufo-fix.obj");
+	/*OBJMesh* spaceship = new OBJMesh(MESHDIR"ufo-fix.obj");
+	meshes.push_back(spaceship);*/
 
 	Mesh* quadMesh = Mesh::GenerateQuad();
+	meshes.push_back(quadMesh);
 
-	//SceneNode* heightMapNode = new SceneNode(shader, planet);
-	//heightMapNode->AddTexture(tex);
-	//heightMapNode->AddTexture(bumpTex);
-	//heightMapNode->SetBoundingRadius(1000000.0f);
-	////heightMapNode->SetTransform(Matrix4::Translation(Vector3(-(RAW_WIDTH * HEIGHTMAP_X) / 2, -350, -(RAW_HEIGHT * HEIGHTMAP_Z))));
-	//heightMapNode->SetTransform(Matrix4::Translation(Vector3(0,0,0)));
-	//heightMapNode->SetScale(Vector3(100, 100, 100));
-
-	SceneNode* ruler = new SceneNode(shader, quadMesh);
-	ruler->AddTexture(tex);
-	ruler->AddTexture(bumpTex);
-	ruler->SetBoundingRadius(1000000.0f);
-	ruler->SetRotation(Matrix4::Rotation(90.0f, Vector3(0, 1, 0)));
-	ruler->SetScale(Vector3(1300, 1300, 1300));
+	//SceneNode* spaceshipNode = new SceneNode(shader, spaceship);
+	//spaceshipNode->AddTexture(tex);
+	//spaceshipNode->SetBoundingRadius(1000000.0f);
+	//spaceshipNode->SetTransform(Matrix4::Translation(Vector3(0,0,0)));
+	//spaceshipNode->SetScale(Vector3(100, 100, 100));
 
 
 	SceneNode* skybox = new SceneNode(skyBoxShader, quadMesh);
@@ -484,35 +465,29 @@ Scene* SceneLoader::LoadScene3() {
 	skybox->SetBoundingRadius(1000000000.0f);
 	skybox->SetFaceCulling(false);
 
-	scene->SetSkyBox(skybox);
-	//scene->AddNode(heightMapNode);
-	//scene->AddNode(ruler);
+	
+
 
 	
-	OBJMesh* sphere = new OBJMesh();
-	sphere->LoadOBJMesh(MESHDIR"sphere.obj");
-
-	Texture* colourTex = new Texture("depthTex");
-	Texture* normalTex = new Texture("normTex");
-
+	/* Lights */
 	int stars = 10;
 	float angle = 0;
 	float step = (2 * PI) / stars;
-	float radius = 100;
+	float radius = 80;
 	float asteroidWidth = 1000;
 
 	for (int i = 0; i < stars; ++i) {
 		float x = (asteroidWidth + radius) * cos(angle);
 		float z = (asteroidWidth + radius) * sin(angle);
 		angle += step;
-		Vector3 pos = Vector3(x, 600, z);
+		Vector3 pos = Vector3(x, 400, z);
 
 		Vector4 colour = Vector4(0.5f + (float)(rand() % 129) / 128.0f,
 			0.5f + (float)(rand() % 129) / 128.0f,
 			0.5f + (float)(rand() % 129) / 128.0f,
 			1.0f);
 
-		float radius = (500);
+		float radius = (600);
 		LightNode* temp = new LightNode(pointLightShader, sphere, colour, radius, pos);
 		temp->AddTexture(colourTex);
 		temp->AddTexture(normalTex);
@@ -520,31 +495,44 @@ Scene* SceneLoader::LoadScene3() {
 
 	}
 
-	/*for (int x = 0; x < LIGHTNUM; ++x) {
-		for (int z = 0; z < LIGHTNUM; ++z) {
-			Vector3 pos = Vector3(((RAW_WIDTH * HEIGHTMAP_X / (LIGHTNUM - 1)) * x) - (RAW_WIDTH * HEIGHTMAP_X) / 2,
-				1000.0f,
-				-(RAW_HEIGHT * HEIGHTMAP_Z / (LIGHTNUM - 1)) * z);
+	angle = 0;
+	for (int i = 0; i < stars; ++i) {
+		float x = (asteroidWidth + radius) * cos(angle);
+		float z = (asteroidWidth + radius) * sin(angle);
+		angle += step;
+		Vector3 pos = Vector3(x, -400, z);
 
-			Vector4 colour = Vector4(0.5f + (float)(rand() % 129) / 128.0f,
-				0.5f + (float)(rand() % 129) / 128.0f,
-				0.5f + (float)(rand() % 129) / 128.0f,
-				1.0f);
+		Vector4 colour = Vector4(0.5f + (float)(rand() % 129) / 128.0f,
+			0.5f + (float)(rand() % 129) / 128.0f,
+			0.5f + (float)(rand() % 129) / 128.0f,
+			1.0f);
 
-			float radius = (500);
-			LightNode* temp = new LightNode(pointLightShader, sphere, colour, radius, pos);
-			temp->AddTexture(colourTex);
-			temp->AddTexture(normalTex);
-			scene->AddLight(temp);
-		}
-	}*/
+		float radius = (600);
+		LightNode* temp = new LightNode(pointLightShader, sphere, colour, radius, pos);
+		temp->AddTexture(colourTex);
+		temp->AddTexture(normalTex);
+		scene->AddLight(temp);
 
+	}
+
+	LightNode* temp = new LightNode(pointLightShader, sphere, Vector4(0.796,0.945,1.0,1.0), 4000, Vector3(0,2000, 3250));
+	temp->AddTexture(colourTex);
+	temp->AddTexture(normalTex);
+	scene->AddLight(temp);
+
+	/* Adding nodes to scene */
+	scene->SetSkyBox(skybox);
+	//scene->AddNode(spaceshipNode);
+
+	/* Initial Build */
 	scene->BuildNodeLists(scene->GetRoot());
 	scene->QuickSortNodeLists();
 
-	vector<RenderStages> stages = { DEFERRED_LIGHT_STAGE, /*BLOOM_STAGE,*/ PRESENT_STAGE, TEXT_STAGE };
+	/* Set stages required */
+	vector<RenderStages> stages = { DEFERRED_LIGHT_STAGE, BLOOM_STAGE, PRESENT_STAGE, TEXT_STAGE };
 	scene->SetRenderStages(stages);
 
+	/* Position Camera */
 	scene->GetCamera()->SetPosition(Vector3(0,1500,0));
 
 	scenes[2] = scene;

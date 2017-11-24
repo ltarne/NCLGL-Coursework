@@ -28,6 +28,8 @@ Renderer::~Renderer(void)	{
 
 
 	glDeleteFramebuffers(1, &bufferFBO);
+	glDeleteTextures(1, &bufferDepthTex);
+	glDeleteTextures(2, colourBuffers);
 
 }
 

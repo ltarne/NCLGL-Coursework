@@ -39,6 +39,8 @@ void SceneNode::LoadUniforms(Shader* shader) {
 
 	glUniform1f(glGetUniformLocation(shader->GetProgram(), "msec"), time);
 
+	glUniform1i(glGetUniformLocation(shader->GetProgram(), "skeleton"), false);
+
 	//Textures
 	glUniform1i(glGetUniformLocation(shader->GetProgram(), "useTexture"), textures.size() > 0 ? true : false);
 

@@ -4,7 +4,7 @@
 
 ShadowStage::ShadowStage(Renderer* renderer) 
 	: RenderStage(renderer){
-	stageShader = new Shader(SHADERDIR"shadowVert.vert", SHADERDIR"shadowFrag.frag");
+	stageShader = new Shader(SHADERDIR"skeletonShadowMapVert.vert", SHADERDIR"shadowFrag.frag");
 	stageShader->LinkProgram();
 
 	usedLights = 0;

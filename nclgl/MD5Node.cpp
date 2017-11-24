@@ -58,8 +58,32 @@ We want to reset all of the animation details
 	currentAnim			= sourceData.GetAnim(name);
 }
 
+void MD5Node::LoadUniforms(Shader * shader) {
+	//Transform
+	Matrix4 modelMatrix = worldTransform * scale;
+	glUniformMatrix4fv(glGetUniformLocation(shader->GetProgram(), "modelMatrix"), 1, false, (float*)&modelMatrix);
+
+	//Colour
+	glUniform4fv(glGetUniformLocation(shader->GetProgram(), "nodeColour"), 1, (float*)&colour);
+
+	glUniform1f(glGetUniformLocation(shader->GetProgram(), "msec"), time);
+
+	glUniform1i(glGetUniformLocation(shader->GetProgram(), "skeleton"), true);
+
+	//Textures
+	glUniform1i(glGetUniformLocation(shader->GetProgram(), "useTexture"), textures.size() > 0 ? true : false);
+
+	for (int i = 0; i < textures.size() && i < TEXTURE_UNIT_MAX; ++i) {
+		textures[i]->LoadTexture(shader->GetProgram(), i);
+	}
+}
+
 void	MD5Node::Draw(const OGLRenderer &renderer, Shader* overrideShader) {
 	MD5Mesh*m = (MD5Mesh*)mesh;
+
+	Shader* activeShader = overrideShader != nullptr ? overrideShader : shader;
+
+	LoadUniforms(activeShader);
 
 	/*
 	I have added experimental support for performing skinning inside the vertex
@@ -82,8 +106,9 @@ void	MD5Node::Draw(const OGLRenderer &renderer, Shader* overrideShader) {
 	sourceData.BindTextureBuffers();
 	sourceData.UpdateTransformTBO(currentSkeleton);
 
-	glUniform1i(glGetUniformLocation(shader->GetProgram(), "weightTex"), MD5_WEIGHT_TEXNUM);
-	glUniform1i(glGetUniformLocation(shader->GetProgram(), "transformTex"), MD5_TRANSFORM_TEXNUM);
+	glUniform1i(glGetUniformLocation(activeShader->GetProgram(), "weightTex"), MD5_WEIGHT_TEXNUM);
+	glUniform1i(glGetUniformLocation(activeShader->GetProgram(), "transformTex"), MD5_TRANSFORM_TEXNUM);
+
 #else 
 	/*
 	If we're doing 'software' skinning, then we need to make sure the global mesh
@@ -95,13 +120,8 @@ void	MD5Node::Draw(const OGLRenderer &renderer, Shader* overrideShader) {
 	m->SkinVertices(currentSkeleton);
 #endif
 	//Finally, we draw the mesh, just like the base class Draw function...
-	if (overrideShader != nullptr) {
-		LoadUniforms(overrideShader);
-	}
-	else {
-		LoadUniforms(shader);
-	}
-	glUniform1i(glGetUniformLocation(shader->GetProgram(), "diffuseTex"), 12);
+	
+	glUniform1i(glGetUniformLocation(activeShader->GetProgram(), "diffuseTex"), 12);
 	glActiveTexture(GL_TEXTURE12);
 	glBindTexture(GL_TEXTURE_2D, m->GetTexture());
 
