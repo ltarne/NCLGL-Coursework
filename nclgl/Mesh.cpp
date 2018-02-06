@@ -64,7 +64,7 @@ void Mesh::Draw() {
 	
 	//Stop working on this array object
 	glBindVertexArray(0);
-	glBindTexture(GL_TEXTURE_2D, 0);
+	//glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 Mesh* Mesh::GenerateTriangle() {

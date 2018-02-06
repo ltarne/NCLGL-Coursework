@@ -6,7 +6,7 @@ class RenderStage
 {
 public:
 	RenderStage(Renderer* renderer);
-	~RenderStage();
+	virtual ~RenderStage();
 
 	virtual void DrawStage(Scene* scene);
 

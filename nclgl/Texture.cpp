@@ -19,7 +19,7 @@ Texture::Texture(string filePath, string name) {
 
 
 Texture::~Texture() {
-
+	glDeleteTextures(1, &texture);
 }
 
 void Texture::ToggleRepeating() {

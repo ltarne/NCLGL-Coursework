@@ -34,7 +34,7 @@ void main()
     vec4 gradedPixel = sampleAs3DTexture(correctionTex, color, 16);
     gradedPixel.a = 1;
   //  fragColor[0] = gradedPixel;
-    color.g*=2.5;
+    color.g*=1.5;
     vec4 gradedColor = vec4(color, 1.0f);
   gradedColor = normalize(gradedColor);
     fragColor[0] = gradedColor;

@@ -5,6 +5,19 @@ uniform mat4 viewMatrix;
 uniform mat4 projMatrix;
 uniform mat4 globalTextureMatrix;
 
+// struct Light {
+//   vec3 lightPosition;
+// 	vec4 lightColour;
+// 	float lightRadius;
+// 	mat4 textureMatrix;
+// };
+//
+// layout(std140) uniform lightUBO {
+//   Light lights[10];
+// };
+
+
+
 in vec3 position;
 in vec4 colour;
 in vec3 normal;

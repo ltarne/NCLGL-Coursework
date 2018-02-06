@@ -20,6 +20,11 @@ ParticleEmitter::ParticleEmitter(void)	{
 	particleSpeed		= 0.2f;
 	numLaunchParticles	= 10;
 	largestSize			= 0;
+	origin = Vector3();
+
+	initialDirection = Vector3(0, 1, 0);
+
+	colourShift = Vector4(1.0, 1.0, 1.0, 1.0);
 
 	/*
 	Each particle is a white dot, which has an alpha fade on it,
@@ -90,8 +95,10 @@ void ParticleEmitter::Update(float msec)	{
 			//Otherwise, this particle must be still 'alive'. Update its
 			//position by multiplying its normalised direction by the
 			//particle speed, and adding the result to the position. Easy!
-			//p->direction.x = sin(msec)*p->direction.x;
+		
 			p->position += p->direction*(msec*particleSpeed);
+			//p->position.x += sin(p->position.x)*8;
+			//p->position.z += sin(p->position.z)*8;
 
 
 			++i;	//Only update our iterator value here.
@@ -127,15 +134,15 @@ Particle* ParticleEmitter::GetFreeParticle()	{
 	//Now we have to reset its values - if it was popped off the
 	//free list, it'll still have the values of its 'previous life'
 
-	p->colour		= Vector4(1.0f,1.0f,1.0f,1.0);
+	p->colour		= colourShift;
 	p->direction	= initialDirection;
 	//p->direction.x += ((RAND()-RAND()) * particleVariance);
-	p->direction.y += ((RAND()) * particleVariance);
+	//p->direction.y += ((RAND()) * particleVariance);
 	//p->direction.z += ((RAND()-RAND()) * particleVariance);
 
 	p->direction.Normalise();	//Keep its direction normalised!
 	//p->position = Vector3(-40 + RAND()*80,0, -40 + RAND() * 80);
-	p->position = Vector3(-40 + RAND() * 80, 0, -40 + RAND() * 80);
+	p->position = Vector3((origin.x - spawnWidth/2) + RAND()* spawnWidth, origin.y, (origin.z - spawnWidth / 2) + RAND()* spawnWidth) ;
 
 	return p;	//return the new particle :-)
 }
@@ -215,10 +222,10 @@ void ParticleEmitter::Draw()	{
 	glBlendFunc(GL_SRC_ALPHA,GL_ONE);
 
 	//And now do our usual Drawing stuff...
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, texture);
+	/*glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, texture);*/
 	glDrawArrays(GL_POINTS,  0, particles.size());	// draw ordered list of vertices
-	glBindTexture(GL_TEXTURE_2D, 0);
+	//glBindTexture(GL_TEXTURE_2D, 0);
 	//glDisable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glBindVertexArray(0); //Remember to turn off our VAO ;)

@@ -13,6 +13,7 @@ SceneNode::SceneNode(Shader* shader, Mesh * mesh, Vector4 colour) {
 
 	visible = true;
 
+	time = 0;
 
 	boundingRadius = 1.0f;
 	distanceFromCamera = 0.0f;
@@ -28,7 +29,6 @@ SceneNode::~SceneNode() {
 }
 
 void SceneNode::LoadUniforms(Shader* shader) {	
-	//Shader* activeShader = overrideShader == nullptr ? shader : overrideShader;
 
 	//Transform
 	Matrix4 modelMatrix = worldTransform * scale;
@@ -36,6 +36,10 @@ void SceneNode::LoadUniforms(Shader* shader) {
 
 	//Colour
 	glUniform4fv(glGetUniformLocation(shader->GetProgram(), "nodeColour"), 1, (float*)&colour);
+
+	glUniform1f(glGetUniformLocation(shader->GetProgram(), "msec"), time);
+
+	glUniform1i(glGetUniformLocation(shader->GetProgram(), "skeleton"), false);
 
 	//Textures
 	glUniform1i(glGetUniformLocation(shader->GetProgram(), "useTexture"), textures.size() > 0 ? true : false);
@@ -57,6 +61,9 @@ void SceneNode::Update(float msec) {
 	else {
 		worldTransform = (transform * rotation);
 	}
+
+	time += msec;
+
 	for (vector<SceneNode*>::iterator i = children.begin(); i != children.end(); ++i) {
 		(*i)->Update(msec);
 	}

@@ -10,24 +10,35 @@
 #include "TextMesh.h"
 #include <algorithm>
 
-#define SHADOWSIZE 2048
-
-struct FrameBufferInfo {
-	FrameBufferInfo() {
-		bufferFBO = 0;
-		processFBO = 0;
-		shadowTex = 0;
-		bufferColourTex[0] = 0;
-		bufferColourTex[1] = 0;
-		bufferDepthTex = 0;
-	}
-
-	GLuint bufferFBO;
-	GLuint processFBO;
-	GLuint shadowTex;
-	GLuint bufferColourTex[2];
-	GLuint bufferDepthTex;
+#pragma pack(push, 1)
+struct LightData {
+	Vector4 lightColour;
+	Vector3 lightPosition;
+	float lightRadius;
+	//GLuint shadowTexture;
+	Matrix4 textureMatrix;
 };
+#pragma pack(pop)
+
+#define SHADOWSIZE 2048
+#define MAX_LIGHTS 5
+
+//struct FrameBufferInfo {
+//	FrameBufferInfo() {
+//		bufferFBO = 0;
+//		processFBO = 0;
+//		shadowTex = 0;
+//		bufferColourTex[0] = 0;
+//		bufferColourTex[1] = 0;
+//		bufferDepthTex = 0;
+//	}
+//
+//	GLuint bufferFBO;
+//	GLuint processFBO;
+//	GLuint shadowTex;
+//	GLuint bufferColourTex[2];
+//	GLuint bufferDepthTex;
+//};
 
 class Renderer : public OGLRenderer	{
 public:
@@ -54,6 +65,16 @@ public:
 	inline void SetViewMatrix(Matrix4 viewMatrix) { this->viewMatrix = viewMatrix; }
 	inline void SetProjMatrix(Matrix4 projMatrix) { this->projMatrix = projMatrix; }
 	inline void SetTextureMatrix(Matrix4 textureMatrix) { this->textureMatrix = textureMatrix; }
+	//inline void SetLightData(LightData* lightData) { this->lightData = lightData; }
+	//inline void SetLightUBO(GLuint* lightUBO) { this->lightUBO = lightUBO; }
+
+	inline void SetUsedLights(int usedLights) { this->lightsUsed = usedLights; }
+	inline void SetLightColours(Vector4* lightColours) { this->lightColours = lightColours; }
+	inline void SetLightPositions(Vector3* lightPositions) { this->lightPositions = lightPositions; }
+	inline void SetLightRadius(float* lightRadius) { this->lightRadius = lightRadius; }
+	inline void SetLightTextureMatrix(Matrix4* lightTextureMatrix) { this->lightTextureMatrix = lightTextureMatrix; }
+
+	inline void SetShadowTextures(GLuint* shadowTextures) { this->shadowTextures = shadowTextures; }
 
 	inline void SetActiveScene(Scene* activeScene) { this->activeScene = activeScene; }
 
@@ -80,6 +101,16 @@ protected:
 	GLuint bufferFBO;
 	GLuint colourBuffers[2];
 	GLuint bufferDepthTex;
+
+	int lightsUsed = 0;
+
+	GLuint* shadowTextures;
+
+	Vector4* lightColours;
+	Vector3* lightPositions;
+	float* lightRadius;
+	Matrix4* lightTextureMatrix;
+
 
 	Scene* activeScene;
 

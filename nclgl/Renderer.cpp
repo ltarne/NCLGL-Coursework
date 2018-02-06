@@ -13,6 +13,13 @@ Renderer::Renderer(Window &parent, int* fps) : OGLRenderer(parent)	{
 
 	this->fps = fps;
 
+	lightColours = NULL;
+	lightPositions = NULL;
+	lightRadius = NULL;
+	lightTextureMatrix = NULL;
+
+	shadowTextures = NULL;
+
 	usingShadows = false;
 
 	init = true;
@@ -21,6 +28,8 @@ Renderer::~Renderer(void)	{
 
 
 	glDeleteFramebuffers(1, &bufferFBO);
+	glDeleteTextures(1, &bufferDepthTex);
+	glDeleteTextures(2, colourBuffers);
 
 }
 
@@ -47,7 +56,10 @@ void Renderer::LoadPostProcessing() {
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH24_STENCIL8, width, height, 0, GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8, NULL);	//glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, bufferDepthTex, 0);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH24_STENCIL8, width, height, 0, GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8, NULL);
+
+	//glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, bufferDepthTex, 0);
+
 
 	for (int i = 0; i < 2; ++i) {
 		glBindTexture(GL_TEXTURE_2D, colourBuffers[i]);
@@ -112,7 +124,7 @@ void Renderer::DrawNode(SceneNode* node, Shader* overrideShader) {
 	Shader* activeShader = overrideShader != nullptr ? overrideShader : node->GetShader();
 	
 
-	if (node->GetVisible()) {
+	if (node->GetVisible() && node->GetShader()) {
 		//node->SetOverrideShader(overrideShader);
 
 		glUseProgram(activeShader->GetProgram());
@@ -121,11 +133,43 @@ void Renderer::DrawNode(SceneNode* node, Shader* overrideShader) {
 		
 
 		if (usingShadows) {
-			UpdateGlobalTextures(activeShader);
-			LightNode* light = (*activeScene->GetLightList())[0];
-			glUniform3fv(glGetUniformLocation(activeShader->GetProgram(), "lightPos"), 1, (float*)&light->GetPosition());
-			glUniform4fv(glGetUniformLocation(activeShader->GetProgram(), "lightColour"), 1, (float*)&light->GetColour());
-			glUniform1f(glGetUniformLocation(activeShader->GetProgram(), "lightRadius"), light->GetRadius());
+
+			glUniform1i(glGetUniformLocation(activeShader->GetProgram(), "usedLights"), lightsUsed);
+
+			if (lightColours) {
+				GLint index = glGetUniformLocation(activeShader->GetProgram(), "lightColours[0]");
+				glUniform4fv(index, 5 * sizeof(Vector4), (float*)lightColours);
+			}
+			if (lightPositions) {
+				GLint index = glGetUniformLocation(activeShader->GetProgram(), "lightPositions[0]");
+				glUniform3fv(index, 5 * sizeof(Vector3), (float*)lightPositions);
+			}
+			if (lightRadius) {
+				GLint index = glGetUniformLocation(activeShader->GetProgram(), "lightRadius[0]");
+				glUniform1fv(index, 5 * sizeof(float), lightRadius);
+			}
+			if (lightTextureMatrix) {
+				GLint index = glGetUniformLocation(activeShader->GetProgram(), "lightTextureMatrix[0]");
+				glUniformMatrix4fv(index, 5 * sizeof(Matrix4), false, (float*)lightTextureMatrix);
+			}
+			
+			if (shadowTextures) {
+				int bindings[5];
+				for (int i = 0; i < lightsUsed; ++i) {
+					bindings[i] = 5+i;
+					glActiveTexture(GL_TEXTURE5 + i);
+					glBindTexture(GL_TEXTURE_2D, shadowTextures[i]);
+				}
+
+				glUniform1i(glGetUniformLocation(activeShader->GetProgram(), "shadowTex[0]"), 5);
+				glUniform1i(glGetUniformLocation(activeShader->GetProgram(), "shadowTex[1]"), 6);
+				glUniform1i(glGetUniformLocation(activeShader->GetProgram(), "shadowTex[2]"), 7);
+				glUniform1i(glGetUniformLocation(activeShader->GetProgram(), "shadowTex[3]"), 8);
+				glUniform1i(glGetUniformLocation(activeShader->GetProgram(), "shadowTex[4]"), 9);
+			}
+			
+
+
 		}
 		glUniform3fv(glGetUniformLocation(activeShader->GetProgram(), "cameraPos"), 1, (float*)&activeScene->GetCamera()->GetPosition());
 		glUniform2f(glGetUniformLocation(activeShader->GetProgram(), "pixelSize"), 1.0f / width, 1.0f / height);

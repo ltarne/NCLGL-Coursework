@@ -10,7 +10,6 @@ public:
 	virtual void DrawStage(Scene* scene);
 
 protected:
-	Shader* shader;
 
 	Matrix4 projMatrix;
 };

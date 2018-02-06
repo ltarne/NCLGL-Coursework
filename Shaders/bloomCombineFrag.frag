@@ -14,7 +14,7 @@ void main(void) {
   vec3 light = texture(lightTex, IN.texCoord).xyz;
 
   fragColor[0].xyz = screen;
-  fragColor[0].xyz += light;
+  fragColor[0].xyz += light * 0.4;
   fragColor[0].a = 1.0;
 
   fragColor[1] = fragColor[0];

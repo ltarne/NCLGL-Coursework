@@ -17,6 +17,10 @@ void ParticleNode::LoadUniforms(Shader * shader) {
 	//Colour
 	glUniform4fv(glGetUniformLocation(shader->GetProgram(), "nodeColour"), 1, (float*)&colour);
 
+	glUniform1f(glGetUniformLocation(shader->GetProgram(), "msec"), time);
+
+	glUniform1f(glGetUniformLocation(shader->GetProgram(), "particleSize"), emitter->GetParticleSize());
+
 	//Textures
 	glUniform1i(glGetUniformLocation(shader->GetProgram(), "useTexture"), textures.size() > 0 ? true : false);
 
@@ -33,6 +37,7 @@ void ParticleNode::Update(float msec) {
 		worldTransform = (transform * rotation);
 	}
 
+	time += msec;
 	emitter->Update(msec);
 
 	for (vector<SceneNode*>::iterator i = children.begin(); i != children.end(); ++i) {
@@ -56,10 +61,14 @@ void ParticleNode::Draw(const OGLRenderer & renderer, Shader * overrideShader) {
 		glDisable(GL_CULL_FACE);
 	}
 
+	glDepthMask(GL_FALSE);
+
 
 	if (emitter != nullptr) {
 		emitter->Draw();
 	}
+
+	glDepthMask(GL_TRUE);
 
 	if (!depthTest) {
 		glEnable(GL_DEPTH_TEST);

@@ -23,11 +23,29 @@ public:
 		renderer->SetActiveScene(this->activeScene);
 	}
 
+	inline void TogglePause() { textStage->TogglePaused(); }
+
+	inline map<RenderStages, bool>* GetPostProcessingSelect() { return &postProcessingSelect; }
+
+
+	inline void TogglePostProcessingEffect(RenderStages process) {
+		postProcessingSelect.find(process)->second = !postProcessingSelect.find(process)->second;
+		if (process == BLOOM_STAGE) {
+			textStage->ToggleBloom();
+		}
+		else if (process == COLOUR_CORRECTION_STAGE) {
+			textStage->ToggleGreen();
+		}
+	}
+
 
 protected:
 	Renderer*	 renderer;
 	RenderStage* renderStages[MAX_STAGE];
 
+	map<RenderStages, bool> postProcessingSelect = { {BLOOM_STAGE, false}, {COLOUR_CORRECTION_STAGE, false} };
+	
+	TextStage* textStage;
 	Scene* activeScene;
 
 	
