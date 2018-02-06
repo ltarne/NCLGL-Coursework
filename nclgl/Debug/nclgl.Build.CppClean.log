@@ -1,5 +1,86 @@
 c:\users\b4027488\github\nclgl coursework\nclgl\debug\nclgl.pdb
 c:\users\b4027488\github\nclgl coursework\nclgl\debug\nclgl.idb
-c:\users\b4027488\github\nclgl coursework\nclgl\debug\nclgl.tlog\cl.command.1.tlog
-c:\users\b4027488\github\nclgl coursework\nclgl\debug\nclgl.tlog\cl.read.1.tlog
-c:\users\b4027488\github\nclgl coursework\nclgl\debug\nclgl.tlog\cl.write.1.tlog
+c:\users\b4027488\github\nclgl coursework\nclgl\debug\md5node.obj
+c:\users\b4027488\github\nclgl coursework\nclgl\debug\matrix4.obj
+c:\users\b4027488\github\nclgl coursework\nclgl\debug\mesh.obj
+c:\users\b4027488\github\nclgl coursework\nclgl\debug\mouse.obj
+c:\users\b4027488\github\nclgl coursework\nclgl\debug\objmesh.obj
+c:\users\b4027488\github\nclgl coursework\nclgl\debug\oglrenderer.obj
+c:\users\b4027488\github\nclgl coursework\nclgl\debug\plane.obj
+c:\users\b4027488\github\nclgl coursework\nclgl\debug\presentstage.obj
+c:\users\b4027488\github\nclgl coursework\nclgl\debug\quaternion.obj
+c:\users\b4027488\github\nclgl coursework\nclgl\debug\renderstage.obj
+c:\users\b4027488\github\nclgl coursework\nclgl\debug\renderer.obj
+c:\users\b4027488\github\nclgl coursework\nclgl\debug\renderingmanager.obj
+c:\users\b4027488\github\nclgl coursework\nclgl\debug\scene.obj
+c:\users\b4027488\github\nclgl coursework\nclgl\debug\scenenode.obj
+c:\users\b4027488\github\nclgl coursework\nclgl\debug\shader.obj
+c:\users\b4027488\github\nclgl coursework\nclgl\debug\shadowstage.obj
+c:\users\b4027488\github\nclgl coursework\nclgl\debug\stencilnode.obj
+c:\users\b4027488\github\nclgl coursework\nclgl\debug\textstage.obj
+c:\users\b4027488\github\nclgl coursework\nclgl\debug\texture.obj
+c:\users\b4027488\github\nclgl coursework\nclgl\debug\window.obj
+c:\users\b4027488\github\nclgl coursework\nclgl\debug\bloomstage.obj
+c:\users\b4027488\github\nclgl coursework\nclgl\debug\camera.obj
+c:\users\b4027488\github\nclgl coursework\nclgl\debug\cubemaptexture.obj
+c:\users\b4027488\github\nclgl coursework\nclgl\debug\defereredlightsstage.obj
+c:\users\b4027488\github\nclgl coursework\nclgl\debug\frustum.obj
+c:\users\b4027488\github\nclgl coursework\nclgl\debug\gametimer.obj
+c:\users\b4027488\github\nclgl coursework\nclgl\debug\heightmap.obj
+c:\users\b4027488\github\nclgl coursework\nclgl\debug\keyboard.obj
+c:\users\b4027488\github\nclgl coursework\nclgl\debug\md5anim.obj
+c:\users\b4027488\github\nclgl coursework\nclgl\debug\md5filedata.obj
+c:\users\b4027488\github\nclgl coursework\nclgl\debug\md5mesh.obj
+c:\users\b4027488\github\nclgl coursework\nclgl\debug\particleemitter.obj
+c:\users\b4027488\github\nclgl coursework\nclgl\debug\colourcorrectionstage.obj
+c:\users\b4027488\github\nclgl coursework\nclgl\debug\particlenode.obj
+c:\users\luke\documents\github\nclgl-coursework\nclgl\debug\nclgl.pdb
+c:\users\luke\documents\github\nclgl-coursework\nclgl\debug\nclgl.idb
+c:\users\luke\documents\github\nclgl-coursework\nclgl\debug\objmesh.obj
+c:\users\luke\documents\github\nclgl-coursework\nclgl\debug\oglrenderer.obj
+c:\users\luke\documents\github\nclgl-coursework\nclgl\debug\particleemitter.obj
+c:\users\luke\documents\github\nclgl-coursework\nclgl\debug\particlenode.obj
+c:\users\luke\documents\github\nclgl-coursework\nclgl\debug\plane.obj
+c:\users\luke\documents\github\nclgl-coursework\nclgl\debug\presentstage.obj
+c:\users\luke\documents\github\nclgl-coursework\nclgl\debug\quaternion.obj
+c:\users\luke\documents\github\nclgl-coursework\nclgl\debug\renderer.obj
+c:\users\luke\documents\github\nclgl-coursework\nclgl\debug\renderingmanager.obj
+c:\users\luke\documents\github\nclgl-coursework\nclgl\debug\renderstage.obj
+c:\users\luke\documents\github\nclgl-coursework\nclgl\debug\scene.obj
+c:\users\luke\documents\github\nclgl-coursework\nclgl\debug\scenenode.obj
+c:\users\luke\documents\github\nclgl-coursework\nclgl\debug\shader.obj
+c:\users\luke\documents\github\nclgl-coursework\nclgl\debug\shadowstage.obj
+c:\users\luke\documents\github\nclgl-coursework\nclgl\debug\stencilnode.obj
+c:\users\luke\documents\github\nclgl-coursework\nclgl\debug\tessellatedheightmapnode.obj
+c:\users\luke\documents\github\nclgl-coursework\nclgl\debug\textmesh.obj
+c:\users\luke\documents\github\nclgl-coursework\nclgl\debug\textstage.obj
+c:\users\luke\documents\github\nclgl-coursework\nclgl\debug\texture.obj
+c:\users\luke\documents\github\nclgl-coursework\nclgl\debug\window.obj
+c:\users\luke\documents\github\nclgl-coursework\nclgl\debug\bloomstage.obj
+c:\users\luke\documents\github\nclgl-coursework\nclgl\debug\camera.obj
+c:\users\luke\documents\github\nclgl-coursework\nclgl\debug\colourcorrectionstage.obj
+c:\users\luke\documents\github\nclgl-coursework\nclgl\debug\cubemaptexture.obj
+c:\users\luke\documents\github\nclgl-coursework\nclgl\debug\defereredlightsstage.obj
+c:\users\luke\documents\github\nclgl-coursework\nclgl\debug\frustum.obj
+c:\users\luke\documents\github\nclgl-coursework\nclgl\debug\gametimer.obj
+c:\users\luke\documents\github\nclgl-coursework\nclgl\debug\heightmap.obj
+c:\users\luke\documents\github\nclgl-coursework\nclgl\debug\keyboard.obj
+c:\users\luke\documents\github\nclgl-coursework\nclgl\debug\light.obj
+c:\users\luke\documents\github\nclgl-coursework\nclgl\debug\lightnode.obj
+c:\users\luke\documents\github\nclgl-coursework\nclgl\debug\matrix4.obj
+c:\users\luke\documents\github\nclgl-coursework\nclgl\debug\md5anim.obj
+c:\users\luke\documents\github\nclgl-coursework\nclgl\debug\md5filedata.obj
+c:\users\luke\documents\github\nclgl-coursework\nclgl\debug\md5mesh.obj
+c:\users\luke\documents\github\nclgl-coursework\nclgl\debug\md5node.obj
+c:\users\luke\documents\github\nclgl-coursework\nclgl\debug\mesh.obj
+c:\users\luke\documents\github\nclgl-coursework\nclgl\debug\mouse.obj
+c:\users\b4027488\github\nclgl coursework\graphics for games\debug\nclgl.lib
+c:\users\luke\documents\github\nclgl-coursework\graphics for games\debug\nclgl.lib
+c:\users\luke\documents\github\nclgl-coursework\nclgl\debug\shadoweffect.obj
+c:\users\luke\documents\github\nclgl-coursework\graphics for games\debug\nclgl.pdb
+c:\users\luke\documents\github\nclgl-coursework\nclgl\debug\nclgl.tlog\cl.command.1.tlog
+c:\users\luke\documents\github\nclgl-coursework\nclgl\debug\nclgl.tlog\cl.read.1.tlog
+c:\users\luke\documents\github\nclgl-coursework\nclgl\debug\nclgl.tlog\cl.write.1.tlog
+c:\users\luke\documents\github\nclgl-coursework\nclgl\debug\nclgl.tlog\lib-link.read.1.tlog
+c:\users\luke\documents\github\nclgl-coursework\nclgl\debug\nclgl.tlog\lib-link.write.1.tlog
+c:\users\luke\documents\github\nclgl-coursework\nclgl\debug\nclgl.tlog\lib.command.1.tlog
